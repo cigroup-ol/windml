@@ -1,0 +1,61 @@
+.. _home:
+
+
+WindML: Machine Learning for Wind Energy Information Systems
+============================================================
+
+.. topic:: Machine learning library for wind energy information systems. 
+
+Sustainability is an important objective due to increasing energy demands and limited resources. In the field of power production and consumption, methods are required that improve energy efficiency. Prediction belongs to the most important tasks in this context. The extension of renewable energy sources and the growing IT-infrastructure allow a fine screening of energy resources. WindML concentrates on the application of machine learning methods to wind information systems.
+
+The windML framework provides an easy-to-use access to several wind data sources within the **Python** world, building upon `numpy
+    <http://numpy.scipy.org/>`_, `scipy <http://scipy.org>`_, and
+    `matplotlib <http://matplotlib.org>`_. As a machine-learning module,
+    it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasts.
+
+**License:** Open source, commercially usable: **BSD license** (3 clause)
+
+User Guide
+==========
+
+* Introduction
+
+* Installation
+
+  * Important Links
+  * Installation Details
+
+* Data Sets
+
+  * NREL Data Set
+
+
+Example Gallery
+===============
+
+* Plots
+
+  * Wind Parks
+  * Time-Series
+
+* Supervised Learning: Regression
+
+  * Time-Series Prediction with KNN
+  * Time-Series Prediction with SVR
+  * Hybrid Models
+
+* Supervised Learning: Classification
+
+  * Ramp Detection with KNN
+  * Bagging Classifiers for Ramp Detection
+
+* Unsupervised Learning: Clustering
+
+  * Grouping Windmills according to number of ramps
+
+* Unsupervised Learning: Dimensionality Reduction
+  
+  * Streaming Dimensionality Reduction with Unsupervised Nearest Neighbors
+
+
+

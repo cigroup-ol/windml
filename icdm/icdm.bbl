@@ -1,0 +1,62 @@
+\begin{thebibliography}{10}
+
+\bibitem{focken}
+U.~Focken and M.~Lange.
+\newblock Wind power forecasting pilot project in alberta.
+\newblock In {\em energy \& meteo systems}, 2008.
+
+\bibitem{greaves}
+B.~Greaves, J.~Collins, J.~Parkes, and A.~Tindal.
+\newblock Temporal forecast uncertainty for ramp events.
+\newblock In {\em Proceedings of the European Wind Energy Conference \&
+  Exhibition (EWEC)}, 2009.
+
+\bibitem{kamath}
+C.~Kamath.
+\newblock Understanding wind ramp events through analysis of historical data.
+\newblock In {\em Proceedings of the IEEE PES Transmission and Distribution
+  Conference and Expo}, pages 1--6, 2010.
+
+\bibitem{svm_ramp}
+C.~Kamath and Y.~J. Fan.
+\newblock Using data mining to enable integration of wind resources on the
+  power grid.
+\newblock {\em Stat. Anal. Data Min.}, 5(5):410--427, Oct. 2012.
+
+\bibitem{neurocomp}
+O.~Kramer, F.~Gieseke, and B.~Satzger.
+\newblock Wind energy prediction and monitoring with neural computation.
+\newblock {\em Neurocomputing}, 109:84--93, 2013.
+
+\bibitem{Potter}
+C.~W. Potter, D.~Lew, J.~McCaa, S.~Cheng, S.~Eichelberger, and E.~Grimit.
+\newblock Creating the dataset for the western wind and solar integration study
+  (u.s.a.).
+\newblock In {\em 7th International Workshop on Large Scale Integration of Wind
+  Power and on Transmission Networks for Offshore Wind Farms}, 2008.
+
+\bibitem{lle}
+S.~T. Roweis and L.~K. Saul.
+\newblock Nonlinear dimensionality reduction by locally linear embedding.
+\newblock {\em SCIENCE}, 290:2323--2326, 2000.
+
+\bibitem{sdss}
+E.~S. Szalay, J.~Gray, A.~R. Thakar, P.~Z. Kunszt, T.~Malik, J.~Raddick,
+  C.~Stoughton, and J.~V.
+\newblock The sdss skyserver: public access to the sloan digital sky server
+  data.
+\newblock In {\em In Proceedings of the 2002 ACM SIGMOD international
+  conference on Management of data}, pages 570--581. ACM Press, 2002.
+
+\bibitem{isomap}
+J.~B. Tenenbaum, V.~D. Silva, and J.~C. Langford.
+\newblock A global geometric framework for nonlinear dimensionality reduction.
+\newblock {\em Science}, 290:2319--2323, 2000.
+
+\bibitem{astroML}
+J.~{Vanderplas}, A.~{Connolly}, {\v Z}.~{Ivezi{\'c}}, and A.~{Gray}.
+\newblock Introduction to astroml: Machine learning for astrophysics.
+\newblock In {\em Conference on Intelligent Data Understanding (CIDU)}, pages
+  47 --54, oct. 2012.
+
+\end{thebibliography}
