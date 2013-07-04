@@ -7,6 +7,8 @@ Installation
 Example
 -------
 
+Look under documentation
+
 Documentation
 -------------
 
