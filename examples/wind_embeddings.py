@@ -63,14 +63,14 @@ plot_embedding(X_lda,
 
 # computation of ISOMAP projection
 print "computation of ISOMAP projection"
-X_iso = manifold.Isomap(K, out_dim=2).fit_transform(X)
+X_iso = manifold.Isomap(K, n_components=2).fit_transform(X)
 plot_embedding(X_iso,
                "ISOMAP "+title,j=3)
 
 
 # computation of LLE projection
 print "computation of LLE projection"
-clf = manifold.LocallyLinearEmbedding(K, out_dim=2, method='standard')
+clf = manifold.LocallyLinearEmbedding(K, n_components=2, method='standard')
 X_lle = clf.fit_transform(X)
 plot_embedding(X_lle,
                "LLE "+title,j=4)
