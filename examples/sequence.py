@@ -24,7 +24,7 @@ X_test = X[2000:2000+200*4]
 
 # computation of ISOMAP projection
 print "computation of ISOMAP projection"
-X_latent = manifold.Isomap(K, out_dim=2).fit_transform(X_train)
+X_latent = manifold.Isomap(K, n_components=2).fit_transform(X_train)
 
 
 # computation of sequence of closest embedded patterns
