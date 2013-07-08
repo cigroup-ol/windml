@@ -9,7 +9,7 @@ Dependencies: python, Sphinx, sklearn, numpy, scipy, texlive, texlive extra pack
 Example
 -------
 
-Look under documentation
+Look under documentation examples
 
 Documentation
 -------------
