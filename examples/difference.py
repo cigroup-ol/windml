@@ -1,3 +1,8 @@
+"""
+Example Difference between Prediction and Naive Approach
+--------------------------------------------------------
+"""
+
 from windml.datasets.windpark import get_nrel_windpark
 from windml.datasets.get_feature_and_label_data_aggregated_withdiff import get_feature_and_label_data_aggregated_withdiff
 from windml.datasets.park_definitions import park_info
