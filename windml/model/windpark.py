@@ -7,26 +7,85 @@ class Windpark(object):
     one or more windmills."""
 
     def __init__(self, target_idx, radius):
+        """Initializes windpark with a given target id and radius.
+
+        Parameters
+        ----------
+        target_idx : int
+                     A user-defined id.
+        radius : int
+                 A radius around the target in km.
+        """
+
         self.target_idx = target_idx
         self.radius = radius
         self.mills = []
 
     def get_target_idx(self):
+        """Get target id.
+
+        Returns
+        -------
+        target_idx : int
+                     A user-defined id.
+        """
         return self.target_idx
 
     def get_target(self):
+        """Get target.
+
+        Returns
+        -------
+        Windmill
+            Target windmill.
+        """
+
         return self.mills[len(self.mills)-1]
 
     def add_windmill(self, mill):
+        """Adds a windmill to the windpark.
+
+        Parameters
+        ----------
+        mill : Windmill
+               Windmill to add.
+        """
+
         self.mills.append(mill)
 
     def get_windmills(self):
+        """Get all windmills from park.
+
+        Returns
+        -------
+        array
+            Array of all windmills.
+        """
+
         return self.mills
 
     def get_radius(self):
+        """Get radius of windpark relative to the target windmill.
+
+        Returns
+        -------
+        int
+            Radius in km.
+        """
+
         return self.radius
 
     def get_powermatrix(self):
+        """Get the power matrix of all wind mills. A power matrix consists of
+        all corrected_scores.
+
+        Returns
+        -------
+        numpy.matrix
+            Matrix, rows are time steps, columns are correct_scores of each
+            mill.
+        """
+
         num_m = len(self.mills[0].measurements)
         num_mills = len(self.mills)
 
@@ -37,19 +96,4 @@ class Windpark(object):
 
         p_matrix = np.array(p_matrix)
         return p_matrix
-
-    def get_data_matrix(self):
-        data_array = []
-        mills = self.get_windmills()
-        timesteps = len(mills[-1].measurements)
-
-        for t in range(timesteps):
-            liste = []
-            for row in mills:
-                liste.append(row.measurements[t][1])
-            data_array.append(liste)
-
-        data_array = np.array(data_array)
-        return data_array
-
 
