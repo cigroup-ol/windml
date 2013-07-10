@@ -3,24 +3,23 @@ Example: Plotting the Amount of Windmills with Given Radius
 -------------------------------------------------------------
 """
 
-from windml.datasets.windmill import get_nrel_windmill
-from windml.datasets.windpark import get_nrel_windpark
-from windml.datasets.park_definitions import park_info
 from windml.util.distance import distance
-from pickle import dump
 
 import math
 import matplotlib.pyplot as plt
+
+from windml.datasets.nrel import NREL
 
 parks = ['vantage', 'palmsprings', 'tehachapi', 'cheyenne']
 radius_interval = [0.0, 8.0]
 stepsize = 0.5
 
 def amount_of_windmills(radius, park):
-    target = park_info[park][0]
-    my_windpark1 = get_nrel_windpark(target, radius, 2004, 2005)
-    target = get_nrel_windmill(target, 2004, 2005)
-    windmills = my_windpark1.get_windmills()
+    target = NREL.park_id[park]
+    ds = NREL()
+    windpark = ds.get_windpark(target, radius, 2004, 2005)
+    target = ds.get_windmill(target, 2004, 2005)
+    windmills = windpark.get_windmills()
     return len(windmills)
 
 results = {}

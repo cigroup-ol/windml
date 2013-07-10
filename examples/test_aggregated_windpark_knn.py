@@ -6,8 +6,8 @@ This example generates a forecast for a windpark in tehachapi.
 The sum of all included mills is used: the measurements of all
 mills are summed up and the park is treated like a single mill.
 A KNN-regressor is trained with 18 months and tested on 6 months
-
 """
+
 from windml.datasets.windpark import get_nrel_windpark
 from windml.datasets.get_feature_and_label_data_aggregated import get_feature_and_label_data_aggregated
 from windml.datasets.park_definitions import park_info
@@ -24,7 +24,6 @@ horizon = 3
 
 my_windpark1 = get_nrel_windpark(park_info[name][0], radius1, 2004, 2005)
 X,Y = get_feature_and_label_data_aggregated(my_windpark1,feature_window,horizon)
-
 
 
 number = len(my_windpark1.mills)

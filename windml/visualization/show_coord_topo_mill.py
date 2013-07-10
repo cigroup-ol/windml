@@ -17,8 +17,6 @@ def show_coord_topo_mill(windmill, show = True):
                The given windmill to show the topology.
     """
 
-    plt.clf()
-
     radius = 20
     coord = [0.0, 0.0]
     coord[0] = np.float64(windmill.latitude)

@@ -1,25 +1,22 @@
 """
-=====================================================================================
-Manifold learning of high-dimensional wind time series with PCA, LDA, ISOMAP and LLE.
-=====================================================================================
+Manifold Learning of High-Dimensional Wind Time Series with PCA, LDA, ISOMAP and LLE.
+--------------------------------------------------
 """
 
+import sklearn
 import numpy as np
 import pylab as plt
 from matplotlib import offsetbox
 from sklearn import manifold, datasets, decomposition, lda
-from windml.datasets.windpark import get_nrel_windpark
+
 from windml.visualization.plot_timeseries import plot_timeseries
-from windml.datasets.park_definitions import park_info
+from windml.datasets.nrel import NREL
 
 K = 30
+ds = NREL()
+windpark = ds.get_windpark(NREL.park_id['tehachapi'], 20, 2004)
 
-radius = 20
-name = 'tehachapi'
-my_windpark = get_nrel_windpark(park_info[name][0], radius, 2004)
-
-
-X = np.array(my_windpark.get_powermatrix())
+X = np.array(windpark.get_powermatrix())
 y = np.array(X[:,-1])
 
 X=X[:1000]
@@ -30,7 +27,6 @@ y=y[:1000]
 def plot_embedding(X, title=None, j=1):
     x_min, x_max = np.min(X, 0), np.max(X, 0)
     X = (X - x_min) / (x_max - x_min)
-
 
     ax = plt.subplot(2, 2, j)
     for i in range(X.shape[0]):
@@ -43,37 +39,45 @@ def plot_embedding(X, title=None, j=1):
 
 j = 1
 figure = plt.figure(figsize=(15, 10))
-title = "projection of wind time series"
+title = "Projection of Wind Time Series"
 
 # computation of PCA projection
-print "computation of PCA projection"
+print "Computation of PCA Projection"
+
 X_pca = decomposition.RandomizedPCA(n_components=2).fit_transform(X)
+
 plot_embedding(X_pca,
                "PCA "+title,j=1)
 
-
 # computation of LDA projection
-print "computation of LDA projection"
+print "Computation of LDA Projection"
 X2 = X.copy()
 X2.flat[::X.shape[1] + 1] += 0.01  # make X invertible
+
 X_lda = lda.LDA(n_components=2).fit_transform(X2, y)
+
 plot_embedding(X_lda,
                "LDA "+title,j=2)
 
-
 # computation of ISOMAP projection
-print "computation of ISOMAP projection"
-X_iso = manifold.Isomap(K, n_components=2).fit_transform(X)
+print "Computation of ISOMAP Projection"
+if(sklearn.__version__ == "0.9"):
+    X_iso = manifold.Isomap(K, out_dim=2).fit_transform(X)
+else:
+    X_iso = manifold.Isomap(K, n_components=2).fit_transform(X)
+
 plot_embedding(X_iso,
                "ISOMAP "+title,j=3)
 
-
 # computation of LLE projection
-print "computation of LLE projection"
-clf = manifold.LocallyLinearEmbedding(K, n_components=2, method='standard')
+print "Computation of LLE Projection"
+if(sklearn.__version__ == "0.9"):
+    clf = manifold.LocallyLinearEmbedding(K, out_dim=2, method='standard')
+else:
+    clf = manifold.LocallyLinearEmbedding(K, n_components=2, method='standard')
+
 X_lle = clf.fit_transform(X)
 plot_embedding(X_lle,
                "LLE "+title,j=4)
-
 
 plt.show()
