@@ -1,31 +1,31 @@
 """
-=============================================================================
-Sequence visualization based on ISOMAP
-=============================================================================
+Sequence Visualization Based on ISOMAP
+-------------------------------------------------------------------------
 """
 
-
+import sklearn
 import numpy as np
 import pylab as plt
 from sklearn import manifold, decomposition
-from windml.datasets.windpark import get_nrel_windpark
-from windml.datasets.park_definitions import park_info
 
+from windml.datasets.nrel import NREL
 
 # load data and define parameters / training and test sequences
 K = 30
-radius = 10
-name = 'tehachapi'
-my_windpark = get_nrel_windpark(park_info[name][0], radius, 2004)
-X = np.array(my_windpark.get_powermatrix())
+ds = NREL()
+windpark = ds.get_windpark(NREL.park_id['tehachapi'], 10, 2004)
+
+X = np.array(windpark.get_powermatrix())
 X_train = X[:2000]
 X_test = X[2000:2000+200*4]
 
-
 # computation of ISOMAP projection
 print "computation of ISOMAP projection"
-X_latent = manifold.Isomap(K, n_components=2).fit_transform(X_train)
 
+if(sklearn.__version__ == "0.9"):
+    X_latent = manifold.Isomap(K, out_dim=2).fit_transform(X_train)
+else:
+    X_latent = manifold.Isomap(K, n_components=2).fit_transform(X_train)
 
 # computation of sequence of closest embedded patterns
 sequence = []
@@ -37,7 +37,6 @@ for x in X_test:
             smallest = np.dot(x-X_train[b],x-X_train[b])
             win = b
     sequence.append(X_latent[win])
-
 
 # normalization of the sequence
 sequence = np.array(sequence)

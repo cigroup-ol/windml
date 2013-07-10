@@ -1,36 +1,31 @@
 """
-=============================================================================
-Clustering of wind mills
-=============================================================================
+Clustering of Windmills
+-------------------------------------------------------------------------
 """
 
 import numpy as np
-from windml.datasets.windpark import get_nrel_windpark
-import windml.util.power_features
-from windml.datasets.park_definitions import park_info
 from sklearn.cluster import KMeans
 import pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-radius = 15
-name = 'tehachapi'
-my_windpark = get_nrel_windpark(park_info[name][0], radius, 2004)
-X = np.array(my_windpark.get_powermatrix())
+from windml.datasets.nrel import NREL
+import windml.util.power_features
 
+ds = NREL()
+windpark = ds.get_windpark(NREL.park_id['tehachapi'], 15, 2004)
+X = np.array(windpark.get_powermatrix())
 
 clf = KMeans(k=3)
 turbine = []
 
-for windmill in my_windpark.mills:
+for windmill in windpark.mills:
 
     month_power = windml.util.power_features.compute_highlevel_features(windmill)
     turbine.append(month_power)
 
-
 clf.fit(turbine)
 labels = clf.labels_
 turbine = np.array(turbine)
-
 
 j=1
 ax = plt.figure(figsize=(14, 9))

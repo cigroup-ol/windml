@@ -18,8 +18,6 @@ def show_coord_topo(windpark, show = True):
                A given windpark to show the topology.
     """
 
-    plt.clf()
-
     mills = windpark.get_windmills()
     target = windpark.get_target()
     radius = windpark.get_radius()
