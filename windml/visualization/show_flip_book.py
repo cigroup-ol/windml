@@ -23,8 +23,6 @@ def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
                Temporal distance between plots.
     """
 
-    plt.clf()
-
     mills = windpark.get_windmills()
     target = windpark.get_target()
     radius = windpark.get_radius()

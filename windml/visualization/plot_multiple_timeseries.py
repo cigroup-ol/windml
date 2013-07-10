@@ -14,8 +14,6 @@ def plot_multiple_timeseries(windpark, show = True):
                A given windpark to plot power series.
     """
 
-    plt.clf()
-
     X = np.array(windpark.get_powermatrix())
     number_turbines = len(X[0])
     number_measurements = len(X)
