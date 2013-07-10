@@ -1,0 +1,7 @@
+*.swp
+*.pyc
+doc/_build/
+.ropeproject/
+doc/book_figures/
+doc/examples/
+doc/paper_figures/
