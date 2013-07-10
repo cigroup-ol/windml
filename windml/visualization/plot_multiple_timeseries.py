@@ -1,23 +1,27 @@
-"""
-To do ...
-"""
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.collections import PolyCollection
 from matplotlib.colors import colorConverter
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_timeseries(windfarm):
+def plot_multiple_timeseries(windpark, show = True):
+    """Plot multiple power series of some mills.
 
-    X = np.array(windfarm.get_powermatrix())
+    Parameters
+    ----------
 
+    windpark : Windpark
+               A given windpark to plot power series.
+    """
 
+    plt.clf()
+
+    X = np.array(windpark.get_powermatrix())
     number_turbines = len(X[0])
     number_measurements = len(X)
 
     length = 100
     X = X[:length]
-
 
     fig = plt.figure()
     ax = fig.gca(projection='3d')
@@ -27,7 +31,6 @@ def plot_timeseries(windfarm):
     xs = range(1,number_measurements)
     verts = []
     zs = range(0,number_turbines)
-
 
     for z in zs:
         ys = X[:,z]
@@ -46,6 +49,7 @@ def plot_timeseries(windfarm):
     ax.set_zlim3d(0,30.)
 
     plt.title("time series comparison")
-    plt.show()
 
+    if(show):
+        plt.show()
 

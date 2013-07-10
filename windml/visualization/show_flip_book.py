@@ -1,9 +1,3 @@
-"""
-Flip-Book of wind speed around Tehachapi
--------------------------------------------------------------------------
-
-"""
-
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime
@@ -11,9 +5,26 @@ import time
 import math
 from mpl_toolkits.basemap import Basemap, shiftgrid, cm
 
+def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
+    """Plots a flip book of a given windpark
 
+    Parameters
+    ----------
+    windpark : Windpark
+               The windpark for the flip book.
 
-def show_flip_book(windpark, num_plots, start_time, diff_time):
+    num_plots: int
+               Amount of plots, either 4, 9 or 16.
+
+    start_time: int
+                Element position of time series.
+
+    diff_time: int
+               Temporal distance between plots.
+    """
+
+    plt.clf()
+
     mills = windpark.get_windmills()
     target = windpark.get_target()
     radius = windpark.get_radius()
@@ -49,11 +60,9 @@ def show_flip_book(windpark, num_plots, start_time, diff_time):
 
         row_act += 1
 
-
     targetcoord = [0.0, 0.0]
     targetcoord[0] = np.float64(target.latitude)
     targetcoord[1] = np.float64(target.longitude)
-
 
     # Topographic Map with farms
     #see: http://matplotlib.org/basemap/users/examples.html
@@ -65,12 +74,10 @@ def show_flip_book(windpark, num_plots, start_time, diff_time):
         urcrnrlon = targetcoord[1]+graddiff, urcrnrlat = targetcoord[0]+graddiff ,\
         rsphere=6371200., resolution = 'l', area_thresh=1000)
 
-
     # Target
     #x_target,y_target = m(targetcoord[1],targetcoord[0])
     # Input Farms
     rel_inputs_lon, rel_inputs_lat = m(rel_input_lon, rel_input_lat)
-
 
     plot_dim = math.sqrt(number_of_plots)
     figure = plt.figure(figsize=(15, 10))
@@ -90,7 +97,7 @@ def show_flip_book(windpark, num_plots, start_time, diff_time):
         plt.title(datetime.datetime.fromtimestamp(unix_timestamps[i-1]).strftime('%Y-%m-%d %H:%M:%S'))
         plt.colorbar()
 
-
-    plt.show()
+    if(show):
+        plt.show()
 
 
