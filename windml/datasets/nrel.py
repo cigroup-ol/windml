@@ -13,19 +13,13 @@ from windml.model.windpark import Windpark
 from windml.model.windmill import Windmill
 
 class NREL(DataSource):
+    """ National Renewable Energy Laboratory ("NREL") data source.
 
-    park_id = {
-        'tehachapi': 4155,
-        'cheyenne': 17423,
-        'palmsprings' : 1175,
-        'reno' : 11637,
-        'lasvegas' : 6272,
-        'hesperia' : 2028,
-        'lancaster' : 2473,
-        'yuccavalley': 1539,
-        'vantage': 28981,
-        'casper': 23167
-    }
+    About the data set: http://www.nrel.gov/electricity/transmission/about_datasets.html
+    GUI: http://wind.nrel.gov/Web_nrel/
+    """
+
+    BASE_URL = "http://stromberg.informatik.uni-oldenburg.de/data/nrel/"
 
     NREL_META_DTYPE = [('id', int32),
                 ('latitude', float32),
@@ -41,10 +35,39 @@ class NREL(DataSource):
                     ('score', float32),
                     ('corrected_score', float32)]
 
+    park_id = {
+        'tehachapi': 4155,
+        'cheyenne': 17423,
+        'palmsprings' : 1175,
+        'reno' : 11637,
+        'lasvegas' : 6272,
+        'hesperia' : 2028,
+        'lancaster' : 2473,
+        'yuccavalley': 1539,
+        'vantage': 28981,
+        'casper': 23167
+    }
+
     def get_windmill(self, target_idx, year_from, year_to=0):
+        """This method fetches and returns a single windmill object.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     see windml.datasets.nrel.park_id for example ids.
+        year_from  : int
+                     2004 - 2006
+        year_to    : int
+                     2004 - 2006
+
+        Returns
+        -------
+
+        Windmill
+            An according windmill for target id and time span.
         """
-        This method fetches and returns a single windfarm.
-        """
+
         #if only one year is desired
         if year_to==0:
             year_to=year_from
@@ -52,7 +75,7 @@ class NREL(DataSource):
         # determine the coordinates of the target
         target=self.fetch_nrel_meta_data(target_idx)
 
-        #add target farm as last element
+        #add target mill as last element
         newmill = Windmill(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         for y in range(year_from, year_to+1):
            measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score', 'speed'])
@@ -65,10 +88,27 @@ class NREL(DataSource):
 
     def get_windpark(self, target_idx, radius, year_from=0, year_to=0):
         """This method fetches and returns a windpark from NREL, which consists of
-        the target farm with the given target_idx and the surrounding wind farm
-        within a given radius around the target farm. When called, the wind
-        measurements for a given range of years are downloaded for every farm
-        in the park."""
+        the target mill with the given target_idx and the surrounding wind mill
+        within a given radius around the target mill. When called, the wind
+        measurements for a given range of years are downloaded for every mill
+        in the park.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     see windml.datasets.nrel.park_id for example ids.
+        year_from  : int
+                     2004 - 2006
+        year_to    : int
+                     2004 - 2006
+
+        Returns
+        -------
+
+        Windpark
+            An according windpark for target id, radius and time span.
+        """
 
         #if only one year is desired
         if year_to==0:
@@ -86,7 +126,7 @@ class NREL(DataSource):
         rel_input_lat = []
         rel_input_lon = []
 
-        #fetch all farms
+        #fetch all mills
         mills = self.fetch_nrel_meta_data_all()
         for row in mills:
             mill_index = np.int(row[0])
@@ -112,7 +152,7 @@ class NREL(DataSource):
                         newmill.add_measurements(measurements)
                     result.add_windmill(newmill)
 
-        #add target farm as last element
+        #add target mill as last element
         newmill = Windmill(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         if year_from != 0:
             for y in range(year_from, year_to+1):
@@ -127,23 +167,23 @@ class NREL(DataSource):
 
     def fetch_nrel_meta_data_all(self, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
                              data_home = None):
-        """ Loader for NREL meta data (all entries)
+        """ Loader for NREL meta data (all entries).
+
         Parameters
         ----------
         columns : optional, default=['id','latitude','longitude','power_density','power_capacity','speed','elevation']
-            Specify the columns to be selected, see code above.
+                  Specify the columns to be selected, see code above.
         data_home : optional, default=None
-            Specify another download and cache folder for the datasets.
-            By default, data is stored in ~/nrel_data on Unix systems.
+                    Specify another download and cache folder for the datasets.
+                    By default, data is stored in ~/nrel_data on Unix systems.
         Returns
         -------
-        Notes
-        -----
-        Based on astroML
+        numpy.array
+            Array of meta data for a windmills.
         """
         data_home = os.getenv("HOME") + "/nrel_data/"
         archive_file_name = "meta.csv"
-        DATA_URL = "http://stromberg.informatik.uni-oldenburg.de/data/nrel/site_meta.csv"
+        DATA_URL = self.BASE_URL + "site_meta.csv"
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
@@ -171,32 +211,47 @@ class NREL(DataSource):
         data_arr=np.array([(a,b,c,d,e,f,g) for (a,b,c,d,e,f,g) in data], dtype=self.NREL_META_DTYPE)
         return data_arr[columns]
 
-    def fetch_nrel_meta_data(self, farm_id, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
+    def fetch_nrel_meta_data(self, mill_id, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
                                 data_home = None):
-        """ Loader for NREL meta data, gets one entry by id
+        """ Loader for NREL meta data, gets one entry by id.
+
         Parameters
         ----------
-        farm_id : specifies the id of the WEA to be used
+        mill_id : specifies the id of the WEA to be used.
         columns : optional, default=['id','latitude','longitude','power_density','power_capacity','speed','elevation']
-            Specify the columns to be selected, see code above.
+                  Specify the columns to be selected, see code above.
         data_home : optional, default=None
-            Specify another download and cache folder for the datasets.
-            By default, data is stored in ~/nrel_data on Unix systems.
+                    Specify another download and cache folder for the datasets.
+                    By default, data is stored in ~/nrel_data on Unix systems.
         Returns
         -------
-        Notes
-        -----
-        Based on astroML
+        numpy.array
+            array of meta data for a windmill.
         """
-        data=self.fetch_nrel_meta_data_all(['id','latitude','longitude','power_density','power_capacity','speed','elevation'],data_home)
-        for farm in data:
-            if farm_id==farm[0]:
+
+        attributes = ['id','latitude','longitude','power_density','power_capacity','speed','elevation']
+        data=self.fetch_nrel_meta_data_all(attributes, data_home)
+        for mill in data:
+            if mill_id==mill[0]:
                 ret=[]
                 for c in columns:
-                    ret.append(farm[c])
+                    ret.append(mill[c])
                 return ret
 
     def bytes_to_string(self, nbytes):
+        """Byte representation for progress bar.
+
+        Parameters
+        ----------
+        nbytes : int
+                 Amount of bytes.
+
+        Returns
+        -------
+        str
+            Representation of bytes.
+        """
+
         if nbytes < 1024:
             return '%ib' % nbytes
 
@@ -212,20 +267,21 @@ class NREL(DataSource):
         return '%.1fGb' % nbytes
 
     def download_with_progress_bar(self, data_url, return_buffer=False):
-        """Download a file, showing progress
+        """Download a file, showing progress.
 
         Parameters
         ----------
         data_url : string
-            web address
+                   web address.
         return_buffer : boolean (optional)
-            if true, return a StringIO buffer rather than a string
+                        if true, return a StringIO buffer rather than a string.
 
         Returns
         -------
-        s : string
-            content of the file
+        str
+            Content of the file.
         """
+
         num_units = 40
 
         fhandle = urllib2.urlopen(data_url)
@@ -261,29 +317,30 @@ class NREL(DataSource):
         else:
             return buf.getvalue()
 
-    def fetch_nrel_data(self, farm_id, year, columns=['date','speed','power_output','score','corrected_score'], \
-                                data_home = None):
-        """ Loader for NREL wind measurements
+    def fetch_nrel_data(self, mill_id, year,\
+        columns=['date','speed','power_output','score','corrected_score'], data_home = None):
+        """ Loader for NREL wind measurements.
+
         Parameters
         ----------
-        wae_id : id of the WEA that shall be fetched.
-            Number between 1 and 32043
+        mill_id : id of the mill that shall be fetched.
+                 Number between 1 and 32043
         year : year for that the data shall be fetched. can be 2004, 2005, 2006
         columns : optional, default=['date','speed','power_output','score','corrected_score']
-            Specify the columns to be selected, see code above.
+                  Specify the columns to be selected, see code above.
         data_home : optional, default=None
-            Specify another download and cache folder for the datasets.
-            By default, data is stored in ~/nrel_data on Unix systems.
+                    Specify another download and cache folder for the datasets.
+                    By default, data is stored in ~/nrel_data on Unix systems.
         Returns
         -------
-        Notes
-        -----
-        Based on astroML
+        numpy.array
+            Includes all values of given attributes (columns) for a given year.
         """
-        #todo assert that year is in [2004,2005,2006] and farm_id is valid, too
+
+        #todo assert that year is in [2004,2005,2006] and mill_id is valid, too
         data_home = os.getenv("HOME") + "/nrel_data/"+str(year)+"/"
-        archive_file_name = str(farm_id) +".npy"
-        DATA_URL = "http://stromberg.informatik.uni-oldenburg.de/data/nrel/"+str(year)+"/"+str(farm_id)+".csv"
+        archive_file_name = str(mill_id) +".npy"
+        DATA_URL = self.BASE_URL + str(year)+"/"+str(mill_id)+".csv"
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
@@ -298,7 +355,8 @@ class NREL(DataSource):
             for row in reader:
                 point=[]
                 #convert datetime to unix timestamp
-                timestamp=int(time.mktime(datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S").timetuple()))
+                fmt = "%Y-%m-%d %H:%M:%S"
+                timestamp=int(time.mktime(datetime.datetime.strptime(row[0], fmt).timetuple()))
                 point.append(timestamp)
                 point.append(float(row[1]))
                 point.append(float(row[2]))
