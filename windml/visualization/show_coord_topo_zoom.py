@@ -1,21 +1,30 @@
-"""
-Example of visualizing the topographie around a mill
---------------------------------------------------
-
-... get_ids, visualization, todo
-
-"""
 import sys
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+
 from mpl_toolkits.basemap import Basemap, shiftgrid, cm
 #from mpl_toolkits.axes_grid.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid.inset_locator import mark_inset
 from mpl_toolkits.axes_grid.inset_locator import inset_axes
 #from mpl_toolkits.axes_grid.anchored_artists import AnchoredSizeBar
 
-def show_coord_topo_zoom(windpark):
+def show_coord_topo_zoom(windpark, show = True):
+    """Plot the topology of a given windpark
+
+    Topographic Map with farms
+    see: http://matplotlib.org/basemap/users/examples.html
+    Basemap
+
+    Parameters
+    ----------
+
+    windpark : Windpark
+               A given windpark to show the topology.
+    """
+
+    plt.clf()
+
     mills = windpark.get_windmills()
     target = windpark.get_target()
     radius = windpark.get_radius()
@@ -31,10 +40,6 @@ def show_coord_topo_zoom(windpark):
     targetcoord[0] = np.float64(target.latitude)
     targetcoord[1] = np.float64(target.longitude)
 
-    # Topographic Map with farms
-    #see: http://matplotlib.org/basemap/users/examples.html
-    # Basemap
-
     graddiff = (800/111.0) + 0.5  # degree in km... 800km
 
     fig = plt.figure(figsize=(11.7,8.3))
@@ -48,7 +53,6 @@ def show_coord_topo_zoom(windpark):
         llcrnrlon = targetcoord[1]-graddiff*2, llcrnrlat = targetcoord[0]-graddiff ,\
         urcrnrlon = targetcoord[1]+graddiff, urcrnrlat = targetcoord[0]+graddiff ,\
         rsphere=6371200., resolution = None, area_thresh=1000)
-
 
     # Target
     x_target,y_target = m(targetcoord[1],targetcoord[0])
@@ -64,7 +68,7 @@ def show_coord_topo_zoom(windpark):
 
     # plot farms in the radius
     m.plot(x_target, y_target, 'bo')
-   # m.plot(rel_inputs_lon, rel_inputs_lat, 'r*')
+    # m.plot(rel_inputs_lon, rel_inputs_lat, 'r*')
 
     #m.bluemarble()
     m.shadedrelief()
@@ -76,7 +80,6 @@ def show_coord_topo_zoom(windpark):
                         height="65%", # height : 1 inch
                         loc=3)
 
-
     # plot farms in the radius
     m.plot(x_target, y_target, 'bo')
     m.plot(rel_inputs_lon, rel_inputs_lat, 'r*')
@@ -85,7 +88,6 @@ def show_coord_topo_zoom(windpark):
     m.shadedrelief()
     #m.etopo()
     #m.drawcoastlines()
-
 
     graddiff_park = (radius/(111.0*0.7))  # degree in km
     x,y = m(targetcoord[1]-graddiff_park,targetcoord[0]-graddiff_park)
@@ -97,7 +99,7 @@ def show_coord_topo_zoom(windpark):
     plt.yticks(visible=False)
     mark_inset(ax, axins, loc1=1, loc2=4, fc="none", ec="0.9", linewidth = 3) # we draw the "zoom effect" on the main map (ax), joining cornder 1 & 3
 
-
     plt.title("Selected Wind Farms")
-    plt.show()
+    if(show):
+        plt.show()
 
