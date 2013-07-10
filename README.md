@@ -14,4 +14,7 @@ Look under documentation examples
 Documentation
 -------------
 
+PLEASE REMEMBER, documentate this way.
+https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
+
 http://vegas.informatik.uni-oldenburg.de:8080
