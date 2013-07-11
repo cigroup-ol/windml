@@ -61,6 +61,8 @@ mse_naive_hat /= float(len(y_hat))
 print "MSE y_hat (KNN-Regressor): ", mse_y_hat
 print "MSE naive_hat (Persistence): ", mse_naive_hat
 
+figure = plt.figure(figsize=(15, 10))
+
 plot_abs = plt.subplot(2, 2, 1)
 plt.title("Absolute Labels and True Measurements")
 
