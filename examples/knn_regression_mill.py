@@ -1,5 +1,5 @@
 """
-KNN Regression for a Windmill with Neighbour-Windmills
+KNN Regression for a Windmill with Neighbor-Windmills
 -------------------------------------------------------------------------
 """
 
@@ -81,7 +81,8 @@ plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 2)
 plt.title("Naive Label and True Measurement")
-plt.scatter(y, naive_hat, color="b")
+col = abs(y - naive_hat)
+plt.scatter(y, naive_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
 plt.xlabel("Y")
 plt.ylabel("Naive Label")
 
@@ -95,7 +96,8 @@ plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 4)
 plt.title("KNN Label and True Measurement")
-plt.scatter(y, y_hat, color="r")
+col = abs(y - y_hat)
+plt.scatter(y, y_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
 plt.xlabel("Y")
 plt.ylabel("KNN Label")
 
