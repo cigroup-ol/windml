@@ -85,6 +85,8 @@ col = abs(y - naive_hat)
 plt.scatter(y, naive_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
 plt.xlabel("Y")
 plt.ylabel("Naive Label")
+plt.xlim([0, 30])
+plt.ylim([0, 30])
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Absolute Difference")
@@ -100,6 +102,8 @@ col = abs(y - y_hat)
 plt.scatter(y, y_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
 plt.xlabel("Y")
 plt.ylabel("KNN Label")
+plt.xlim([0, 30])
+plt.ylim([0, 30])
 
 plt.show()
 
