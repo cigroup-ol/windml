@@ -10,7 +10,7 @@ The windML framework provides an easy-to-use access to several wind data sources
 Brief Example
 -------------
 
-Here's a brief example of how to plot a time series. For a further list of examples check out the example page, see :ref:`examples`. ::
+Here's a brief example of how to forecast using a KNN regressor. For a further list of examples with plots check out the example page, see :ref:`examples`. ::
 
     import math
     from windml.datasets.nrel import NREL
