@@ -49,6 +49,10 @@ DEFAULT_INDEX_TEMPLATE = """
 .. raw:: html
 
     <style type="text/css">
+    a.image-reference {
+        border-bottom: None;
+    }
+
     .figure {
         float: left;
         margin: 10px;
