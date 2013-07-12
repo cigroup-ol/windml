@@ -14,11 +14,10 @@ The windML framework provides an easy-to-use access to several wind data sources
 
 **License:** Open source, commercially usable: **BSD license** (3 clause)
 
-Classes
+Modules
 =======
-
-.. autoclass:: windml.datasets.nrel.NREL
-    :members:
+.. toctree::
+    datasets
 
 User Guide
 ==========
