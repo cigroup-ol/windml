@@ -1,6 +1,6 @@
 .. _home:
 
-WindML: Machine Learning for Wind Energy Information Systems
+Documentation of windml
 ============================================================
 
 .. topic:: Machine learning library for wind energy information systems. 
