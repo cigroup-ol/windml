@@ -11,6 +11,18 @@ The windML framework provides an easy-to-use access to several wind data sources
 
 **License:** Open source, commercially usable: **BSD license** (3 clause)
 
+Brief Example
+-------------
+
+Here's a brief example of how to plot a time series. ::
+
+    import matplotlib.pylab as plt
+    from windml.datasets.nrel import NREL
+    from windml.visualization.plot_timeseries import plot_timeseries
+
+    mill = NREL().get_windmill(NREL.park_id['tehachapi'], 2004)
+    plot_timeseries(mill)
+
 User Guide
 ----------
 
