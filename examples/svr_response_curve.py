@@ -1,7 +1,7 @@
 """
-Learn Response Curve of Windmill with SVR
+Learn a Response Curve of a Windmill with SVR
 --------------------------------------------------
-This example learn the response curve of a windmill near Tehachapi.
+This example learns the response curve of a windmill near Tehachapi.
 """
 
 from matplotlib import dates
@@ -67,10 +67,10 @@ speeds = sorted([m[2] for m in timeseries[::skip]])
 speeds_X = array([[speed] for speed in speeds])
 score_hat = svr.predict(speeds_X)
 
-plt.title("SVR regression of response curve")
+plt.title("SVR Regression of a Response Curve")
 plt.plot(speeds, score_hat)
 plt.xlim([0,25])
-plt.xlabel("Windspeed")
+plt.xlabel("Windspeed [m/s]")
 plt.ylim([-5, 35])
-plt.ylabel("Correct Score")
+plt.ylabel("Correct Score [MW]")
 plt.show()
