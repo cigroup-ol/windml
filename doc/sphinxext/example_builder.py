@@ -53,6 +53,11 @@ DEFAULT_INDEX_TEMPLATE = """
         border-bottom: None;
     }
 
+    a.image-reference:hover {
+        border-bottom: None;
+    }
+
+
     .figure {
         float: left;
         margin: 10px;
