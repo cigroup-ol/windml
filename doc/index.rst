@@ -1,6 +1,5 @@
 .. _home:
 
-
 WindML: Machine Learning for Wind Energy Information Systems
 ============================================================
 
@@ -14,6 +13,12 @@ The windML framework provides an easy-to-use access to several wind data sources
     it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasts.
 
 **License:** Open source, commercially usable: **BSD license** (3 clause)
+
+Classes
+=======
+
+.. autoclass:: windml.datasets.nrel.NREL
+    :members:
 
 User Guide
 ==========
