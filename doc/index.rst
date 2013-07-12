@@ -7,11 +7,16 @@
         border-bottom: None;
     }
 
+    a.image-reference:hover {
+        border-bottom: None;
+    }
+
     .figure {
         float: left;
         margin: 10px;
+        margin-bottom: 1px;
         width: auto;
-        height: 200px;
+        height: 140px;
         width: 180px;
     }
 
