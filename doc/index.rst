@@ -1,18 +1,16 @@
 .. _home:
 
-Documentation of windml
-============================================================
+Documentation of windML 
+======================
 
 .. topic:: Machine learning library for wind energy information systems. 
 
 The windML framework provides an easy-to-use access to several wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, and `matplotlib <http://matplotlib.org>`_ [2]_. As a machine-learning module, it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasts.
 
-**License:** Open source, commercially usable: **BSD license** (3 clause)
-
 Brief Example
 -------------
 
-Here's a brief example of how to plot a time series. ::
+Here's a brief example of how to plot a time series. For a further list of examples check out the example page, see :ref:`examples/index`. ::
 
     from windml.datasets.nrel import NREL
     from windml.visualization.plot_timeseries import plot_timeseries
