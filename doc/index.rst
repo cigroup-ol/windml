@@ -5,7 +5,22 @@ Documentation of windML
 
 .. topic:: Machine learning library for wind energy information systems. 
 
-The windML framework provides an easy-to-use access to several wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, and `matplotlib <http://matplotlib.org>`_ [2]_. As a machine-learning module, it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. For further information including the motivation for windML see :ref:`about`.
+The windML framework provides an easy-to-use access to several wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, and `matplotlib <http://matplotlib.org>`_ [2]_. As a machine-learning module, it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. For further information including the motivation for windML, see :ref:`about`.
+
+.. figure:: ./images/show_flip_book_1_thumb.png
+    :target: ./show_flip_book.html
+
+     :ref:`example_show_flip_book`
+
+.. figure:: ./images/svr_regression_mill_1_thumb.png
+    :target: ./svr_regression_mill.html
+
+     :ref:`example_svr_regression_mill`
+
+.. figure:: ./images/wind_embeddings_1_thumb.png
+    :target: ./wind_embeddings.html
+
+     :ref:`example_wind_embeddings`
 
 Brief Example
 -------------
