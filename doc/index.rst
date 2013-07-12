@@ -14,52 +14,14 @@ The windML framework provides an easy-to-use access to several wind data sources
 
 **License:** Open source, commercially usable: **BSD license** (3 clause)
 
-Modules
+User Guide
 =======
 .. toctree::
+    about
+    installation
+    gettingstarted
     datasets
-
-User Guide
-==========
-
-* Introduction
-
-* Installation
-
-  * Important Links
-  * Installation Details
-
-* Data Sets
-
-  * NREL Data Set
-
-
-Example Gallery
-===============
-
-* Plots
-
-  * Wind Parks
-  * Time-Series
-
-* Supervised Learning: Regression
-
-  * Time-Series Prediction with KNN
-  * Time-Series Prediction with SVR
-  * Hybrid Models
-
-* Supervised Learning: Classification
-
-  * Ramp Detection with KNN
-  * Bagging Classifiers for Ramp Detection
-
-* Unsupervised Learning: Clustering
-
-  * Grouping Windmills according to number of ramps
-
-* Unsupervised Learning: Dimensionality Reduction
-  
-  * Streaming Dimensionality Reduction with Unsupervised Nearest Neighbors
-
-
+    model
+    mapping
+    visualization
 
