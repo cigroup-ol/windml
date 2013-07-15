@@ -17,7 +17,7 @@
         margin-bottom: 1px;
         width: auto;
         height: 140px;
-        width: 180px;
+        width: 200px;
     }
 
     .figure img {
@@ -45,8 +45,8 @@ The windML framework provides an easy-to-use access to several wind data sources
     :target: ./examples/wind_embeddings.html
      :ref:`example_wind_embeddings`
 
-.. raw:: html
-    <div style="clear: both"></div>
+Getting Started
+---------------
 
 For an overview of the architecture and the functionalities of windML please visit the :ref:`gettingstarted` page. The :ref:`examples` gallery illustrates the coverage of the main functionalities.  
 
