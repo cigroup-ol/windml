@@ -33,22 +33,25 @@ Documentation of windML
 
 The windML framework provides an easy-to-use access to several wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, and `matplotlib <http://matplotlib.org>`_ [2]_. As a machine-learning module, it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. For further information including the motivation for windML, see :ref:`about`.
 
-.. figure:: ./_images/show_flip_book_1_thumb.png
-    :target: ./examples/show_flip_book.html
-     :ref:`example_show_flip_book`
-
-.. figure:: ./_images/svr_regression_mill_1_thumb.png
-    :target: ./examples/svr_regression_mill.html
-     :ref:`example_svr_regression_mill`
-
-.. figure:: ./_images/wind_embeddings_1_thumb.png
-    :target: ./examples/wind_embeddings.html
-     :ref:`example_wind_embeddings`
-
 Getting Started
 ---------------
 
 For an overview of the architecture and the functionalities of windML please visit the :ref:`gettingstarted` page. The :ref:`examples` gallery illustrates the coverage of the main functionalities.  
+
+.. figure:: ./_images/show_flip_book_1_thumb.png
+    :target: ./examples/show_flip_book.html
+
+     :ref:`example_show_flip_book`
+
+.. figure:: ./_images/svr_regression_mill_1_thumb.png
+    :target: ./examples/svr_regression_mill.html
+    
+    :ref:`example_svr_regression_mill`
+
+.. figure:: ./_images/wind_embeddings_1_thumb.png
+    :target: ./examples/wind_embeddings.html
+
+     :ref:`example_wind_embeddings`
 
 Brief Example
 -------------
