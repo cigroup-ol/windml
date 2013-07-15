@@ -41,17 +41,11 @@ For an overview of the architecture and the functionalities of windML please vis
 .. figure:: ./_images/show_flip_book_1_thumb.png
     :target: ./examples/show_flip_book.html
 
-     :ref:`example_show_flip_book`
-
 .. figure:: ./_images/svr_regression_mill_1_thumb.png
     :target: ./examples/svr_regression_mill.html
-    
-    :ref:`example_svr_regression_mill`
 
 .. figure:: ./_images/wind_embeddings_1_thumb.png
     :target: ./examples/wind_embeddings.html
-
-     :ref:`example_wind_embeddings`
 
 Brief Example
 -------------
