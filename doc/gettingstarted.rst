@@ -5,6 +5,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 .. figure:: _static/schema.png
    :alt: map to buried treasure
+   :align: center
 
    This is the caption of the figure (a simple paragraph).
 
