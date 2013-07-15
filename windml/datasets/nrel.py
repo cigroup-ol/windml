@@ -19,7 +19,7 @@ class NREL(DataSource):
     GUI: http://wind.nrel.gov/Web_nrel/
     """
 
-    BASE_URL = "http://stromberg.informatik.uni-oldenburg.de/data/nrel/"
+    BASE_URL = "http://vegas.informatik.uni-oldenburg.de:81/data/nrel/"
 
     NREL_META_DTYPE = [('id', int32),
                 ('latitude', float32),
