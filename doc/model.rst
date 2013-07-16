@@ -1,6 +1,10 @@
 Model
 =====
 
+There are two types.
+
+
+
 Windmill
 --------
 Concepts here.
@@ -14,5 +18,3 @@ Concepts here.
 
 .. autoclass:: windml.model.windpark.Windpark
     :members:
-
-
