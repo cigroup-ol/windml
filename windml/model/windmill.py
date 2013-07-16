@@ -2,7 +2,7 @@ import numpy as np
 
 class Windmill(object):
     """The class Windfarm represents a single windfarm. It contains
-    the properties of the windmill."""
+    the properties of the windmill. Check."""
 
     def __init__(self, idx, latitude, longitude, power_density, power_capacity,\
         speed, elevation):
@@ -55,7 +55,3 @@ class Windmill(object):
             Numpy array of measurements.
         """
         return self.measurements
-
-
-
-
