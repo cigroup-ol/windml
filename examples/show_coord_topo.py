@@ -1,5 +1,5 @@
 """
-Example for Visualization of the Topography of a Wind Mill Near Tehachapi
+Topography of a Wind Mill Near Tehachapi
 -------------------------------------------------------------------------
 """
 

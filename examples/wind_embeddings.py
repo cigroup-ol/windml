@@ -1,5 +1,5 @@
 """
-Manifold Learning of High-Dimensional Wind Time Series with PCA, LDA, ISOMAP and LLE.
+Manifold Learning with PCA, LDA, ISOMAP and LLE.
 --------------------------------------------------
 """
 

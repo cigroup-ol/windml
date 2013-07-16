@@ -1,5 +1,5 @@
 """
-Example: Histogram of Wind Speeds
+Histogram of Wind Speeds
 -------------------------------------------------------------
 """
 

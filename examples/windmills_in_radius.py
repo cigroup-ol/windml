@@ -1,5 +1,5 @@
 """
-Example: Plotting the Amount of Windmills with Given Radius
+Amount of Windmills with Given Radius
 -------------------------------------------------------------
 """
 
