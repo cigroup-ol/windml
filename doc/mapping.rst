@@ -1,4 +1,5 @@
-Mapping =======
+Mapping
+=======
 
 The General Times Series Model
 ------------------------------
