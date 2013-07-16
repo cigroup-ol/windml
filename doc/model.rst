@@ -7,7 +7,7 @@ When using windml, you need to know the two basic types of objects.
  * Windpark
 
 See below for a detailed description of the concepts behind those.
-
+Enjoy.
 
 Windmill
 --------
