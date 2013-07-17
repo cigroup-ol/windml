@@ -17,6 +17,11 @@ Below a schematic image of architecture is illustrated. The following descriptio
 
 Given windpark and windmill objects you can visualize the data via different visualization components such a dimension reduction, park / mill information, information on the time series, topology etc., see :ref:`examples`. The main motivation of windML is forecasting time series with machine learning. In this field of research, regression and classifcation of time series is possible. For both methodologies a mapping of a time series to labels is essential. Different mapping approaches have been tested in the past, see :ref:`mapping` for explanation of the various mapping methods. In the current release only regression techniques have been applied to forecasting. The implemented methods are Support Vector Regression, KNN Regression and Linear Regression. 
 
+Running an Example
+------------------
+
+Running some examples of windML is probably the best thing to start. In the :ref:`examples` gallery all example scripts which are located in the /examples folder of your windML installation are plotted. To run an example you only have to run the Python script. Please make sure that you've installed windML in the right manner. If you're not sure if windML is correctly installed, see the :ref:`installation` page. 
+
 .. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
 .. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
 
