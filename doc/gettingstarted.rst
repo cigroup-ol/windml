@@ -7,7 +7,7 @@ The windML framework provides an easy-to-use access to several wind data sources
 
 Architecture
 ------------
-Below a schematic image of architecture is illustrated. The following description of the architecture is done from top to bottom. On the top you can see available data sources of wind data time series on the internet. DataSource classes are implemented in windML which download the data from data mirrors, parse the data into an windML-specific format and cache the data locally. The windML-specific format is defined by the Windpark and Windmill classes. The Windmills and Windparks are selected by ID and a certain radius.
+Below a schematic image of architecture is illustrated. The following description of the architecture is done from top to bottom. On the top you can see available data sources of wind data time series on the internet. DataSource classes are implemented in windML which download the data from data mirrors, parse the data into an windML-specific format and cache the data locally. The windML-specific format is defined by the Windpark and Windmill classes. See :ref:`windpark` and :ref:`windmill` documentation for the windML-specific model. The Windparks and Windparks are selected by ID and a certain radius. See :ref:`datasets` page for the documentation of the datasets and methods to fetch time series.
 
 .. figure:: _static/schema.png
    :alt: architecture
