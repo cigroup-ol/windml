@@ -6,8 +6,8 @@ This example is targets the development of mean squared error (forecast error)
 with a growing forecast horizon. The forecast models KNN, linear regression and
 the naive (persistance) model are compared.
 
-In this example the windmill 'tehachapi' is the target for forecasting.  Hence,
-the windpark center id 'tehachapi' is used. To define the neighborhood, the
+In this example the wind mill 'tehachapi' is the target for forecasting. Hence,
+the wind park center id 'tehachapi' is used. To define the neighborhood, the
 spatial extent of 3 kilometers is chosen. For the mapping of pattern-label
 combinations the :ref:`powermapping` is used. The power mapping is based on the
 :ref:`generaltimeseriesmodel`. The feature window is 3 elements of every time
@@ -28,13 +28,14 @@ from sklearn import linear_model
 from sklearn.neighbors import KNeighborsRegressor
 
 def compute_mse(regressor, horizon):
-    # get windpark and corresponding target. forecast is for the target windmill
+    # get wind park and corresponding target. forecast is for the target
+    # wind mill
     park_id = NREL.park_id['tehachapi']
     windpark = NREL().get_windpark(park_id, 3, 2004, 2005)
     target = windpark.get_target()
 
-    # use power mapping for pattern-label mapping. Feature window length is 3 time
-    # steps and time horizon (forecast) is 3 time steps.
+    # use power mapping for pattern-label mapping. Feature window length is 3
+    # time steps and time horizon (forecast) is 3 time steps.
     feature_window = 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
