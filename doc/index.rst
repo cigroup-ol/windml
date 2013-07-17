@@ -77,14 +77,12 @@ User Guide
 .. toctree::
     about
     gettingstarted
-    examples/index
-    datasets
-    model
-    mapping
-    visualization
+    techniques
+    components
     genindex
     modindex
     search
+    examples/index
 
 .. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
 .. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
