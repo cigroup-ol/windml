@@ -4,10 +4,10 @@ Components
 .. _datasets:
 
 Datasets
-========
+--------
 
 National Renewable Energy Laboratory ("NREL") data source
----------------------------------------------------------
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. autoclass:: windml.datasets.nrel.NREL
     :members:
@@ -15,7 +15,7 @@ National Renewable Energy Laboratory ("NREL") data source
 .. _model:
 
 Model
-=====
+-----
 
 When using windml, you need to know the two basic types of objects. 
 
@@ -28,7 +28,7 @@ Enjoy.
 .. _windmill:
 
 Windmill
---------
+++++++++
 
 .. autoclass:: windml.model.windmill.Windmill
     :members:
@@ -36,7 +36,7 @@ Windmill
 .. _windpark:
 
 Windpark
---------
+++++++++
 
 .. autoclass:: windml.model.windpark.Windpark
     :members:
@@ -44,12 +44,12 @@ Windpark
 .. _mapping:
 
 Mapping
-=======
+-------
 
 .. _generaltimeseriesmodel:
 
 The General Times Series Model
-------------------------------
+++++++++++++++++++++++++++++++
 
 Our model mades predictions exclusively based on past wind power measurements.
 For this task, we formulate the prediction as regression problem. Let us first
@@ -74,12 +74,14 @@ and get patterns with dimension :math:`d_{st}=(\mu+1)`, see class *PowerMapping*
 .. _powermapping:
 
 Power Mapping
--------------
++++++++++++++
 .. autoclass:: windml.mapping.power_mapping.PowerMapping
     :members:
 
+.. _powerdiffmapping:
+
 Power Diff Mapping
-------------------
+++++++++++++++++++
 .. autoclass:: windml.mapping.power_diff_mapping.PowerDiffMapping
     :members:
 
