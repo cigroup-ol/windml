@@ -34,8 +34,8 @@ def compute_mse(regressor, horizon):
     windpark = NREL().get_windpark(park_id, 3, 2004, 2005)
     target = windpark.get_target()
 
-    # use power mapping for pattern-label mapping. Feature window length is 3
-    # time steps and time horizon (forecast) is 3 time steps.
+    # use power mapping for pattern-label mapping. Feature window length
+    # is 3 time steps and time horizon (forecast) is 3 time steps.
     feature_window = 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
