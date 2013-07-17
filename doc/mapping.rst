@@ -3,6 +3,8 @@
 Mapping
 =======
 
+.. _generaltimeseriesmodel:
+
 The General Times Series Model
 ------------------------------
 
@@ -26,6 +28,7 @@ leads to better results. Therefore, we consider
 on the one hand only the absolute values of the measurements as features
 and get patterns with dimension :math:`d_{st}=(\mu+1)`, see class *PowerMapping*. On the other hand we use both, i.e. the absolute values and their differences that results in patterns with a dimension of :math:`d_{st}=(2\mu+1)`, see class *PowerDiffMapping*.
 
+.. _powermapping:
 
 Power Mapping
 -------------
