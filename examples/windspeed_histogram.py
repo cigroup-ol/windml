@@ -11,5 +11,5 @@ ds = NREL()
 mill = ds.get_windmill(NREL.park_id['cheyenne'], 2004)
 speeds = map(lambda x : x[2], mill.measurements)
 
-plt.hist(speeds, color="g")
+plt.hist(speeds, color="#c4d8eb")
 plt.show()
