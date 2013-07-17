@@ -1,6 +1,19 @@
 """
 Mean Squared Error dependend on Forecast Horizon
 -------------------------------------------------------------------------
+
+This example is targets the development of mean squared error (forecast error)
+with a growing forecast horizon. The forecast models KNN, linear regression and
+the naive (persistance) model are compared.
+
+In this example the windmill 'tehachapi' is the target for forecasting.  Hence,
+the windpark center id 'tehachapi' is used. To define the neighborhood, the
+spatial extent of 3 kilometers is chosen. For the mapping of pattern-label
+combinations the :ref:`powermapping` is used. The power mapping is based on the
+:ref:`generaltimeseriesmodel`. The feature window is 3 elements of every time
+series, and the time (forecast) horizon is 3 elements of every time series as
+well. Because of performance issues, in this example only the fifth element is
+trained and tested.
 """
 
 import math

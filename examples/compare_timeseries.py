@@ -1,6 +1,9 @@
 """
-Plot Multiple Time Series of Power
+Multiple Time Series of Power
 -------------------------------------------------------------------------
+
+This example visualizes multiple time series of various windmills. It is useful
+for comparing nearby windmills.
 """
 
 import numpy as np
