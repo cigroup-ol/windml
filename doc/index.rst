@@ -71,23 +71,10 @@ Here's a brief example of how to forecast using a KNN regressor. For a further l
     reg = reg.fit(X[0:train_to:train_step], Y[0:train_to:train_step])
     y_hat = reg.predict(X[train_to:test_to:test_step])
 
-User Guide
-----------
-
-.. toctree::
-    about
-    gettingstarted
-    techniques
-    components
-    genindex
-    modindex
-    search
-    examples/index
-
 Contributors
 ------------
 
-The windML framework is developed by Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber. 
+The windML framework is developed by the Computational Intelligence Group of the University in Oldenburg. The contributors are Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber. 
 
 .. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
 .. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
