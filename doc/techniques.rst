@@ -35,6 +35,11 @@ the other hand we use both, i.e. the absolute values and their differences that
 results in patterns with a dimension of :math:`d_{st}=(2\mu+1)`, see
 :ref:`powerdiffmapping`.
 
+Different Regressors
+++++++++++++++++++++
+
+Different regressors can be used for forecasting. Currently, the Linear Regression, the Support Vector Regression and the K-nearest Neighbor Regression are presented in examples. In Example :ref:`example_linear_regression`
+
 Visualizing of Times Series: Dimensionality Reduction Moduls
 ------------------------------------------------------------
 

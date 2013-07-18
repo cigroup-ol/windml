@@ -1,4 +1,6 @@
 """
+.. _example_linear_regression:
+
 Linear Regression for a Windmill with Neighbor-Windmills
 -------------------------------------------------------------------------
 
