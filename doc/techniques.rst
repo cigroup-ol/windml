@@ -1,6 +1,7 @@
+.. _techniques:
+
 Techniques
 ==========
-
 
 Wind Energy Prediction
 ----------------------
