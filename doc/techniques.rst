@@ -5,6 +5,9 @@ Techniques
 
 Wind Energy Prediction
 ----------------------
+
+Motivation
+++++++++++
 For the integration of wind power into the grid, a precise forecast of energy
 has an important part to play. Only with these informations a truly sustainable
 supply with low support of conventional energy rersources can be achieved.
@@ -71,6 +74,9 @@ In literature, ramps are not clearly defined {kamath,focken} and may vary in loc
 
 Visualizing of Times Series: Dimensionality Reduction Moduls
 ------------------------------------------------------------
+
+Motivation and Overview
++++++++++++++++++++++++
 
 In this section one can find the explanation how to visualize high-dimensional wind time series. Monitoring of high-dimensional time-series data is a dimensionality reduction (DR) task. DR methods map high-dimensional patterns :math:`\mathbf{X} = [\mathbf{x}_i \in \mathbb{R}^d]_{i=1}^N` to low-dimensional representations :math:`[\hat{\mathbf{x}}_i \in \mathbb{R}^q]_{i=1}^N` in a latent space :math:`\mathbb{R}^q` with :math:`q<d`. The mapping should maintain important properties of the original high-dimensional data, e.g., topological characteristics like distance and neighborhoods. Such properties could be gradual changes in wind time series such as changing weather conditions or seasonal changes. Visualization of alert states belongs to the main applications of monitoring energy time series.
 
