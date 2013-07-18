@@ -69,7 +69,7 @@ In this section one can find the explanation how to visualize high-dimensional w
 
 In [1]_, we employed self-organizing maps (SOMs) for sequence visualization of high-dimensional wind time series. Similar to vector quantization, we employed the SOM to place codebook vectors in the time series data space. Each neuron was assigned to a color accruing to the position in the lattice structure of the SOM. The capabilities to visualize gradual changes of SOM-based monitoring is strongly restricted to the topology of the map, e.g., the number of neurons and the structure of the network. 
 
-The monitoring module of WindML allows embeddings in continuous latent spaces. It allows the application of the scikit-learn DR methods like PCA, isometric mapping (ISOMAP)~\cite{isomap}, and locally linear embedding (LLE)~\cite{lle}. We demonstrate the applications in the following. First, we show the results of embedding the high-dimensional patterns into 2-dimensional latent spaces. Then, we use the mapping into 3-dimensional latent spaces to monitor high-dimensional wind power time-series on the time axis.
+The monitoring module of WindML allows embeddings in continuous latent spaces. It allows the application of the scikit-learn DR methods like PCA, isometric mapping (ISOMAP) [2]_, and locally linear embedding (LLE) [3]_. 
 
 
 
@@ -79,4 +79,6 @@ Latent Embeddings
 Monitoring
 ++++++++++
 
-.. [1] Kramer, O, Gieseke, F., and Satzger, B. (2013). Wind energy prediction and monitoring with neural computation. Neurocomputing, 109:84-93
+.. [1] Kramer, O, Gieseke, F., and Satzger, B. (2013). Wind energy prediction and monitoring with neural computation. Neurocomputing, 109:84-9.
+.. [2] Tenenbaum, J.B., Silva, V.D., and Langford, J.C. (2000). A gloabal geometric framework for nonlinear dimensionality reduction. Science, 290:2319-2323.
+.. [3] Roweis, T.S. and Saul, L.K. (2000). Nonlinear dimensionality reduction by locally linear embedding. Science, 290:2323-2326.
