@@ -39,11 +39,11 @@ Different Regressors
 ++++++++++++++++++++
 
 Different regressors can be used for forecasting. Currently, the `Linear
-Regression <http://en.wikipedia.org/wiki/Linear_regression>`, the `Support
+Regression <http://en.wikipedia.org/wiki/Linear_regression>`_, the `Support
 Vector Regression
-<http://en.wikipedia.org/wiki/Support_vector_machine#Regression>` (SVR) and the
+<http://en.wikipedia.org/wiki/Support_vector_machine#Regression>`_ (SVR) and the
 `K-nearest Neighbor Regression
-<http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#For_regression>`
+<http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#For_regression>`_
 (KNN Regression) are presented in examples. In Example
 :ref:`example_linear_regression` a linear regressor is used. The SVR is used in
 example :ref:`example_svr_regression`. In Example :ref:`example_knn_regression`
