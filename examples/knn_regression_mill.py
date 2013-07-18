@@ -1,8 +1,8 @@
 """
+.. _example_knn_regression:
+
 KNN Regression for a Windmill with Neighbor-Windmills
 -------------------------------------------------------------------------
-
-.. _example_knn_regression:
 
 KNN Regression for forecasting a time series for a certain windmill. The
 forecasting of the windmill is based on its own time series and the time series
