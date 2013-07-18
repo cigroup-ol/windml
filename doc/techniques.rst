@@ -50,9 +50,32 @@ Vector Regression
 example :ref:`example_svr_regression`. In Example :ref:`example_knn_regression`
 a KNN regressor is employed. 
 
-Visualizing of Times Series: Dimensionality Reduction Moduls
-------------------------------------------------------------
 
 Classsification of Wind Energy Ramp Events
 ------------------------------------------
+
+
+Ramp Event Definition
++++++++++++++++++++++
+
+
+
+
+
+Visualizing of Times Series: Dimensionality Reduction Moduls
+------------------------------------------------------------
+The third module we introduce is the monitoring module that allows to visualize high-dimensional wind time series. Monitoring of high-dimensional time-series data is a dimensionality reduction (DR) task. DR methods map high-dimensional patterns  $\mathbf{X} = [\mathbf{x}_i \in \R^d]_{i=1}^N$ to low-dimensional representations $[\hat{\mathbf{x}}_i \in \R^q]_{i=1}^N$ in a latent space $\R^q$ with $q<d$. The mapping should maintain important properties of the original high-dimensional data, e.g., topological characteristics like distance and neighborhoods. Such properties could be gradual changes in wind time series such as changing weather conditions or seasonal changes. Visualization of alert states belongs to the main applications of monitoring energy time series.
+
+In~\cite{neurocomp}, we employed self-organizing maps (SOMs) for sequence visualization of high-dimensional wind time series. Similar to vector quantization, we employed the SOM to place codebook vectors in the time series data space. Each neuron was assigned to a color accruing to the position in the lattice structure of the SOM. The capabilities to visualize gradual changes of SOM-based monitoring is strongly restricted to the topology of the map, e.g., the number of neurons and the structure of the network. 
+
+The monitoring module of WindML allows embeddings in continuous latent spaces. It allows the application of the scikit-learn DR methods like PCA, isometric mapping (ISOMAP)~\cite{isomap}, and locally linear embedding (LLE)~\cite{lle}. We demonstrate the applications in the following. First, we show the results of embedding the high-dimensional patterns into 2-dimensional latent spaces. Then, we use the mapping into 3-dimensional latent spaces to monitor high-dimensional wind power time-series on the time axis.
+
+
+
+Latent Embeddings
++++++++++++++++++
+
+Monitoring
+++++++++++
+
 
