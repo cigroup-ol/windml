@@ -27,7 +27,7 @@ Enjoy.
 
 .. _windmill:
 
-Windmill
+Wind Mill
 ++++++++
 
 .. autoclass:: windml.model.windmill.Windmill
@@ -35,7 +35,7 @@ Windmill
 
 .. _windpark:
 
-Windpark
+Wind Park
 ++++++++
 
 .. autoclass:: windml.model.windpark.Windpark
