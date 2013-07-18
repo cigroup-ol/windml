@@ -54,10 +54,17 @@ a KNN regressor is employed.
 Classsification of Wind Energy Ramp Events
 ------------------------------------------
 
+Motivation and Overview
+++++++++++++++++++++++
+A critical issue in maintaining grid stability are sudden and large changes (up and down) of wind power, which are called ramp events. In this section, we introduce the wind power ramp event prediction module. After the definition of ramp events, we define the ramp event prediction problem as classification problem and introduce the ramp separation and the ramp detection application case.
+
+
+
 
 Ramp Event Definition
 +++++++++++++++++++++
 
+In literature, ramps are not clearly defined {kamath,focken} and may vary in location and sizes of wind farms and turbines. We define a ramp events as follows. Let :math:`\mathbf{x}(t)` be the wind time series of a wind park, and let :math:`y(t)` be the time series of the target turbine, for which we determine the forecast. A ramp event is defined as a wind energy change from time step :math:`t` to time step :math: `t+\lambda` by :math:`\theta \in (0, y_{\max}]`, i.e., for an ramp-up event, it holds :math:`y(t+\lambda) - y(t)>\theta`, for a ramp-down event it holds :math:`y(t+\lambda) - y(t)<-\theta`.
 
 
 
