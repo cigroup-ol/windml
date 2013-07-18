@@ -46,6 +46,8 @@ Wind Park
 Mapping
 -------
 
+.. _powermapping:
+
 Power Mapping
 +++++++++++++
 .. autoclass:: windml.mapping.power_mapping.PowerMapping
