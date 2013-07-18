@@ -38,9 +38,13 @@ results in patterns with a dimension of :math:`d_{st}=(2\mu+1)`, see
 Different Regressors
 ++++++++++++++++++++
 
-Different regressors can be used for forecasting. Currently, the Linear
-Regression, the Support Vector Regression (SVR) and the K-nearest Neighbor
-Regression (KNN Regression) are presented in examples. In Example
+Different regressors can be used for forecasting. Currently, the `Linear
+Regression <http://en.wikipedia.org/wiki/Linear_regression>`, the `Support
+Vector Regression
+<http://en.wikipedia.org/wiki/Support_vector_machine#Regression>` (SVR) and the
+`K-nearest Neighbor Regression
+<http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#For_regression>`
+(KNN Regression) are presented in examples. In Example
 :ref:`example_linear_regression` a linear regressor is used. The SVR is used in
 example :ref:`example_svr_regression`. In Example :ref:`example_knn_regression`
 a KNN regressor is employed. 
