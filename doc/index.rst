@@ -36,7 +36,7 @@ The windML framework provides an easy-to-use access to several wind data sources
 Getting Started
 ---------------
 
-For a guide to installation, an overview of the architecture and the functionalities of windML please visit the :ref:`gettingstarted` page. The :ref:`examples` gallery illustrates the coverage of the main functionalities.  
+For a guide to installation, an overview of the architecture and the functionalities of windML please visit the :ref:`gettingstarted` page. For a formal description of the applied techniques, see :ref:`techniques`. The :ref:`examples` gallery illustrates the coverage of the main functionalities.  
 
 .. figure:: ./_images/show_flip_book_1_thumb.png
     :target: ./examples/show_flip_book.html
