@@ -2,6 +2,8 @@
 SVR Regression for a Windmill with Neighbor-Windmills
 -------------------------------------------------------------------------
 
+.. _example_svr_regression:
+
 Support Vector Regression for forecasting a time series for a certain windmill.
 The forecasting of the windmill is based on its own time series and the time
 series of neighbored windmills. The neighborhood is defined by a windpark,
