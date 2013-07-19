@@ -79,8 +79,18 @@ from windml.model.windmill import Windmill
 
 class NREL(DataSource):
     """ National Renewable Energy Laboratory ("NREL") data source.
-
-    About the data set: http://www.nrel.gov/electricity/transmission/about_datasets.html
+    It contains different measurements for more than 32,000 wind mills.
+    E.g., you can get the wind speed or power measurements for a given windmill
+    and time. In order to specify the desired windmill, you have to know 
+    the index of it, which is unique in the NREL dataset. For an easier startup,
+    we provide a dictionairy with pre-defined windmills, which contain
+    *tehachapi*, *cheyenne*, *palmsprings*, *reno*, *lasvegas*, *hesperia*,
+    *lancaster*, *yuccavalley*, *vantage*, *casper*.
+    In order to use such, you can simply use a call like *NREL.park_id['tehachapi']*.
+   
+    
+    Detailed information about the data set can be found at:
+    http://www.nrel.gov/electricity/transmission/about_datasets.html
     GUI: http://wind.nrel.gov/Web_nrel/
     """
 
