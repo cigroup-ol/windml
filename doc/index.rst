@@ -74,7 +74,7 @@ Here's a brief example of how to forecast using a KNN regressor. For a further l
 Contributors
 ------------
 
-The windML framework is developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg. The contributors are Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber. 
+The windML framework is developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg. The contributors are Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber. For questions and feedback contact us via `email <ci@uni-oldenburg.de>`_.  
 
 .. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
 .. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
