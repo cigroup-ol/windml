@@ -1,11 +1,17 @@
 {%- extends "basic/layout.html" %}
 {%- block extrahead %}
-  {{ super() }}
+	{{ super() }}
+
+	<meta name="author" content="Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber">
+	<meta name="description"
+	content="The windML framework provides an easy-to-use access to several wind data sources within the Python world, building upon numpy [1], scipy [1], and matplotlib [2]. As a machine-learning module, it provides versatile tools several learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks.">
+	<meta name="keywords" content="wind regression classification forecasting machine learning data sets datasets nrel university oldenburg">
+
   {% if theme_touch_icon %}
   <link rel="apple-touch-icon" href="{{ pathto('_static/' ~ theme_touch_icon, 1) }}" />
   {% endif %}
   <link media="only screen and (max-device-width: 480px)" href="{{
-    pathto('_static/small_flask.css', 1) }}" type= "text/css" rel="stylesheet" />
+  pathto('_static/small_flask.css', 1) }}" type= "text/css" rel="stylesheet" />
 {% endblock %}
 {%- block relbar2 %}{% endblock %}
 {% block header %}
