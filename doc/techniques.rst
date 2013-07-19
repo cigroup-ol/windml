@@ -5,7 +5,7 @@ Techniques
 
 This page presents the techniques applied to the wind data sets. The focus is on forecasting of wind speed, wind power and ramps. The forecasting is based on machine learning methodologies on discrete time series. In the following the :ref:`windenergyprediction` is discussed as a regression task. In the next section the detection of ramps via classification is explained, see :ref:`detectionoframps`. Finally, ML-derived visualization of time series is illustrated, see :ref:`visualizationoftimeseries`.  
 
-.. _windenergyprediction
+.. _windenergyprediction:
 
 Wind Energy Prediction
 ----------------------
