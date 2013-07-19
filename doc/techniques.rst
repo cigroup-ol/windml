@@ -17,7 +17,7 @@ supply with low support of conventional energy rersources can be achieved.
 General Times Series Model
 ++++++++++++++++++++++++++
 
-Our model mades predictions exclusively based on past wind power measurements.
+Our model makes predictions exclusively based on past wind power measurements.
 For this task, we formulate the prediction as regression problem. Let us first
 assume we want to predict the power production of a single turbine with its
 time series: The wind power measurement :math:`\mathbf{x} = p(t)` (pattern) is
