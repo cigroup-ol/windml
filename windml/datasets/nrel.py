@@ -84,8 +84,16 @@ class NREL(DataSource):
     and time. In order to specify the desired windmill, you have to know 
     the index of it, which is unique in the NREL dataset. For an easier startup,
     we provide a dictionairy with pre-defined windmills, which contain
-    *tehachapi*, *cheyenne*, *palmsprings*, *reno*, *lasvegas*, *hesperia*,
-    *lancaster*, *yuccavalley*, *vantage*, *casper*.
+    * tehachapi
+    * cheyenne 
+    * palmsprings 
+    * reno 
+    * lasvegas
+    * hesperia
+    * lancaster 
+    * yuccavalley
+    * vantage
+    * casper
     In order to use such, you can simply use a call like *NREL.park_id['tehachapi']*.
    
     
