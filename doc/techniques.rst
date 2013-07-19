@@ -82,23 +82,35 @@ Motivation and Overview
 
 In this section one can find the explanation how to visualize high-dimensional wind time series. Monitoring of high-dimensional time-series data is a dimensionality reduction (DR) task. DR methods map high-dimensional patterns :math:`\mathbf{X} = [\mathbf{x}_i \in \mathbb{R}^d]_{i=1}^N` to low-dimensional representations :math:`[\hat{\mathbf{x}}_i \in \mathbb{R}^q]_{i=1}^N` in a latent space :math:`\mathbb{R}^q` with :math:`q<d`. The mapping should maintain important properties of the original high-dimensional data, e.g., topological characteristics like distance and neighborhoods. Such properties could be gradual changes in wind time series such as changing weather conditions or seasonal changes. Visualization of alert states belongs to the main applications of monitoring energy time series.
 
+In [1]_, we employed self-organizing maps (SOMs) for sequence visualization of high-dimensional wind time series. Similar to vector quantization, we employed the SOM to place codebook vectors in the time series data space. Each neuron was assigned to a color accruing to the position in the lattice structure of the SOM. The capabilities to visualize gradual changes of SOM-based monitoring is strongly restricted to the topology of the map, e.g., the number of neurons and the structure of the network. 
+
+The monitoring module of WindML allows embedding into continuous latent spaces with scikit-learn DR methods like isometric mapping (ISOMAP)[2]_ and locally linear embedding (LLE)[3]_. We demonstrate the applications in the following. First, we show the results of embedding the high-dimensional patterns into 2-dimensional latent spaces. Then, we use the mapping into 3-dimensional latent spaces to monitor high-dimensional wind power time-series on the time axis.
+
+Latent Embeddings
++++++++++++++++++
+
+The high-dimensional patterns :math:`\mathbf{X}` are mapped to a 2-dimensional continuous latent space :math:`\R^2`. To illustrate, how the results of this first step look like, we visualize the learning results for two-dimensional latent spaces. The figure shows the learning results of ISOMAP with (a) neighborhood size :math:`k = 10` and (b) neighborhood size :math:`k = 30`. The data set employs :math:`d = 66` wind turbines (grid points) in a radius of :math:`r = 10` km around a turbine in Tehachapi, California. 
+
+.. figure:: _static/latent_embeddings.png
+   :alt: Comparision of Wind Time Series Embeddings of ISOMAP for different parameters
+   :align: center
+
+   Comparision of Wind Time Series Embeddings 
+
+Both manifold learning results show that ISOMAP is able to adapt to gradually changing wind situations. The embeddings employ colors according to the average wind power in the corresponding sequence.
+
+Monitoring
+++++++++++
+
+The monitoring module also offers the possibility to visualize the DR result along the time axis. For this sake, the latent positions of the trained manifold are used for colorization of a horizontal bar over time of a test time-series. In the test time-series, pattern :math:`\mathbf{x}_t` of time step :math:`t` is assigned to the color that depends on the latent position :math:`\hat{\mathbf{x}}^*` of its closest embedded pattern :math:`\mathbf{x}^* = \arg \min_{\mathbf{x}' \in \mathbf{X}} \|  \mathbf{x}_t - \mathbf{x}'\|^2` in the training manifold. For training, :math:`N_1 = 2000` patterns are used. We visualize a test set of :math:`N_2 = 800` patterns at successive time steps in the following figures. 
+
 .. figure:: _static/dr.png
    :alt: dimensionality reduction (DR)
    :align: center
 
    Different Dimensionality Reduction Methods on a Time Series
 
-In [1]_, we employed self-organizing maps (SOMs) for sequence visualization of high-dimensional wind time series. Similar to vector quantization, we employed the SOM to place codebook vectors in the time series data space. Each neuron was assigned to a color accruing to the position in the lattice structure of the SOM. The capabilities to visualize gradual changes of SOM-based monitoring is strongly restricted to the topology of the map, e.g., the number of neurons and the structure of the network. 
-
-The monitoring module of WindML allows embeddings in continuous latent spaces. It allows the application of the scikit-learn DR methods like PCA, isometric mapping (ISOMAP) [2]_, and locally linear embedding (LLE) [3]_. 
-
-
-
-Latent Embeddings
-+++++++++++++++++
-
-Monitoring
-++++++++++
+The figure shows the monitoring results of ISOMAP with (a)-(d) :math:`k = 10, 30, 50, 100` and LLE with (e) :math:`k = 10` and (f) :math:`k = 30`. Areas colorized with a similar color and few color changes can be found in each case, while areas with frequent changes occur at the same locations in all plots. Both methods turn out to be robust w.r.t. the chosen neighborhood size :math:`k`. The learning result of LLE with small neighborhood size :math:`k = 10` is worse with unstable areas of fluctuating colors in stable not changing wind situations. ISOMAP generates stable results with all neighborhood sizes. 
 
 .. [1] Kramer, O, Gieseke, F., and Satzger, B. (2013). Wind energy prediction and monitoring with neural computation. Neurocomputing, 109:84-9.
 .. [2] Tenenbaum, J.B., Silva, V.D., and Langford, J.C. (2000). A gloabal geometric framework for nonlinear dimensionality reduction. Science, 290:2319-2323.
