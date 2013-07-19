@@ -1,6 +1,4 @@
 """
-.. _example_sequence:
-
 Sequence Visualization Based on ISOMAP
 -------------------------------------------------------------------------
 
