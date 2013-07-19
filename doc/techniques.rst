@@ -97,7 +97,7 @@ The high-dimensional patterns :math:`\mathbf{X}` are mapped to a 2-dimensional c
 
    Comparision of Wind Time Series Embeddings 
 
-Both manifold learning results show that ISOMAP is able to adapt to gradually changing wind situations. The embeddings employ colors according to the average wind power in the corresponding sequence.
+Both manifold learning results show that ISOMAP is able to adapt to gradually changing wind situations. The embeddings employ colors according to the average wind power in the corresponding sequence. For an code and plot example, see :ref:`example_wind_embeddings`. 
 
 Monitoring
 ++++++++++
@@ -110,7 +110,7 @@ The monitoring module also offers the possibility to visualize the DR result alo
 
    Different Dimensionality Reduction Methods on a Time Series
 
-The figure shows the monitoring results of ISOMAP with (a)-(d) :math:`k = 10, 30, 50, 100` and LLE with (e) :math:`k = 10` and (f) :math:`k = 30`. Areas colorized with a similar color and few color changes can be found in each case, while areas with frequent changes occur at the same locations in all plots. Both methods turn out to be robust w.r.t. the chosen neighborhood size :math:`k`. The learning result of LLE with small neighborhood size :math:`k = 10` is worse with unstable areas of fluctuating colors in stable not changing wind situations. ISOMAP generates stable results with all neighborhood sizes. 
+The figure shows the monitoring results of ISOMAP with (a)-(d) :math:`k = 10, 30, 50, 100` and LLE with (e) :math:`k = 10` and (f) :math:`k = 30`. Areas colorized with a similar color and few color changes can be found in each case, while areas with frequent changes occur at the same locations in all plots. Both methods turn out to be robust w.r.t. the chosen neighborhood size :math:`k`. The learning result of LLE with small neighborhood size :math:`k = 10` is worse with unstable areas of fluctuating colors in stable not changing wind situations. ISOMAP generates stable results with all neighborhood sizes. For an code and plot example, see :ref:`example_sequence`. 
 
 .. [1] Kramer, O, Gieseke, F., and Satzger, B. (2013). Wind energy prediction and monitoring with neural computation. Neurocomputing, 109:84-9.
 .. [2] Tenenbaum, J.B., Silva, V.D., and Langford, J.C. (2000). A gloabal geometric framework for nonlinear dimensionality reduction. Science, 290:2319-2323.

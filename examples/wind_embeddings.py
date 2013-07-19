@@ -1,4 +1,6 @@
 """
+.. _example_wind_embeddings:
+
 Manifold Learning with PCA, LDA, ISOMAP and LLE.
 --------------------------------------------------
 """
