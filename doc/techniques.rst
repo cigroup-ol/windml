@@ -89,7 +89,7 @@ The monitoring module of WindML allows embedding into continuous latent spaces w
 Latent Embeddings
 +++++++++++++++++
 
-The high-dimensional patterns :math:`\mathbf{X}` are mapped to a 2-dimensional continuous latent space :math:`\R^2`. To illustrate, how the results of this first step look like, we visualize the learning results for two-dimensional latent spaces. The figure shows the learning results of ISOMAP with (a) neighborhood size :math:`k = 10` and (b) neighborhood size :math:`k = 30`. The data set employs :math:`d = 66` wind turbines (grid points) in a radius of :math:`r = 10` km around a turbine in Tehachapi, California. 
+The high-dimensional patterns :math:`\mathbf{X}` are mapped to a 2-dimensional continuous latent space :math:`\mathbb{R}^2`. To illustrate, how the results of this first step look like, we visualize the learning results for two-dimensional latent spaces. The figure shows the learning results of ISOMAP with (a) neighborhood size :math:`k = 10` and (b) neighborhood size :math:`k = 30`. The data set employs :math:`d = 66` wind turbines (grid points) in a radius of :math:`r = 10` km around a turbine in Tehachapi, California. 
 
 .. figure:: _static/latent_embeddings.png
    :alt: Comparision of Wind Time Series Embeddings of ISOMAP for different parameters
