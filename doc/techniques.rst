@@ -43,7 +43,7 @@ patterns by appending past measurements :math:`p(t-1),\ldots, p(t-\mu)` with
 :math:`\mu \in \mathbb{N^+}`.
 
 
-.. figure:: _genmapping.png
+.. figure:: _static/genmapping.png
    :alt: General Times Series Model
    :align: center
 
