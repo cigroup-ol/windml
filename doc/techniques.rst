@@ -40,7 +40,14 @@ regression to predict the label for unknown patterns.
 One can assume, that this model generates better prediction, if more
 information of the times series will be used. For this reason, we extend the
 patterns by appending past measurements :math:`p(t-1),\ldots, p(t-\mu)` with
-:math:`\mu \in \mathbb{N^+}`. Furthermore, we test, if taking into account
+:math:`\mu \in \mathbb{N^+}`.
+
+
+.. figure:: _genmapping.png
+   :alt: General Times Series Model
+   :align: center
+
+Furthermore, we test, if taking into account
 differences of measurements :math:`\Delta p(t)=p(t)-p(t-1), \ldots,` :math:`\Delta
 p\big(t-(\mu-1)\big)-p(t-\mu)` leads to better results. Therefore, we consider
 on the one hand only the absolute values of the measurements as features and
