@@ -49,7 +49,7 @@ patterns by appending past measurements :math:`p(t-1),\ldots, p(t-\mu)` with
 
 Furthermore, we test, if taking into account
 differences of measurements :math:`\Delta p(t)=p(t)-p(t-1), \ldots,` :math:`\Delta
-p\big(t-(\mu-1)\big)-p(t-\mu)` leads to better results. Therefore, we consider
+p\big(t-(\mu-1)\big) = \big(t-(\mu-1)\big)-p(t-\mu)` leads to better results. Therefore, we consider
 on the one hand only the absolute values of the measurements as features and
 get patterns with dimension :math:`d_{st}=(\mu+1)`, see :ref:`powermapping`. On
 the other hand we use both, i.e. the absolute values and their differences that
