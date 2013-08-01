@@ -1,9 +1,9 @@
 """
-Plot Time Series of Wind Speed and Power
+Time-Series of Wind Speed and Power
 --------------------------------------------------
 
-This example plots a time series of one single given
-wind mill in tehachapi park
+This example plots a time-series of a single 
+wind mill in the wind park 'tehachapi'.
 """
 
 from matplotlib import dates
