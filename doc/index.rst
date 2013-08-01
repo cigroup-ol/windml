@@ -52,7 +52,8 @@ Brief Example
 
 In the following, we give a brief example
 of wind time-series forecasting based on *k nearest neighbors* (KNN) regression.
-For a further list of examples with plots, we refer to the :ref:`examples`. :: page.
+For a further list of examples with plots, we refer to the :ref:`examples` page.
+ ::
 
     from windml.datasets.nrel import NREL
     from windml.mapping.power_mapping import PowerMapping
