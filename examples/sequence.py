@@ -2,11 +2,11 @@
 Sequence Visualization Based on ISOMAP
 -------------------------------------------------------------------------
 
-This example allows to visualize high-dimensional wind time series, employing a
-dimensionality reduction method. A wind speed sequence is mapped into a
-3-dimensional latent spaces to monitor its highdimensional features on one time
-axis. Thereby, the mapping maintain important properites of the original
-high-dimensional data so that several wind conditions and seasonal changes can
+This example allows to visualize high-dimensional wind time-series, employing dimensionality reduction. A wind speed sequence is mapped into a
+3-dimensional latent space to monitor its intrinsic structure onto one time axis.
+The values of the 3-dimensional latent space are normalized and mapped to RGB-values.   
+Thereby, the mapping maintains important properties of the original
+high-dimensional data so that varying wind conditions and seasonal changes can
 be monitored.
 """
 
