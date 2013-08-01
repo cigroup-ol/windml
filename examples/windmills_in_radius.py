@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 from windml.datasets.nrel import NREL
 
-parks = ['vantage', 'palmsprings', 'tehachapi', 'cheyenne']
+parks = ['vantage']#, 'palmsprings', 'tehachapi', 'cheyenne']
 radius_interval = [0.0, 8.0]
 stepsize = 0.5
 
