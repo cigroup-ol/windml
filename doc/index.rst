@@ -31,7 +31,8 @@ Documentation of windML 0.2
 
 .. .. topic:: Machine learning library for wind energy information systems. 
 
-The windML framework provides an easy-to-use access to wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, and `matplotlib <http://matplotlib.org>`_ [2]_. As a machine learning module, it provides versatile tools for various learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. For further information including the motivation for windML, see section :ref:`about`.
+The windML framework provides an easy-to-use access to wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, `sklearn <http://scikit-learn.org>`_ [3]_, and `matplotlib <http://matplotlib.org>`_ [2]_. 
+As a machine learning module, it provides versatile tools for various learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. For further information including the motivation for windML, see section :ref:`about`.
 
 Getting Started
 ---------------
@@ -77,9 +78,9 @@ For a further list of examples with plots, we refer to the :ref:`examples` page.
 Contributors
 ------------
 
-The windML framework is developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg. The contributors are Oliver Kramer, Fabian Gieseke, Justin P. Heinermann, Jendrik Poloczek, Nils A. Treiber. For questions and feedback contact us via `email <ci@uni-oldenburg.de>`_.  
+The windML framework has initially been developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg.
+The contributors are Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek, Nils A. Treiber. For questions and feedback contact us via `email <oliver.kramer@uni-oldenburg.de>`_.  
 
 .. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
 .. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
-
-
+.. [3] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
