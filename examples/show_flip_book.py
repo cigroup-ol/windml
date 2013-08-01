@@ -2,7 +2,7 @@
 Flip-Book of Wind Speed Around Tehachapi
 -------------------------------------------------------------------------
 
-This example illustrates the wind speed of mills in Tehachapi. The figure visualizes 
+This example illustrates the wind speed of the wind mills in the park 'tehachapi'. The figures visualize 
 the wind situation at four different times (with a difference of 20 min). The turbines are colorized
 with regard to the wind strengths (from strong in red to low in blue).
 
