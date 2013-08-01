@@ -41,11 +41,11 @@ a local cache. The windML-specific format is defined by the *Windpark* and *Wind
 
    windML schematic architecture
 
-Given *Windpark* and *Windmill* objects one can visualize the data via
+Given *Windpark* and *Windmill* objects, one can visualize the data via
 different visualization components such as dimensionality reduction,
-park and mill information, information about the time series, topology
+park and mill information, information about the time-series, topology
 etc., see :ref:`examples`. An important motivation of windML is forecasting
-time-series with regression and classifcation. For both methodologies a
+time-series with regression and classification. For both methodologies, a
 mapping of a time-series to labels is required.
 Different mapping
 approaches have been tested in the past, see :ref:`mapping` for
@@ -57,9 +57,5 @@ the following regression techniques have been applied: support vector regression
 Running an Example
 ------------------
 
-Running some examples of windML is probably the best way to start. In the :ref:`examples` gallery all scripts from the /examples folder of the windML installation are plotted. In order to run an example, you only have to execute the corresponding Python script. Please make sure that you have installed windML correctly, see the :ref:`installation` page. 
-
-.. [1] Travis E. Oliphant (2007).  Python for Scientific Computing. Computing in Science & Engineering 9, IEEE Soc.
-.. [2] Hunter, J.  D. (2007). Matplotlib: A 2D graphics environment. Computing In Science & Engineering 9, IEEE Soc., pp. 90-95
-
+Running some examples of windML is probably the best way to start. In the :ref:`examples` gallery all scripts from the /examples folder of the windML installation are plotted. In order to run an example, one only has to execute the corresponding Python script. Please make sure to install windML correctly, see the :ref:`installation` page. 
 
