@@ -6,7 +6,7 @@ Getting Started
 The first part of this page provides an installation guide, see :ref:`installation`.
 Second, an overview of the architecture is presented and the core
 features and components are discussed, see :ref:`architecture`. At last,
-it is illustrated how windML is used by running examples, see :ref:`runningexample`.  
+it is exemplary illustrated how windML is used, see :ref:`runningexample`.  
 
 .. _installation:
 
