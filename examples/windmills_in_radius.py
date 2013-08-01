@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 from windml.datasets.nrel import NREL
 
-parks = ['vantage']#, 'palmsprings', 'tehachapi', 'cheyenne']
+parks = ['vantage', 'palmsprings', 'tehachapi', 'cheyenne']
 radius_interval = [0.0, 8.0]
 stepsize = 0.5
 
@@ -43,6 +43,7 @@ for park in parks:
 # plot
 
 colors = {'vantage':'k', 'palmsprings':'r', 'tehachapi':'b', 'cheyenne':'g'}
+markers = {'vantage':'o', 'palmsprings':'x', 'tehachapi':'d', 'cheyenne':'^'}
 
 for park in parks:
     items = results[park].items()
@@ -56,6 +57,6 @@ for park in parks:
 
     plt.xlabel('Radius')
     plt.ylabel('Amount of Windmills')
-    plt.scatter(X,Y, color=colors[park])
+    plt.scatter(X,Y, color=colors[park], marker=markers[park])
 
 plt.show()
