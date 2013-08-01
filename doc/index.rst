@@ -50,7 +50,9 @@ For an installation guide, an overview of the architecture, and the functionalit
 Brief Example
 -------------
 
-Here's a brief example of how to forecast using a KNN regressor. For a further list of examples with plots check out the example page, see :ref:`examples`. ::
+In the following, we give a brief example
+of wind time-series forecasting based on *k nearest neighbors* (KNN) regression.
+For a further list of examples with plots, we refer to the :ref:`examples`. :: page.
 
     from windml.datasets.nrel import NREL
     from windml.mapping.power_mapping import PowerMapping
