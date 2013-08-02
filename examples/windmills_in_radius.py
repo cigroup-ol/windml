@@ -42,6 +42,8 @@ for park in parks:
 
 # plot
 
+labels = {'vantage':'Vantage', 'palmsprings':'Palm Springs', 'tehachapi': 'Tehachapi',\
+          'cheyenne':'Cheyenne'}
 colors = {'vantage':'k', 'palmsprings':'r', 'tehachapi':'b', 'cheyenne':'g'}
 markers = {'vantage':'o', 'palmsprings':'x', 'tehachapi':'d', 'cheyenne':'^'}
 
@@ -57,6 +59,7 @@ for park in parks:
 
     plt.xlabel('Radius')
     plt.ylabel('Amount of Windmills')
-    plt.scatter(X,Y, color=colors[park], marker=markers[park])
+    plt.scatter(X,Y, color=colors[park], marker=markers[park], label=labels[park])
 
+plt.legend(loc='lower right')
 plt.show()
