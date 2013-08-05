@@ -1,6 +1,9 @@
 """
-Topography of a Wind Mill Near Tehachapi
+Topography of a Wind Windpark Near Tehachapi
 -------------------------------------------------------------------------
+
+This example shows the topography of a wind park near Tehachapi. The red dots
+illustrate the locations of wind mills.
 """
 
 from windml.datasets.nrel import NREL

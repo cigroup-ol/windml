@@ -1,28 +1,22 @@
 """
 .. _example_knn_regression:
 
-KNN Regression for a Windmill with Neighbor-Windmills
+KNN Wind Power Forecasting
 -------------------------------------------------------------------------
 
-KNN Regression for forecasting a time series for a certain windmill. The
-forecasting of the windmill is based on its own time series and the time series
-of neighbored windmills. The neighborhood is defined by a windpark, which
-itself is defined by the spatial extent.
-
-In this example the windmill 'tehachapi' is the target for forecasting.
-Hence, the windpark center id 'tehachapi' is used. To define the neighborhood,
-the spatial extent of 3 kilometers is chosen. For the mapping of pattern-label
-combinations the :ref:`powermapping` is used. The power mapping is based on the
-:ref:`generaltimeseriesmodel`. The feature window is 3 elements of every time
-series, and the time (forecast) horizon is 3 elements of every time series as
-well. Because of performance issues, in this example only the fifth element is
-trained and tested.
-
-The top left plot shows absolute pattern and label values of the actual
-measurements and the forecast and the naive prediction model. The bottom left
-plot illustrated the difference between the forecast and the true measurements.
-On the right hand side two scatter plots show the measurements pairs of
-forecast and true measurement with both forecasting models.
+K-nearest neighbors for prediction of a time series of wind power for a
+target wind mill in Tehachapi. The prediction model is based on the wind power
+time series of the target mill and the time series of its neighbors defined by
+a radius of 3 kilometers. For the mapping of pattern-label combinations the
+:ref:`powermapping` is used. The power mapping is based on the
+:ref:`generaltimeseriesmodel`. The feature window and the forecast horizon both
+consist of 3 elements of every time series. Because of performance issues, in
+this example only every fifth element is used for training and testing.  The
+top left plot compares the KNN prediction and the naive model to the actual
+wind power measurements.  The bottom left plot shows the differences of the
+corresponding models.  The plots on the right hand side show the actual and
+predicted measurement pairs show the actual and predicted measurement pairs.
+The absolute prediction error is the deviation to the main diagonal.
 """
 
 import math

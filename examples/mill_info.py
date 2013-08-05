@@ -1,6 +1,9 @@
 """
-Information of Single Windmill
+Information of Single Wind Mill
 -------------------------------------------------------------------------
+
+This examples shows the topology of a wind mill and gives a statistical overview
+for different characteristics of its time series.
 """
 
 import matplotlib.pyplot as plt

@@ -1,7 +1,9 @@
 """
-Learn a Response Curve of a Windmill with SVR
+Response Curve of a Wind Mill
 --------------------------------------------------
-This example learns the response curve of a windmill near Tehachapi.
+
+The response curve is the mapping from wind speed to wind power production. In
+this example the response curve is learned via support vector regression.
 """
 
 from matplotlib import dates

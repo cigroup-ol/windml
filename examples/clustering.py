@@ -1,6 +1,10 @@
 """
-Clustering of Windmills
+Clustering of Wind Mills
 -------------------------------------------------------------------------
+
+Clustering of monthly wind power for 12 months for a wind park near Tehachapi
+with k-means clustering. It is remarkable that elements of the same cluster lie
+together in all monthly comparison plots.
 """
 
 import numpy as np

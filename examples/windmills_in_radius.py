@@ -1,6 +1,9 @@
 """
 Amount of Windmills with Given Radius
 -------------------------------------------------------------
+
+This plot shows the number of wind mills with regard to various radii for
+different wind parks Vantage, Palm Springs, Tehachapi and Cheyenne.
 """
 
 from windml.util.distance import distance

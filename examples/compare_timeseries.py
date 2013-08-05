@@ -2,8 +2,8 @@
 Multiple Time Series of Power
 -------------------------------------------------------------------------
 
-This example visualizes multiple time series of various windmills. It is useful
-for comparing nearby windmills.
+This example visualizes multiple time series of various wind mills. It is
+useful to illustrate differences and correlations of neighboring wind mills.
 """
 
 import numpy as np

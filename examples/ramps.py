@@ -2,9 +2,9 @@
 Wind Changes of a Wind Mill in Tehachapi
 --------------------------------------------------
 
-This example plots the measurement pairs of a measurement and a measurement in
-a certain time horizon. With these measurement pairs different wind change
-situations can be visualized.
+Wind ramp events play an important role for a stable integration of wind energy
+into a smart grid. These plots show the frequencies of wind changes w.r.t.
+different forecast horizons as deviations from the main diagonal.
 """
 
 import matplotlib.pyplot as plt
