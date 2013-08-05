@@ -13,16 +13,18 @@ it is exemplary illustrated how windML is used, see :ref:`runningexample`.
 Installation
 ------------
 
-Before the installation of windML you have to make sure that all needed dependencies
-are installed. The current dependencies are: Python >= 2.7, sklearn,
-numpy, scipy, matplotlib, basemap, PIL,
-libjpeg-dev libfreetype6-dev (Sphinx, texlive, texlive extra packages for documentation).
- In order to install windML, you have to check out a working
-copy of our stable branch in our development repository. ::
+Before the installation of windML you have to make sure that all needed
+dependencies are installed. The current dependencies are: Python >= 2.7,
+sklearn,numpy, scipy, matplotlib, basemap, PIL, libjpeg-dev libfreetype6-dev
+(Sphinx, texlive, texlive extra packages for documentation). In order to
+install windML, you have to check out a working copy of our stable branch in
+our development repository. ::
     
     git clone git@vegas.informatik.uni-oldenburg.de:windml/windml.git windml
 
-After cloning the stable branch, the new folder *windml* is located in your current working directory. Make sure your windML-folder is in your Python PATH by executing. ::
+After cloning the stable branch, the new folder *windml* is located in your
+current working directory. Make sure your windML-folder is in your Python PATH
+by executing. ::
     
     export PYTHONPATH=PYTHONPATH:<windml-directory>
 
@@ -30,10 +32,16 @@ After cloning the stable branch, the new folder *windml* is located in your curr
 
 Architecture
 ------------
-Below, an illustration of the windML architecture is presented. 
-At the top, one can see exemplary available data sources of wind data time-series open to the public on the internet.
-The DataSource classes implemented in windML download the data from data mirrors, parse the data into an windML-specific data format and keep the data in
-a local cache. The windML-specific format is defined by the *Windpark* and *Windmill* classes. See :ref:`windpark` and :ref:`windmill` documentation for the windML-specific model. The wind parks and wind mills are selected by specifying ID and radius. See :ref:`datasets` page for the documentation of the data sets and methods to fetch time-series.
+
+Below, an illustration of the windML architecture is presented.  At the top,
+one can see exemplary available data sources of wind data time-series open to
+the public on the internet. The DataSource classes implemented in windML
+download the data from data mirrors, parse the data into an windML-specific
+data format and keep the data in a local cache. The windML-specific format is
+defined by the *Windpark* and *Windmill* classes. See :ref:`windpark` and
+:ref:`windmill` documentation for the windML-specific model. The wind parks and
+wind mills are selected by specifying ID and radius. See :ref:`datasets` page
+for the documentation of the data sets and methods to fetch time-series.
 
 .. figure:: _static/schema.png
    :alt: architecture
