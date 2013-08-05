@@ -20,7 +20,7 @@ sklearn,numpy, scipy, matplotlib, basemap, PIL, libjpeg-dev libfreetype6-dev
 install windML, you have to check out a working copy of our stable branch in
 our development repository. ::
     
-    git clone git@vegas.informatik.uni-oldenburg.de:windml/windml.git windml
+    git clone git@vegas.informatik.uni-oldenburg.de:windml/windml.git 
 
 After cloning the stable branch, the new folder *windml* is located in your
 current working directory. Make sure your windML-folder is in your Python PATH
