@@ -29,30 +29,28 @@ The model predicts wind power exclusively based on past wind power
 measurements.  For this task, one can formulate the prediction as regression
 problem examplary for a single wind mill. 
 
-The wind power measurement :math:`\mathbf{x} = p(t)` (pattern) is
-mapped to the power production at target time :math:`y = p(t+\lambda)` (label).
-For the regression model, we assume to have :math:`N` of such pattern label
-pairs :math:`(\mathbf{x}_i,y_i)` that are basis of our training set
+The wind power measurement :math:`\mathbf{x} = p(t)` (pattern) is mapped to the
+power production at target time :math:`y = p(t+\lambda)` (label).  For the
+regression model, we assume to have :math:`N` of such pattern label pairs
+:math:`(\mathbf{x}_i,y_i)` that are basis of our training set
 :math:`T=\{(\mathbf{x}_1,y_1),\ldots,(\mathbf{x}_N,y_N)\}` and allow via a
-regression to predict the label for unknown patterns.
-
-It can be expected that the model yields better predictions, if more
-information of the times series is employed. For this reason, we extend the
-patterns with :math:`\mu \in \mathbb{N^+}` past measurements to
-:math:`\mathbf{x} = p(t), p(t - 1),\ldots, p(t - \mu)`.
+regression to predict the label for unknown patterns. It can be expected that
+the model yields better predictions, if more information of the times series is
+employed. For this reason, we extend the patterns with :math:`\mu \in
+\mathbb{N^+}` past measurements to :math:`\mathbf{x} = p(t), p(t - 1),\ldots,
+p(t - \mu)`.
 
 .. figure:: _static/genmapping.png
    :alt: General Times Series Model
    :align: center
 
-Furthermore, we test, if taking into account
-differences of measurements :math:`\Delta p(t)=p(t)-p(t-1), \ldots,` :math:`\Delta
-p\big(t-(\mu-1)\big) = p\big(t-(\mu-1)\big)-p(t-\mu)` leads to better results. Therefore, we consider
-on the one hand only the absolute values of the measurements as features and
-get patterns with dimension :math:`d_{st}=(\mu+1)`, see :ref:`powermapping`. On
-the other hand we use both, i.e. the absolute values and their differences that
-results in patterns with a dimension of :math:`d_{st}=(2\mu+1)`, see
-:ref:`powerdiffmapping`.
+Furthermore, we test, if taking into account differences of measurements
+:math:`p(t)-p(t-1), \ldots, p\big(t-(\mu-1)\big) - p(t-\mu)` further improves
+the results. Therefore, we consider on the one hand only the absolute values of
+the measurements as features and get patterns with dimension
+:math:`d_{st}=(\mu+1)`, see :ref:`powermapping`. On the other hand we use both,
+i.e. the absolute values and their differences that results in patterns with a
+dimension of :math:`d_{st}=(2\mu+1)`, see :ref:`powerdiffmapping`.
 
 Different Regressors
 ++++++++++++++++++++
