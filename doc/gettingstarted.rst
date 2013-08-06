@@ -15,12 +15,11 @@ Installation
 
 Before the installation of windML you have to make sure that all needed
 dependencies are installed. The current dependencies are: Python >= 2.7,
-sklearn,numpy, scipy, matplotlib, basemap, PIL, libjpeg-dev libfreetype6-dev
-(Sphinx, texlive, texlive extra packages for documentation). In order to
-install windML, you have to check out a working copy of our stable branch in
-our development repository. ::
+sklearn,numpy, scipy, matplotlib, basemap, PIL, libjpeg-dev libfreetype6-dev.
+In order to install windML, you have to check out a working copy of our stable
+branch in our development repository. ::
     
-    git clone git@vegas.informatik.uni-oldenburg.de:windml/windml.git 
+    git clone https://github.com/cigroup-ol/windml.git 
 
 After cloning the stable branch, the new folder *windml* is located in your
 current working directory. Make sure your windML-folder is in your Python PATH
