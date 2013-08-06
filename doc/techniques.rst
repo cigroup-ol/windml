@@ -15,9 +15,6 @@ presented, see :ref:`visualizationoftimeseries`.
 Wind Energy Prediction
 ----------------------
 
-Motivation
-++++++++++
-
 For an integration of sustainable wind energy into the smart grid, a precise
 forecast of wind energy production has an important part to play. 
 
@@ -28,12 +25,11 @@ General Times Series Model
 
 The model predicts wind power exclusively based on past wind power
 measurements.  For this task, one can formulate the prediction as regression
-problem examplary for a single wind mill. 
-
-The wind power measurement :math:`\mathbf{x} = p(t)` (pattern) is mapped to the
-power production at target time :math:`y = p(t+\lambda)` (label).  For the
-regression model, we assume to have :math:`N` of such pattern label pairs
-:math:`(\mathbf{x}_i,y_i)` that are basis of our training set
+problem examplary for a single wind mill. The wind power measurement
+:math:`\mathbf{x} = p(t)` (pattern) is mapped to the power production at target
+time :math:`y = p(t+\lambda)` (label).  For the regression model, we assume to
+have :math:`N` of such pattern label pairs :math:`(\mathbf{x}_i,y_i)` that are
+basis of our training set
 :math:`T=\{(\mathbf{x}_1,y_1),\ldots,(\mathbf{x}_N,y_N)\}` and allow via a
 regression to predict the label for unknown patterns. It can be expected that
 the model yields better predictions, if more information of the times series is
