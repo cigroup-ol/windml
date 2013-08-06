@@ -78,8 +78,7 @@ For a further list of examples with plots, we refer to the :ref:`examples` page.
 Contributors
 ------------
 
-The windML framework has initially been developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg.
-The contributors are Fabian Gieseke, Justin Philipp Heinermann, Oliver Kramer, Jendrik Poloczek, Nils André Treiber. For questions and feedback contact us via `email <oliver.kramer@uni-oldenburg.de>`_.  
+The windML framework has initially been developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg. The contributors are Nils André Treiber, Jendrik Poloczek, Oliver Kramer, Justin Philipp Heinermann, Fabian Gieseke. For questions and feedback contact us via `email <oliver.kramer@uni-oldenburg.de>`_.  
 
 .. [1] Travis E. Oliphant (2007).  *Python for Scientific Computing.* Computing in Science & Engineering 9, IEEE Soc., pp. 10-20.
 .. [2] Hunter, J.  D. (2007). *Matplotlib: A 2D Graphics Environment.* Computing in Science & Engineering 9, IEEE Soc., pp. 90-95.
