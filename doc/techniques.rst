@@ -17,6 +17,7 @@ Wind Energy Prediction
 
 Motivation
 ++++++++++
+
 For an integration of sustainable wind energy into the smart grid, a precise
 forecast of wind energy production has an important part to play. 
 
@@ -38,7 +39,7 @@ regression to predict the label for unknown patterns. It can be expected that
 the model yields better predictions, if more information of the times series is
 employed. For this reason, we extend the patterns with :math:`\mu \in
 \mathbb{N^+}` past measurements to :math:`\mathbf{x} = p(t), p(t - 1),\ldots,
-p(t - \mu)`.
+p(t - \mu)`. The implementation of this approach is called :ref:`powermapping`.
 
 .. figure:: _static/genmapping.png
    :alt: General Times Series Model
@@ -46,83 +47,72 @@ p(t - \mu)`.
 
 Furthermore, we test, if taking into account differences of measurements
 :math:`p(t)-p(t-1), \ldots, p\big(t-(\mu-1)\big) - p(t-\mu)` further improves
-the results. Therefore, we consider on the one hand only the absolute values of
-the measurements as features and get patterns with dimension
-:math:`d_{st}=(\mu+1)`, see :ref:`powermapping`. On the other hand we use both,
-i.e. the absolute values and their differences that results in patterns with a
+the results. The absolute values and their differences result in patterns with a
 dimension of :math:`d_{st}=(2\mu+1)`, see :ref:`powerdiffmapping`.
 
-Different Regressors
-++++++++++++++++++++
+.. figure:: _static/neigh.png
+    :alt: Neighborhood of a wind mill
+    :align: center
 
-Different regressors can be used for forecasting. Currently, the `Linear
-Regression <http://en.wikipedia.org/wiki/Linear_regression>`_, the `Support
-Vector Regression
-<http://en.wikipedia.org/wiki/Support_vector_machine#Regression>`_ (SVR) and the
-`K-nearest Neighbor Regression
+Most prediction tasks require the construction of a pattern which consists of
+wind power time series of wind mills in the neighborhood of the target wind
+mill. See the corresponding figure above. A wind park is defined by a target
+wind mill and a certain radius :math:`r`. Wind power values can be aggregated
+to a single value or can seperately be used in the pattern vector.
+
+Wind Prediction as a Regression Problem
++++++++++++++++++++++++++++++++++++++++
+
+In the following, we employ support vector regression for prediction of a time
+series of wind power for a target wind mill in Tehachapi, see
+:ref:`example_svr_regression`. The prediction model is based on the wind power
+time series of the target mill and the time series of its neighbors defined by
+a radius of 3 kilometers.For the mapping of pattern-label combinations the
+:ref:`powermapping` is used. The power mapping is based on the
+:ref:`generaltimeseriesmodel`. The feature window and the forecast horizon both
+consist of 3 elements of every time series. Because of performance issues, in
+this example only every fifth element is used for training and testing.  The
+top left plot compares the SVR prediction and the naive model to the actual
+wind power measurements.  The bottom left plot shows the differences of the
+corresponding models.  The plots on the right hand side show the actual and
+predicted measurement pairs show the actual and predicted measurement pairs.
+The absolute prediction error is the deviation to the main diagonal.
+
+.. figure:: _static/svr.png
+    :alt: Forecasting with SVR Regression
+    :align: center
+
+Currently, the `Linear Regression
+<http://en.wikipedia.org/wiki/Linear_regression>`_, the `Support Vector
+Regression <http://en.wikipedia.org/wiki/Support_vector_machine#Regression>`_
+(SVR) and the `K-nearest Neighbor Regression
 <http://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#For_regression>`_
 (KNN Regression) are presented in examples. In Example
 :ref:`example_linear_regression` a linear regressor is used. The SVR is used in
 example :ref:`example_svr_regression`. In Example :ref:`example_knn_regression`
 a KNN regressor is employed. 
 
-.. _detectionoframps:
-
-Classsification of Wind Energy Ramp Events
-------------------------------------------
-
-Motivation and Overview
-++++++++++++++++++++++
-A critical issue in maintaining grid stability are sudden and large changes (up
-and down) of wind power, which are called ramp events. In this section, we
-introduce the wind power ramp event prediction module. After the definition of
-ramp events, we define the ramp event prediction problem as classification
-problem and introduce the ramp separation and the ramp detection application
-case.
-
-
-Ramp Event Definition
-+++++++++++++++++++++
-
-In literature, ramps are not clearly defined {kamath,focken} and may vary in
-location and sizes of wind farms and turbines. We define a ramp events as
-follows. Let :math:`\mathbf{x}(t)` be the wind time series of a wind park, and
-let :math:`y(t)` be the time series of the target turbine, for which we
-determine the forecast. A ramp event is defined as a wind energy change from
-time step :math:`t` to time step :math:`t+\lambda` by :math:`\theta \in (0,
-y_{\max}]`, i.e., for an ramp-up event, it holds :math:`y(t+\lambda) -
-y(t)>\theta`, for a ramp-down event it holds :math:`y(t+\lambda) -
-y(t)<-\theta`.
-
 .. _visualizationoftimeseries:
 
-Visualizing of Times Series: Dimensionality Reduction Moduls
-------------------------------------------------------------
+Visualizing of Times Series: Dimensionality Reduction 
+-----------------------------------------------------
 
 Motivation and Overview
 +++++++++++++++++++++++
 
-In this section one can find the explanation how to visualize high-dimensional
+In this section, one can find the explanation how to visualize high-dimensional
 wind time series. Monitoring of high-dimensional time-series data is a
 dimensionality reduction (DR) task. DR methods map high-dimensional patterns
 :math:`\mathbf{X} = [\mathbf{x}_i \in \mathbb{R}^d]_{i=1}^N` to low-dimensional
 representations :math:`[\hat{\mathbf{x}}_i \in \mathbb{R}^q]_{i=1}^N` in a
-latent space :math:`\mathbb{R}^q` with :math:`q<d`. The mapping should maintain
+latent space :math:`\mathbb{R}^q` with :math:`q < d`. The mapping should maintain
 important properties of the original high-dimensional data, e.g., topological
 characteristics like distance and neighborhoods. Such properties could be
 gradual changes in wind time series such as changing weather conditions or
 seasonal changes. Visualization of alert states belongs to the main
 applications of monitoring energy time series.
 
-In [1]_, we employed self-organizing maps (SOMs) for sequence visualization of
-high-dimensional wind time series. Similar to vector quantization, we employed
-the SOM to place codebook vectors in the time series data space. Each neuron
-was assigned to a color accruing to the position in the lattice structure of
-the SOM. The capabilities to visualize gradual changes of SOM-based monitoring
-is strongly restricted to the topology of the map, e.g., the number of neurons
-and the structure of the network. 
-
-The monitoring module of WindML allows embedding into continuous latent spaces
+The monitoring example of WindML allows embedding into continuous latent spaces
 with scikit-learn DR methods like isometric mapping (ISOMAP) [2]_ and locally
 linear embedding (LLE) [3]_. We demonstrate the applications in the following.
 First, we show the results of embedding the high-dimensional patterns into
@@ -148,20 +138,21 @@ radius of :math:`r = 10` km around a turbine in Tehachapi, California.
 
 Both manifold learning results show that ISOMAP is able to adapt to gradually
 changing wind situations. The embeddings employ colors according to the average
-wind power in the corresponding sequence. For an code and plot example, see
-:ref:`example_wind_embeddings`. 
+wind power in the corresponding sequence, see :ref:`example_wind_embeddings`. 
 
 Monitoring
 ++++++++++
 
-The monitoring module also offers the possibility to visualize the DR result
+The monitoring example offers the possibility to visualize the DR result
 along the time axis. For this sake, the latent positions of the trained
 manifold are used for colorization of a horizontal bar over time of a test
-time-series. In the test time-series, pattern :math:`\mathbf{x}_t` of time step
+time series. In the test time series, pattern :math:`\mathbf{x}_t` of time step
 :math:`t` is assigned to the color that depends on the latent position
 :math:`\hat{\mathbf{x}}^*` of its closest embedded pattern :math:`\mathbf{x}^*
 = \arg \min_{\mathbf{x}' \in \mathbf{X}} \|  \mathbf{x}_t - \mathbf{x}'\|^2` in
-the training manifold. For training, :math:`N_1 = 2000` patterns are used. We
+the training manifold.
+
+For training, :math:`N_1 = 2000` patterns are used. We
 visualize a test set of :math:`N_2 = 800` patterns at successive time steps in
 the following figures. 
 
