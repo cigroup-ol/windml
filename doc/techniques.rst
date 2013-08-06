@@ -47,18 +47,17 @@ p(t - \mu)`. The implementation of this approach is called :ref:`powermapping`.
 
 Furthermore, we test, if taking into account differences of measurements
 :math:`p(t)-p(t-1), \ldots, p\big(t-(\mu-1)\big) - p(t-\mu)` further improves
-the results. The absolute values and their differences result in patterns with a
-dimension of :math:`d_{st}=(2\mu+1)`, see :ref:`powerdiffmapping`.
+the results. The absolute values and their differences result in patterns with
+a dimension of :math:`d_{st}=(2\mu+1)`, see :ref:`powerdiffmapping`. Most
+prediction tasks require the construction of a pattern which consists of wind
+power time series of wind mills in the neighborhood of the target wind mill.
+See the corresponding figure below. A wind park is defined by a target wind
+mill and a certain radius :math:`r`. Wind power values can be aggregated to a
+single value or can seperately be used in the pattern vector.
 
 .. figure:: _static/neigh.png
     :alt: Neighborhood of a wind mill
     :align: center
-
-Most prediction tasks require the construction of a pattern which consists of
-wind power time series of wind mills in the neighborhood of the target wind
-mill. See the corresponding figure above. A wind park is defined by a target
-wind mill and a certain radius :math:`r`. Wind power values can be aggregated
-to a single value or can seperately be used in the pattern vector.
 
 Wind Prediction as a Regression Problem
 +++++++++++++++++++++++++++++++++++++++
