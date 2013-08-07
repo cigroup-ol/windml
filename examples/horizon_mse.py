@@ -1,5 +1,5 @@
 """
-Mean Squared Error dependend on Forecast Horizon
+Mean Squared Error depending on Forecast Horizon
 -------------------------------------------------------------------------
 
 This example shows the dependence of the mean squared error (forecast error) on
@@ -87,7 +87,7 @@ horizons = range(2, 18, 2)
 marker = {'linear': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
 labels = {'linear': 'Linear', 'knn': 'KNN', 'naive' : 'Naive'}
 
-plt.title("MSE dependend on Forecast Horizon")
+plt.title("MSE depending on Forecast Horizon")
 plt.xlabel("Forecast Horizon")
 plt.ylabel("MSE")
 
