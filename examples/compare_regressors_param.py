@@ -2,17 +2,15 @@
 Comparison of KNN and Random Forest regression
 ----------------------------------------------
 
-This example shows the mean squared error (forecast error) when using KNN
-with different parameters k 
-and Random Forest regression trees with a variable number of estimators utilized in
-the ensemble regressor.
-
-In this example, the wind mill 'Tehachapi' is
-the target mill. The forecast is based on the whole wind park, which is defined
-by the latter id and a given radius of 3 kilometres. For the mapping of
-pattern-label combinations the :ref:`powermapping` is used.  The power mapping
-is based on the :ref:`generaltimeseriesmodel`. The feature window is 6 and the
-forecast horizon is 3.
+This example shows the mean squared error (forecast error) when using KNN with
+different parameters k and Random Forest regression trees with a variable
+number of estimators utilized in the ensemble regressor.  In this example, the
+wind mill 'Tehachapi' is the target mill. The forecast is based on the whole
+wind park, which is defined by the latter id and a given radius of 3
+kilometres. For the mapping of pattern-label combinations the
+:ref:`powermapping` is used.  The power mapping is based on the
+:ref:`generaltimeseriesmodel`. The feature window is 6 and the forecast horizon
+is 3.
 """
 
 import math
@@ -30,12 +28,12 @@ def compute_mse(regressor, param):
     # get wind park and corresponding target. forecast is for the target
     # wind mill
     park_id = NREL.park_id['tehachapi']
-    windpark = NREL().get_windpark(park_id, 3, 2004, 2005)
+    windpark = NREL().get_windpark(park_id, 3, 2004)
     target = windpark.get_target()
 
     # use power mapping for pattern-label mapping. Feature window length
     # is 3 time steps and time horizon (forecast) is 3 time steps.
-    feature_window = 6 
+    feature_window = 6
     horizon = 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
@@ -45,11 +43,10 @@ def compute_mse(regressor, param):
     train_to = int(math.floor(len(X) * 0.5))
 
     # test roughly for the year 2005.
-    test_to = len(X) 
-
+    test_to = len(X)
 
     # train and test only every fifth pattern, for performance.
-    train_step, test_step = 1, 1
+    train_step, test_step = 5, 5
 
     if(regressor == 'rf'):
         # random forest regressor
@@ -94,6 +91,7 @@ labels = {'rf': 'Random Forest', 'knn': 'KNN', 'naive' : 'Naive'}
 plt.title("MSE depending on Algorithm Parameter")
 plt.xlabel("Algorithm Parameter (k for KNN, Number of Estimators for RF )")
 plt.ylabel("MSE")
+plt.xlim([1, 128])
 
 mse_naive_hats = []
 for regressor in regressors:
@@ -107,5 +105,5 @@ for regressor in regressors:
 
 plt.plot(params, mse_naive_hats, marker['naive'], label=labels['naive'])
 
-plt.legend(loc='lower right')
+plt.legend(loc='upper right')
 plt.show()
