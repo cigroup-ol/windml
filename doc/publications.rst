@@ -22,7 +22,8 @@ state-of-the art techniques in the field of machine learning, to build
 effective predictors for single wind turbines based on data given for
 neighbored turbines.
 
-`PDF <http://windml.org/_images/enviroinfo2013.pdf>`_
+:download:`PDF <papers/enviroinfo2013.pdf>`
+
 
 Wind energy prediction and monitoring with neural computation, 2013
 -------------------------------------------------------------------
@@ -43,7 +44,7 @@ work is presented, and experimental case studies are exemplarily described. The
 experimental parts are based on real wind energy time-series data from the
 National Renewable Energy Laboratory (NREL) western wind resource data set.
 
-`PDF <http://windml.org/_images/neuro2013.pdf>`_
+:download:`PDF <papers/neuro2013.pdf>`
 
 Analysis of Wind Energy Time Series with Kernel Methods and Neural Networks, 2011
 ---------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ vector regression. Last, we will use self-organizing feature maps to map
 high-dimensional wind time series to colored sequences that can be used for
 error detection.
 
-`PDF <http://windml.org/_images/icnc2011.pdf>`_
+:download:`PDF <papers/icnc2011.pdf>`
 
 Short-Term Wind Energy Forecasting Using Support Vector Regression, 2010
 ------------------------------------------------------------------------
@@ -83,5 +84,5 @@ We demonstrate the capabilities of SVR-based wind energy forecast on the
 micro-scale level of one wind grid point, and on the larger scale of a whole
 wind park.
 
-`PDF <http://windml.org/_images/soco2010.pdf>`_
+:download:`PDF <papers/soco2010.pdf>`
 
