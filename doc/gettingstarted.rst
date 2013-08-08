@@ -13,10 +13,9 @@ it is exemplary illustrated how windML is used, see :ref:`runningexample`.
 Installation
 ------------
 
-Before the installation of windML you have to make sure that all needed _dependencies are installed. 
-
-In order to install windML, you have to check out a working copy of our stable
-branch in our development repository. ::
+Before the installation of windML you have to make sure that all needed
+:ref:`dependencies` are installed. In order to install windML, you have to
+check out a working copy of our stable branch in our development repository. ::
     
     git clone https://github.com/cigroup-ol/windml.git 
 
