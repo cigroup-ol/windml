@@ -8,7 +8,7 @@ This example illustrates the wind speed of the wind mills in the park
 wind strengths (from strong in red to low in blue).
 """
 
-# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # License: BSD 3 clause
 
 from windml.datasets.nrel import NREL

@@ -6,7 +6,7 @@ This example plots a time-series of a single
 wind mill in the wind park 'tehachapi'.
 """
 
-# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
 # License: BSD 3 clause
 

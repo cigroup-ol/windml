@@ -6,7 +6,7 @@ This example shows the topography of a wind park near Tehachapi. The red dots
 illustrate the locations of wind mills.
 """
 
-# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # License: BSD 3 clause
 
 from windml.datasets.nrel import NREL
