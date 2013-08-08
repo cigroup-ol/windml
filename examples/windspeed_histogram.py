@@ -1,9 +1,12 @@
 """
-Histogram of Wind Speeds of a Wind Mill
+Histogram of Wind Speeds
 -------------------------------------------------------------
 
 Histograms of wind speeds of a wind mill near Cheyenne in the year 2004.
 """
+
+# Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# License: BSD 3 clause
 
 import matplotlib.pyplot as plt
 from pylab import plt

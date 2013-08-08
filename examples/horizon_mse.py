@@ -1,5 +1,5 @@
 """
-Mean Squared Error depending on Forecast Horizon
+Forecast Error Depending on Horizon
 -------------------------------------------------------------------------
 
 This example shows the dependence of the mean squared error (forecast error) on
@@ -13,6 +13,9 @@ forecast horizon both consist of 3 elements of every time series.  Because of
 performance issues, in this example only every fifth element is used for
 training and testing.
 """
+
+# Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# License: BSD 3 clause
 
 import math
 import matplotlib.pyplot as plt

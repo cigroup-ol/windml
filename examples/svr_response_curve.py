@@ -6,6 +6,11 @@ The response curve is the mapping from wind speed to wind power production. In
 this example the response curve is learned via support vector regression.
 """
 
+# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
+# License: BSD 3 clause
+
 from matplotlib import dates
 import matplotlib.pylab as plt
 import datetime, time

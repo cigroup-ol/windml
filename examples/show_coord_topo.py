@@ -1,10 +1,13 @@
 """
-Topography of a Wind Windpark Near Tehachapi
+Topography of a Wind Windpark
 -------------------------------------------------------------------------
 
 This example shows the topography of a wind park near Tehachapi. The red dots
 illustrate the locations of wind mills.
 """
+
+# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# License: BSD 3 clause
 
 from windml.datasets.nrel import NREL
 from windml.visualization.show_coord_topo import show_coord_topo

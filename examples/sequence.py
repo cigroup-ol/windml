@@ -4,11 +4,14 @@ Sequence Visualization Based on ISOMAP
 
 This example allows to visualize high-dimensional wind time-series, employing dimensionality reduction. A wind speed sequence is mapped into a
 3-dimensional latent space to monitor its intrinsic structure onto one time axis.
-The values of the 3-dimensional latent space are normalized and mapped to RGB-values.   
+The values of the 3-dimensional latent space are normalized and mapped to RGB-values.
 Thereby, the mapping maintains important properties of the original
 high-dimensional data so that varying wind conditions and seasonal changes can
 be monitored.
 """
+
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# License: BSD 3 clause
 
 import sklearn
 import numpy as np

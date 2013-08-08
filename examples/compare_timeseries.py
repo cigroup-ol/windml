@@ -6,6 +6,9 @@ This example visualizes multiple time series of various wind mills. It is
 useful to illustrate differences and correlations of neighboring wind mills.
 """
 
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# License: BSD 3 clause
+
 import numpy as np
 
 from windml.datasets.nrel import NREL

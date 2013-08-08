@@ -1,11 +1,14 @@
 """
-Wind Changes of a Wind Mill in Tehachapi
+Wind Changes of a Wind Mill
 --------------------------------------------------
 
 Wind ramp events play an important role for a stable integration of wind energy
 into a smart grid. These plots show the frequencies of wind changes w.r.t.
 different forecast horizons as deviations from the main diagonal.
 """
+
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# License: BSD 3 clause
 
 import matplotlib.pyplot as plt
 import numpy as np

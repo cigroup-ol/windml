@@ -8,6 +8,10 @@ employs dimensionality reduction methods like ISOMAP to embed time series of a
 single wind mill into 2-dimensional latent spaces.
 """
 
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# License: BSD 3 clause
+
 import sklearn
 import numpy as np
 import pylab as plt

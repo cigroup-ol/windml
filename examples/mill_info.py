@@ -6,6 +6,9 @@ This examples shows the topology of a wind mill and gives a statistical overview
 for different characteristics of its time series.
 """
 
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# License: BSD 3 clause
+
 import matplotlib.pyplot as plt
 import numpy as np
 import windml.util.features

@@ -2,9 +2,13 @@
 Time-Series of Wind Speed and Power
 --------------------------------------------------
 
-This example plots a time-series of a single 
+This example plots a time-series of a single
 wind mill in the wind park 'tehachapi'.
 """
+
+# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
+# License: BSD 3 clause
 
 from matplotlib import dates
 import matplotlib.pylab as plt

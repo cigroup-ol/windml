@@ -7,6 +7,10 @@ with k-means clustering. It is remarkable that elements of the same cluster lie
 together in all monthly comparison plots.
 """
 
+# Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# License: BSD 3 clause
+
 import numpy as np
 from sklearn.cluster import KMeans
 import pylab as plt

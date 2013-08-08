@@ -19,6 +19,13 @@ predicted measurement pairs show the actual and predicted measurement pairs.
 The absolute prediction error is the deviation to the main diagonal.
 """
 
+# Author: Nils André Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Oliver Kramer <okramer@icsi.berkeley.com>
+# Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
+# Fabian Gieseke <fabian.gieseke@diku.dk>
+# License: BSD 3 clause
+
 import math
 import matplotlib.pyplot as plt
 
