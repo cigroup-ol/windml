@@ -80,6 +80,11 @@ Contributors
 
 The windML framework has initially been developed by the `Computational Intelligence Group <http://www.ci.uni-oldenburg.de/>`_ of the University in Oldenburg. The contributors are Nils André Treiber, Jendrik Poloczek, Oliver Kramer, Justin Philipp Heinermann, Fabian Gieseke. For questions and feedback contact us via `email <oliver.kramer@uni-oldenburg.de>`_.  
 
+License
+-------
+
+The windML framework is released under the open source BSD 3-clause license. The LICENSE file is available `here <https://github.com/cigroup-ol/windml/blob/master/LICENSE>`_.
+
 .. [1] Travis E. Oliphant (2007).  *Python for Scientific Computing.* Computing in Science & Engineering 9, IEEE Soc., pp. 10-20.
 .. [2] Hunter, J.  D. (2007). *Matplotlib: A 2D Graphics Environment.* Computing in Science & Engineering 9, IEEE Soc., pp. 90-95.
 .. [3] Pedregosa et al. (2011). *Scikit-learn: Machine Learning in Python.* Journal of Machine Learning Research (JMLR) 12, pp. 2825-2830.
