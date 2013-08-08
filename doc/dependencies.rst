@@ -3,7 +3,7 @@
 Dependencies
 ============
 
-We currently use Python 2.7.x, since some depencencies are not yet fit for Python 3.
+The windML framework is based on Python 2.7.x, since some depencencies are not yet fit for Python 3.x.
 
 Ubuntu LTS 12.04
 ----------------
