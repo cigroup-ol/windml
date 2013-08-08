@@ -11,6 +11,8 @@ specified in the future. Feel free to contribute other dependency notes.
 Ubuntu LTS 12.04
 ----------------
 
+For Ubuntu LTS 12.04, the following system packages and Python packages are required.
+
 .. highlight:: none
 
 System Packages
@@ -43,7 +45,7 @@ Python Packages
     * Distribute 0.7.3
     * Matplotlib 1.3.0 
 
-    In order to install these packages run the following command as root user on your system: ::
+In order to install these packages run the following command as root user on your system: ::
 
   # pip install numpy scipy scikit-learn distribute matplotlib
 
