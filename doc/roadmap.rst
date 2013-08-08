@@ -1,8 +1,8 @@
 Roadmap
 =======
 
-Release 0.3
------------
+Release 0.3 (Winter 2013)
+-------------------------
 
 The following features will be implemented in release 0.3:
 
