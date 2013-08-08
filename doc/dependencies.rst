@@ -8,6 +8,8 @@ The windML framework is based on Python 2.7.x, since some depencencies are not y
 Ubuntu LTS 12.04
 ----------------
 
+.. highlight:: none
+
 System Packages
 +++++++++++++++
 
@@ -39,4 +41,6 @@ Matplotlib 1.3.0 ::
   # pip install numpy scipy scikit-learn distribute matplotlib
 
 Maybe you want to do add the "--upgrade" option e.g. to the package "distribute". Or you want to install system wide via "sudo pip" instead of "pip".
+
+.. highlight:: python
 

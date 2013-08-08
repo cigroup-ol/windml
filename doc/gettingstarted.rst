@@ -13,17 +13,21 @@ it is exemplary illustrated how windML is used, see :ref:`runningexample`.
 Installation
 ------------
 
+.. highlight:: none
+
 Before the installation of windML you have to make sure that all needed
 :ref:`dependencies` are installed. In order to install windML, you have to
 check out a working copy of our stable branch in our development repository. ::
     
-    git clone https://github.com/cigroup-ol/windml.git 
+    $ git clone https://github.com/cigroup-ol/windml.git 
 
 After cloning the stable branch, the new folder *windml* is located in your
 current working directory. Make sure your windML-folder is in your Python PATH
 by executing. ::
     
-    export PYTHONPATH=$PYTHONPATH:<windml-directory>
+    $ export PYTHONPATH=$PYTHONPATH:<windml-directory>
+
+.. highlight:: python
 
 .. _architecture:
 
