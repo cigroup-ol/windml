@@ -52,7 +52,7 @@ Brief Example
 -------------
 
 In the following, we give a brief example
-of wind time-series forecasting based on *k nearest neighbors* (KNN) regression.
+of wind time-series forecasting based on *K nearest neighbors* (KNN) regression.
 For a further list of examples with plots, we refer to the :ref:`examples` page.
  ::
 
