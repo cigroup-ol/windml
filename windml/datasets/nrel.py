@@ -214,7 +214,7 @@ class NREL(DataSource):
         for row in mills:
             mill_index = np.int(row[0])
             if (mill_index != target_idx):
-                lat_act = math.radians(np.float64(row[1])) # todo "latitude" instead of 1
+                lat_act = math.radians(np.float64(row[1]))
                 lon_act = math.radians(np.float64(row[2]))
                 dLat = (lat_act-lat_target)
                 dLon = (lon_act-lon_target)
