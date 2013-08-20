@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.basemap import Basemap, shiftgrid, cm
 
-def show_coord_topo(windpark, show = True):
+def show_coord_topo(windpark, title, show = True):
     """Plot the topology of a given windpark
 
     Topographic Map with farms
@@ -66,7 +66,7 @@ def show_coord_topo(windpark, show = True):
     targetcoord[0] = np.float64(target.latitude)
     targetcoord[1] = np.float64(target.longitude)
 
-    graddiff = (radius/111.0) + 0.5  # degree in km
+    graddiff = (radius/111.0) # degree in km
 
     m = Basemap(projection='stere', lon_0=targetcoord[1], lat_0=targetcoord[0],\
         llcrnrlon = targetcoord[1]-graddiff, llcrnrlat = targetcoord[0]-graddiff ,\
@@ -80,18 +80,18 @@ def show_coord_topo(windpark, show = True):
 
     # labels = [left,right,top,bottom]
     parallels = np.arange(int(targetcoord[0]-3), int(targetcoord[0]+3), 1.)
-    m.drawparallels(parallels,labels=[False,True,True,False])
+    #m.drawparallels(parallels,labels=[False,True,True,False])
     meridians = np.arange(int(targetcoord[1]-3), int(targetcoord[1]+3), 1.)
-    m.drawmeridians(meridians,labels=[True,False,False,True])
+    #m.drawmeridians(meridians,labels=[True,False,False,True])
 
     # plot farms in the radius
-    m.plot(x_target, y_target, 'bo')
-    m.plot(rel_inputs_lon, rel_inputs_lat, 'r*')
-
+    m.scatter(rel_inputs_lon, rel_inputs_lat,20, marker='o', color="#000000")
+    m.scatter(x_target, y_target, 20, marker='o', color="r")
+    m.shadedrelief()
     #m.bluemarble()
-    m.etopo()
-    m.drawcoastlines()
-    plt.title("Selected Wind Farms")
+    #m.etopo()
+    #m.drawcoastlines()
+    plt.title(title)
 
     if(show):
         plt.show()

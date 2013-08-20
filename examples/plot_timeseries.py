@@ -20,4 +20,5 @@ from windml.visualization.plot_timeseries import plot_timeseries
 
 ds = NREL()
 mill = ds.get_windmill(NREL.park_id['tehachapi'], 2004)
-plot_timeseries(mill)
+
+#plot_timeseries(mill)

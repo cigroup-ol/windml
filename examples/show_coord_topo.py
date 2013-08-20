@@ -20,4 +20,5 @@ windpark = NREL().get_windpark(NREL.park_id['tehachapi'], 30, 2004)
 print "Working on windpark around target mill", str(windpark.get_target_idx())
 print "Plotting windpark ..."
 
-show_coord_topo(windpark)
+title = "Some Turbines of NREL Data Set"
+show_coord_topo(windpark, title)
