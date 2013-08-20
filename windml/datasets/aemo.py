@@ -133,8 +133,8 @@ class AEMO(object):
 
         result = Windpark(target_idx, radius)
         target_mill = self.get_windmill(target_idx)
-        lat_target = target_mill.latitude
-        lon_target = target_mill.longitude
+        lat_target = radians(target_mill.latitude)
+        lon_target = radians(target_mill.longitude)
 
         mills = self.get_all_windmills()
 
