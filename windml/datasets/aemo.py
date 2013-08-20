@@ -1,9 +1,53 @@
+"""
+Copyright (c) 2013,
+Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek,
+Nils A. Treiber
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+    Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+    Neither the name of the Computational Intelligence Group of the University
+    of Oldenburg nor the names of its contributors may be used to endorse or
+    promote products derived from this software without specific prior written
+    permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+
+The data is available at http://windfarmperformance.info/.
+"""
+
 import os
 import sys
 import urllib2
+import datetime
+import time
 from cStringIO import StringIO
-from numpy import int32, float32
+from numpy import int32, float32, array, save, nan, load
+from math import radians, sin, cos, atan2, sqrt
 import csv
+
+from windml.datasets.data_source import DataSource
+from windml.model.windpark import Windpark
+from windml.model.windmill import Windmill
 
 class AEMO(object):
 
@@ -15,7 +59,8 @@ class AEMO(object):
                        ('power_capacity', float32)]
 
     AEMO_DATA_DTYPE = [('date', int32),
-                       ('power_output', float32)]
+                       ('corrected_score', float32),
+                       ('speed', float32)]
 
     IDS = {
         'captl_wf' : 0,
@@ -47,13 +92,115 @@ class AEMO(object):
         'waubrawf' : 26,
         'yambukwf' : 27 }
 
-    data_home = os.getenv("HOME") + "/aemo_data/raw/"
+    data_home = os.getenv("HOME") + "/aemo_data/"
+    data_home_raw = data_home + "raw/"
+    data_home_npy = data_home + "npy/"
 
     years = [2009, 2010, 2011, 2012]
     months_in_year = {2009 : range(8, 13),\
                       2010 : range(1, 13),\
                       2011 : range(1, 13),\
                       2012 : range(1, 4)}
+
+    def check_availability(self):
+        if not os.path.exists(self.data_home_raw):
+            self.fetch_aemo_data()
+        if not os.path.exists(self.data_home_npy):
+            self.convert()
+        return
+
+    def get_windpark(self, target_idx, radius):
+        """This method fetches and returns a windpark from AEMO, which consists of
+        the target mill with the given target_idx and the surrounding wind mill
+        within a given radius around the target mill. When called, the wind
+        measurements for a given range of years are downloaded for every mill
+        in the park.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     see windml.datasets.nrel.park_id for example ids.
+
+        Returns
+        -------
+
+        Windpark
+            An according windpark for target id, radius.
+        """
+
+        self.check_availability()
+
+        result = Windpark(target_idx, radius)
+        target_mill = self.get_windmill(target_idx)
+        lat_target = target_mill.latitude
+        lon_target = target_mill.longitude
+
+        mills = self.get_all_windmills()
+
+        Earth_Radius = 6371
+
+        for mill in mills:
+            # because we append the target as last element
+            if(mill.idx == target_idx):
+                continue
+
+            lat_act = radians(mill.latitude)
+            lon_act = radians(mill.longitude)
+            dLat = (lat_act - lat_target)
+            dLon = (lon_act - lon_target)
+
+            # Haversine formula:
+            a = sin(dLat/2) * sin(dLat/2) + cos(lat_target) *\
+                cos(lat_act) * sin(dLon/2) * sin(dLon/2)
+
+            c = 2 * atan2(sqrt(a), sqrt(1-a))
+            distance_act = Earth_Radius * c;
+
+            if(distance_act < radius):
+                result.add_windmill(mill)
+
+        result.add_windmill(target_mill)
+        return result
+
+    def get_all_windmills(self):
+        self.check_availability()
+
+        mills = []
+        for key, idx in self.IDS.iteritems():
+            mills.append(self.get_windmill(idx))
+        return mills
+
+    def get_windmill(self, target_idx):
+        """This method fetches and returns a single windmill object.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     see windml.datasets.nrel.park_id for example ids.
+
+        Returns
+        -------
+
+        Windmill
+            An according windmill for target id.
+        """
+
+        self.check_availability()
+
+        meta = load(self.data_home_npy + "meta.npy")
+        mdata = meta[target_idx]
+        measurements = load(self.data_home_npy + "%i.npy" % target_idx)
+        latitude, longitude = mdata['latitude'], mdata['longitude']
+        power_density = nan
+        power_capacity = mdata['power_capacity']
+        speed = nan
+        elevation = nan
+        mill = Windmill(target_idx, latitude, longitude, power_density,\
+                        power_capacity, speed, elevation)
+        mill.add_measurements(measurements)
+        return mill
 
     def bytes_to_string(self, nbytes):
         """Byte representation for progress bar.
@@ -127,40 +274,85 @@ class AEMO(object):
         fileh.close()
 
     def fetch_aemo_data(self):
-
-        if not os.path.exists(self.data_home):
-            os.makedirs(self.data_home)
+        if not os.path.exists(self.data_home_raw):
+            os.makedirs(self.data_home_raw)
 
         # meta
-        meta_location = self.data_home + "meta.csv"
+        meta_location = self.data_home_raw + "meta.csv"
         if not os.path.exists(meta_location):
             self.download(meta_location, self.BASE_URL + "meta.csv")
 
         # data
         for year in self.years:
             for month in self.months_in_year[year]:
-                location = self.data_home + self.filename(year, month)
+                location = self.data_home_raw + self.filename(year, month)
                 if not os.path.exists(location):
                     self.download(location, self.url(year, month))
 
-
     def convert(self):
-        csvf = open(self.data_home + "meta.csv", "r")
+        def time_to_unix(datestr):
+            t = datetime.datetime.strptime(datestr, "%Y-%m-%d %H:%M:%S")
+            return time.mktime(t.timetuple())
 
-        reader = csv.reader(csvf.read(), delimiter=',')
+        if not os.path.exists(self.data_home_npy):
+            os.makedirs(self.data_home_npy)
+
+        # convert meta csv to meta numpy array
+        csvf = open(self.data_home_raw + "meta.csv", "r")
+
+        buf = csvf.readlines()
+        reader = csv.reader(buf, delimiter=',')
         reader.next()
 
         data = []
         for row in reader:
             point = []
             point.append(self.IDS[row[0]])
-            point.append(self.IDS[row[1]])
-            point.append(self.IDS[row[2]])
-            point.append(self.IDS[row[3]])
+            point.append(row[3])
+            point.append(row[4])
+            point.append(row[5])
             data.append(point)
 
-        data_arr = np.array([(a,b,c,d) for (a,b,c,d) in data], dtype = self.AEMO_META_DTYPE)
+        data_arr = array([(a,b,c,d) for (a,b,c,d) in data], dtype = self.AEMO_META_DTYPE)
+        save(self.data_home_npy + "meta.npy", data_arr)
+
+        # convert data to windml format
+        turbine_arrays, turbine_npy_arrays = {}, {}
+        for k in self.IDS.keys():
+            turbine_arrays[k] = []
+
+        print "The following procedures are only necessary for the first time."
+        print "Converting AEMO data to lists and filtering missing data."
+
+        for year in self.years:
+            for month in self.months_in_year[year]:
+                location = self.data_home_raw + self.filename(year, month)
+                current = open(location, "r")
+                buf = current.readlines()
+                reader = csv.reader(buf, delimiter=',')
+                keys = reader.next()
+
+                for row in reader:
+                    for i in range(1, len(row)):
+
+                        # filter corrupt data
+                        if(row[0] == ""):
+                            break
+                        if(row[i] == ""):
+                            continue
+
+                        timestamp = time_to_unix(row[0])
+                        power = row[i]
+                        turbine_arrays[keys[i]].append([timestamp, power])
+
+                current.close()
+
+        print "Converting to numpy arrays"
+        for k in turbine_arrays.keys():
+            data = turbine_arrays[k]
+            a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)
+            turbine_npy_arrays[k] = a
+            save(self.data_home_npy + "%i.npy" % self.IDS[k], a)
 
 ds = AEMO()
-ds.fetch_aemo_data()
-ds.convert()
+ds.get_windpark(0, 5)
