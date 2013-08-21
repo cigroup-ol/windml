@@ -13,7 +13,8 @@ illustrate the locations of wind mills.
 from windml.datasets.aemo import AEMO
 from windml.visualization.show_coord_topo import show_coord_topo
 
-windpark = AEMO().get_windpark(5, 3200)
+# see http://windfarmperformance.info/ for more information of the park
+windpark = AEMO().get_windpark(AEMO.park_id['cathrock'], 3200)
 
 print "Working on windpark around target mill", str(windpark.get_target_idx())
 print "Plotting windpark ..."
