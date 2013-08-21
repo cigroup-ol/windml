@@ -50,6 +50,45 @@ from windml.model.windpark import Windpark
 from windml.model.windmill import Windmill
 
 class AEMO(object):
+    """ Australian Energy Market Operator ("AEMO") data source contains measurements of 28
+    turbines. The data set allows the access of wind power measurements of a turbine at
+    a specified time based on the id. A dictionary is provided , which associates
+    turbine names to ids.
+
+    * captl_wf
+    * cullrgwf
+    * gunning1
+    * woodlwn1
+    * cnundawf
+    * cathrock
+    * clemgpwf
+    * hallwf1
+    * hallwf2
+    * lkbonny1
+    * lkbonny2
+    * lkbonny3
+    * mtmillar
+    * nbhwf1
+    * snowtwn1
+    * starhlwf
+    * bluff1
+    * waterlwf
+    * wpwf
+    * musselr1
+    * woolnth1
+    * challhwf
+    * macarth1
+    * mlwf1
+    * oakland1
+    * portwf
+    * waubrawf
+    * yambukwf
+
+    One can access those ids via the dictionary, e.g. *AEMO.park_id['hallwf1']*.
+
+    Detailed information about the data set can be found at:
+    http://windfarmperformance.info/
+    """
 
     BASE_URL = "http://windml.org/data/aemo/"
 
@@ -62,7 +101,7 @@ class AEMO(object):
                        ('corrected_score', float32),
                        ('speed', float32)]
 
-    IDS = {
+    park_id = {
         'captl_wf' : 0,
         'cullrgwf' : 1,
         'gunning1' : 2,
@@ -167,7 +206,7 @@ class AEMO(object):
         self.check_availability()
 
         mills = []
-        for key, idx in self.IDS.iteritems():
+        for key, idx in self.park_id.iteritems():
             mills.append(self.get_windmill(idx))
         return mills
 
@@ -307,7 +346,7 @@ class AEMO(object):
         data = []
         for row in reader:
             point = []
-            point.append(self.IDS[row[0]])
+            point.append(self.park_id[row[0]])
             point.append(row[3])
             point.append(row[4])
             point.append(row[5])
@@ -318,7 +357,7 @@ class AEMO(object):
 
         # convert data to windml format
         turbine_arrays, turbine_npy_arrays = {}, {}
-        for k in self.IDS.keys():
+        for k in self.park_id.keys():
             turbine_arrays[k] = []
 
         print "The following procedures are only necessary for the first time."
@@ -352,7 +391,7 @@ class AEMO(object):
             data = turbine_arrays[k]
             a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)
             turbine_npy_arrays[k] = a
-            save(self.data_home_npy + "%i.npy" % self.IDS[k], a)
+            save(self.data_home_npy + "%i.npy" % self.park_id[k], a)
 
 ds = AEMO()
 ds.get_windpark(0, 5)
