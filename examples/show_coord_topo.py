@@ -1,5 +1,5 @@
 """
-Topography of a Wind Windpark
+Topography of a Windpark
 -------------------------------------------------------------------------
 
 This example shows the topography of a wind park near Tehachapi. The black dots

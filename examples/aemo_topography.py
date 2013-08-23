@@ -3,7 +3,7 @@ Location of AEMO Turbines
 -------------------------------------------------------------------------
 
 The black dots illustrate the locations of the turbines. The red dot
-illustrates the target turbine.
+marks the target turbine.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>

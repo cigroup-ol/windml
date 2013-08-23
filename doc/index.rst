@@ -26,7 +26,7 @@
 
     </style>
 
-Documentation of windML 0.2 
+Documentation of windML 0.3
 ===========================
 
 .. .. topic:: Machine learning library for wind energy information systems. 
