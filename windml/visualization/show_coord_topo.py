@@ -55,6 +55,9 @@ def show_coord_topo(windpark, title, show = True):
     target = windpark.get_target()
     radius = windpark.get_radius()
 
+    fig = plt.figure(figsize=(4,4))
+    ax = fig.add_axes([0.1,0.1,0.8,0.8])
+
     #pack latitude and longitude in lists
     rel_input_lat = []
     rel_input_lon = []
@@ -66,13 +69,13 @@ def show_coord_topo(windpark, title, show = True):
     targetcoord[0] = np.float64(target.latitude)
     targetcoord[1] = np.float64(target.longitude)
 
-    graddiff = (radius/111.0) # degree in km
+    graddiff = (radius/111.0) + 0.3 # degree in km
 
-    m = Basemap(projection='stere', lon_0=targetcoord[1], lat_0=targetcoord[0],\
+    m = Basemap(fix_aspect=False, projection='stere', lon_0=targetcoord[1], lat_0=targetcoord[0],\
         llcrnrlon = targetcoord[1]-graddiff, llcrnrlat = targetcoord[0]-graddiff ,\
         urcrnrlon = targetcoord[1]+graddiff, urcrnrlat = targetcoord[0]+graddiff ,\
         rsphere=6371200., resolution = 'l', area_thresh=1000)
-
+    m.aspect = (4.0/ 4.0)
     # Target
     x_target,y_target = m(targetcoord[1],targetcoord[0])
     # Input Farms
@@ -88,10 +91,9 @@ def show_coord_topo(windpark, title, show = True):
     m.scatter(rel_inputs_lon, rel_inputs_lat,20, marker='o', color="#000000")
     m.scatter(x_target, y_target, 20, marker='o', color="r")
     m.shadedrelief()
-    #m.bluemarble()
-    #m.etopo()
-    #m.drawcoastlines()
     plt.title(title)
+
+    ax.set_aspect("auto")
 
     if(show):
         plt.show()

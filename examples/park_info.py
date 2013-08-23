@@ -17,10 +17,11 @@ from windml.datasets.nrel import NREL
 from windml.visualization.show_coord_topo import show_coord_topo
 
 ds = NREL()
-windpark = ds.get_windpark(NREL.park_id['tehachapi'], 2, 2004)
+windpark = ds.get_windpark(NREL.park_id['tehachapi'], 10, 2004)
 X = np.array(windpark.get_powermatrix())
 
-feat, month_power, ramps_up, ramps_down, power_freq = windml.util.features.compute_highlevel_features(windpark.mills[0])
+feat, month_power, ramps_up, ramps_down, power_freq =\
+    windml.util.features.compute_highlevel_features(windpark.mills[0])
 
 month_power = np.array(month_power)
 ramps_up = np.array(ramps_up)
@@ -29,7 +30,8 @@ power_freq = np.array(power_freq)
 
 for windmill in windpark.mills[1:]:
 
-    feat, month_power_m, ramps_up_m, ramps_down_m, power_freq_m = windml.util.features.compute_highlevel_features(windmill)
+    feat, month_power_m, ramps_up_m, ramps_down_m, power_freq_m =\
+            windml.util.features.compute_highlevel_features(windmill)
 
     month_power+=np.array(month_power_m)
     ramps_up+=np.array(ramps_up_m)

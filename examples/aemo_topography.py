@@ -1,9 +1,9 @@
 """
-Topography of a Wind Windpark
+Location of AEMO Turbines
 -------------------------------------------------------------------------
 
-This example shows the topography of a wind park near Tehachapi. The red dots
-illustrate the locations of wind mills.
+The black dots illustrate the locations of the turbines. The red dot
+illustrates the target windmill.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>

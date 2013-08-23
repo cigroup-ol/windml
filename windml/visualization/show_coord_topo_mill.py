@@ -49,6 +49,8 @@ def show_coord_topo_mill(windmill, show = True):
     windmill : Windmill
                The given windmill to show the topology.
     """
+    fig = plt.figure(figsize=(4,4))
+    ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     radius = 20
     coord = [0.0, 0.0]
@@ -61,6 +63,7 @@ def show_coord_topo_mill(windmill, show = True):
         llcrnrlon = coord[1]-graddiff, llcrnrlat = coord[0]-graddiff ,\
         urcrnrlon = coord[1]+graddiff, urcrnrlat = coord[0]+graddiff ,\
         rsphere=6371200., resolution = 'l', area_thresh=1000)
+    m.aspect = (4.0/ 4.0)
 
     # Target
     x_mill,y_mill = m(coord[1],coord[0])
@@ -73,11 +76,11 @@ def show_coord_topo_mill(windmill, show = True):
 
     # plot farms in the radius
     m.plot(x_mill, y_mill, 'bo')
+    m.shadedrelief()
 
-    #m.bluemarble()
-    m.etopo()
-    m.drawcoastlines()
     plt.title("Topography around a Mill")
+
+    ax.set_aspect("auto")
 
     if(show):
         plt.show()

@@ -2,8 +2,8 @@
 Topography of a Wind Windpark
 -------------------------------------------------------------------------
 
-This example shows the topography of a wind park near Tehachapi. The red dots
-illustrate the locations of wind mills.
+This example shows the topography of a wind park near Tehachapi. The black dots
+illustrate the locations of wind mills. The red dot is the target mill.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
