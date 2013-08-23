@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import numpy as np
+from numpy import searchsorted
 
 class Windmill(object):
     """The class Windmill represents a single windmill. It contains
@@ -80,6 +81,23 @@ class Windmill(object):
         """
 
         self.measurements = measurements
+
+    def get_measurements_between(self, start, end):
+        """Get measurements between certain timestamp
+
+        Parameters
+        ----------
+        start : start timestmap
+        end : end timestmap
+
+        Returns
+        -------
+        np.array
+            Numpy array of measurements.
+        """
+        start_index = searchsorted(self.measurements['date'], start)
+        end_index = searchsorted(self.measurements['date'], end)
+        return self.measurements[start_index : end_index]
 
     def get_measurements(self):
         """Get measurements of the windmill.
