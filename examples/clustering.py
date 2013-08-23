@@ -24,23 +24,23 @@ windpark = ds.get_windpark(NREL.park_id['tehachapi'], 15, 2004)
 X = np.array(windpark.get_powermatrix())
 
 clf = KMeans(k=3)
-turbine = []
+info = []
 
 for turbine in windpark.turbines:
 
     month_power = windml.util.power_features.compute_highlevel_features(turbine)
-    turbine.append(month_power)
+    info.append(month_power)
 
-clf.fit(turbine)
+clf.fit(info)
 labels = clf.labels_
-turbine = np.array(turbine)
+info = np.array(info)
 
 j=1
 ax = plt.figure(figsize=(14, 9))
 for i in range(0,6):
 
     ax = plt.subplot(3, 2, j)
-    ax.scatter(turbine[:, 2*i], turbine[:, 2*i+1], c=labels.astype(np.float))
+    ax.scatter(info[:, 2*i], info[:, 2*i+1], c=labels.astype(np.float))
     ax.set_xlabel(str(2*i+1))
     ax.set_ylabel(str(2*i+2))
     j+=1
