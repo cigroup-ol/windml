@@ -55,9 +55,6 @@ def show_coord_topo(windpark, title, show = True):
     target = windpark.get_target()
     radius = windpark.get_radius()
 
-    fig = plt.figure(figsize=(4,4))
-    ax = fig.add_axes([0.1,0.1,0.8,0.8])
-
     #pack latitude and longitude in lists
     rel_input_lat = []
     rel_input_lon = []
@@ -75,7 +72,6 @@ def show_coord_topo(windpark, title, show = True):
         llcrnrlon = targetcoord[1]-graddiff, llcrnrlat = targetcoord[0]-graddiff ,\
         urcrnrlon = targetcoord[1]+graddiff, urcrnrlat = targetcoord[0]+graddiff ,\
         rsphere=6371200., resolution = 'l', area_thresh=1000)
-    m.aspect = (4.0/ 4.0)
     # Target
     x_target,y_target = m(targetcoord[1],targetcoord[0])
     # Input Farms
@@ -92,8 +88,6 @@ def show_coord_topo(windpark, title, show = True):
     m.scatter(x_target, y_target, 20, marker='o', color="r")
     m.shadedrelief()
     plt.title(title)
-
-    ax.set_aspect("auto")
 
     if(show):
         plt.show()
