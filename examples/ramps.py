@@ -1,5 +1,5 @@
 """
-Wind Changes of a Wind Mill
+Wind Changes of a Turbine
 --------------------------------------------------
 
 Wind ramp events play an important role for a stable integration of wind energy
@@ -17,8 +17,8 @@ from windml.datasets.nrel import NREL
 from windml.visualization.plot_timeseries import plot_timeseries
 
 ds = NREL()
-windmill = ds.get_windmill(NREL.park_id['tehachapi'], 2004)
-X=np.array([m[1] for m in windmill.get_measurements()])
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
+X=np.array([m[1] for m in turbine.get_measurements()])
 
 # variables necessare for computation of wind changes and their colors
 x1= []

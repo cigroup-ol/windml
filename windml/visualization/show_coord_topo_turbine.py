@@ -37,8 +37,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.basemap import Basemap, shiftgrid, cm
 
-def show_coord_topo_mill(windmill, show = True):
-    """Plot the topology of a windmill
+def show_coord_topo_turbine(turbine, show = True):
+    """Plot the topology of a turbine
 
     Topographic Map with farms
     see: http://matplotlib.org/basemap/users/examples.html
@@ -46,14 +46,14 @@ def show_coord_topo_mill(windmill, show = True):
 
     Parameters
     ----------
-    windmill : Windmill
-               The given windmill to show the topology.
+    turbine : Turbine
+               The given turbine to show the topology.
     """
 
     radius = 20
     coord = [0.0, 0.0]
-    coord[0] = np.float64(windmill.latitude)
-    coord[1] = np.float64(windmill.longitude)
+    coord[0] = np.float64(turbine.latitude)
+    coord[1] = np.float64(turbine.longitude)
 
     graddiff = (radius/111.0) + 0.5  # degree in km
 
@@ -63,7 +63,7 @@ def show_coord_topo_mill(windmill, show = True):
         rsphere=6371200., resolution = 'l', area_thresh=1000)
 
     # Target
-    x_mill,y_mill = m(coord[1],coord[0])
+    x_turbine,y_turbine = m(coord[1],coord[0])
 
     # labels = [left,right,top,bottom]
     parallels = np.arange(int(coord[0]-3), int(coord[0]+3), 1.)
@@ -72,10 +72,10 @@ def show_coord_topo_mill(windmill, show = True):
     m.drawmeridians(meridians,labels=[True,False,False,True])
 
     # plot farms in the radius
-    m.plot(x_mill, y_mill, 'bo')
+    m.plot(x_turbine, y_turbine, 'bo')
     m.shadedrelief()
 
-    plt.title("Topography around a Mill")
+    plt.title("Topography around a Turbine")
 
     if(show):
         plt.show()

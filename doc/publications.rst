@@ -72,7 +72,7 @@ Short-Term Wind Energy Forecasting Using Support Vector Regression, 2010
 
 Abstract Wind energy prediction has an important part to play in a smart energy
 grid for load balancing and capacity planning. In this paper we explore, if
-wind measurements based on the existing infrastructure of windmills in
+wind measurements based on the existing infrastructure of turbines in
 neighbored wind parks can be learned with a soft computing approach for wind
 energy prediction in the ten-minute to six-hour range. For this sake we employ
 Support Vector Regression (SVR) for time series forecasting, and run

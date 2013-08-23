@@ -58,14 +58,14 @@ def show_coord_topo_zoom(windpark, show = True):
 
     plt.clf()
 
-    mills = windpark.get_windmills()
+    turbines = windpark.get_turbines()
     target = windpark.get_target()
     radius = windpark.get_radius()
 
     #pack latitude and longitude in lists
     rel_input_lat = []
     rel_input_lon = []
-    for row in mills:
+    for row in turbines:
         rel_input_lat.append(np.float64(row.latitude))
         rel_input_lon.append(np.float64(row.longitude))
 

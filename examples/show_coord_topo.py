@@ -3,7 +3,7 @@ Topography of a Wind Windpark
 -------------------------------------------------------------------------
 
 This example shows the topography of a wind park near Tehachapi. The black dots
-illustrate the locations of wind mills. The red dot is the target mill.
+illustrate the locations of turbines. The red dot is the target turbine.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -17,7 +17,7 @@ name = 'tehachapi'
 
 windpark = NREL().get_windpark(NREL.park_id['tehachapi'], 30, 2004)
 
-print "Working on windpark around target mill", str(windpark.get_target_idx())
+print "Working on windpark around target turbine", str(windpark.get_target_idx())
 print "Plotting windpark ..."
 
 title = "Some Turbines of NREL Data Set"

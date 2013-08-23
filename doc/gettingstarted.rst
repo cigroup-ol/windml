@@ -39,9 +39,9 @@ one can see exemplary available data sources of wind data time-series open to
 the public on the internet. The DataSource classes implemented in windML
 download the data from data mirrors, parse the data into an windML-specific
 data format and keep the data in a local cache. The windML-specific format is
-defined by the *Windpark* and *Windmill* classes. See :ref:`windpark` and
-:ref:`windmill` documentation for the windML-specific model. The wind parks and
-wind mills are selected by specifying ID and radius. See :ref:`datasets` page
+defined by the *Windpark* and *Turbine* classes. See :ref:`windpark` and
+:ref:`turbine` documentation for the windML-specific model. The wind parks and
+turbines are selected by specifying ID and radius. See :ref:`datasets` page
 for the documentation of the data sets and methods to fetch time-series.
 
 .. figure:: _static/schema.png
@@ -50,9 +50,9 @@ for the documentation of the data sets and methods to fetch time-series.
 
    windML schematic architecture
 
-Given *Windpark* and *Windmill* objects, one can visualize the data via
+Given *Windpark* and *Turbine* objects, one can visualize the data via
 different visualization components such as dimensionality reduction,
-park and mill information, information about the time-series, topology
+park and turbine information, information about the time-series, topology
 etc., see :ref:`examples`. An important motivation of windML is forecasting
 time-series with regression and classification. For both methodologies, a
 mapping of a time-series to labels is required.

@@ -5,7 +5,7 @@ Manifold Learning with PCA, LDA, ISOMAP and LLE.
 For various post-provessing purposes, the reduction of the dimensionality of
 high-dimensional wind power time series may be desirable. The embedding example
 employs dimensionality reduction methods like ISOMAP to embed time series of a
-single wind mill into 2-dimensional latent spaces.
+single turbine into 2-dimensional latent spaces.
 """
 
 # Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>

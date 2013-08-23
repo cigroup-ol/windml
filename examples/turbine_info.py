@@ -1,8 +1,8 @@
 """
-Information of Single Wind Mill
+Information of Single Turbine
 -------------------------------------------------------------------------
 
-This examples shows the topology of a wind mill and gives a statistical overview
+This examples shows the topology of a turbine and gives a statistical overview
 for different characteristics of its time series.
 """
 
@@ -14,20 +14,20 @@ import numpy as np
 import windml.util.features
 
 from windml.datasets.nrel import NREL
-from windml.visualization.show_coord_topo_mill import show_coord_topo_mill
+from windml.visualization.show_coord_topo_turbine import show_coord_topo_turbine
 
 ds = NREL()
-windmill = ds.get_windmill(NREL.park_id['tehachapi'], 2004)
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 
-feat, month_power, ramps_up, ramps_down, power_freq = windml.util.features.compute_highlevel_features(windmill)
+feat, month_power, ramps_up, ramps_down, power_freq = windml.util.features.compute_highlevel_features(turbine)
 
 month = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
 figure = plt.figure(figsize=(15, 10))
 
 # plot 1
 plot1 = plt.subplot(2, 2, 1)
-plt.title("Windmill Location")
-show_coord_topo_mill(windmill, show = False)
+plt.title("Turbine Location")
+show_coord_topo_turbine(turbine, show = False)
 
 # plot 2
 plot2 = plt.subplot(2, 2, 2)

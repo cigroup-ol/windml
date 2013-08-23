@@ -56,7 +56,7 @@ def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
                Temporal distance between plots.
     """
 
-    mills = windpark.get_windmills()
+    turbines = windpark.get_turbines()
     target = windpark.get_target()
     radius = windpark.get_radius()
 
@@ -67,14 +67,14 @@ def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
     #pack latitude and longitude in lists
     rel_input_lat = []
     rel_input_lon = []
-    rel_input_speed_array = [[0 for col in range(number_of_plots)] for row in range(len(mills))]
+    rel_input_speed_array = [[0 for col in range(number_of_plots)] for row in range(len(turbines))]
 
     # For labeling the plot with a timestamp
     unix_timestamps = []
     timestamps_known = 0
 
     row_act = 0
-    for row in mills:   # Target inside !!!!
+    for row in turbines:   # Target inside !!!!
         rel_input_lat.append(np.float64(row.latitude))
         rel_input_lon.append(np.float64(row.longitude))
         time = start_measurement
@@ -116,7 +116,7 @@ def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
     for i in range(1, (number_of_plots+1)):
         plot = plt.subplot(plot_dim, plot_dim, i)
         zlist = []
-        for z in range(len(mills)):
+        for z in range(len(turbines)):
             zlist.append(rel_input_speed_array[z][i-1])
         parallels = np.arange(int(targetcoord[0]-3), int(targetcoord[0]+3), 1.)
         m.drawparallels(parallels,labels=[True,False,False,False])

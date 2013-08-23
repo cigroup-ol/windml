@@ -19,18 +19,18 @@ Model
 
 When using windml, you need to know the two basic types of objects. 
 
- * Windmill
+ * Turbine
  * Windpark
 
 See below for a detailed description of the concepts behind those.
 Enjoy.
 
-.. _windmill:
+.. _turbine:
 
-Wind Mill
+Turbine
 ++++++++
 
-.. autoclass:: windml.model.windmill.Windmill
+.. autoclass:: windml.model.turbine.Turbine
     :members:
 
 .. _windpark:

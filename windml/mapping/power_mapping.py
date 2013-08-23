@@ -39,15 +39,15 @@ cs = 'corrected_score'
 class PowerMapping(Mapping):
     """Maps time series to feature-label pairs, use power"""
 
-    def get_features_mill(self, windmill, feature_window, horizon, padding = 0):
-        """Get features from a given windmill, consisting of the values of the
-        corrected score for one mill dependend on feature_window size and time
+    def get_features_turbine(self, turbine, feature_window, horizon, padding = 0):
+        """Get features from a given turbine, consisting of the values of the
+        corrected score for one turbine dependend on feature_window size and time
         horizon and optionally a certain padding.
 
         Parameters
         ----------
-        windmill : Windmill
-                   Features of the given windmill.
+        turbine : Turbine
+                   Features of the given turbine.
         feature_window : int
                          The amount of time steps of the feature window.
         horizon: int
@@ -59,24 +59,24 @@ class PowerMapping(Mapping):
             Pattern matrix for regression.
         """
 
-        timesteps = len(windmill.measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbine.measurements) - (feature_window + horizon + padding - 1)
 
         features = zeros((timesteps, feature_window), dtype = float32)
         for t in range(padding, timesteps):
             features[t][0:feature_window] =\
-                    windmill.measurements[cs][t:t + feature_window]
+                    turbine.measurements[cs][t:t + feature_window]
 
         return features
 
-    def get_labels_mill(self, windmill, feature_window, horizon, padding = 0):
-        """Get labels for a given windmill, consisting of the values of the
-        corrected score for one mill dependend on feature window, horizon and
+    def get_labels_turbine(self, turbine, feature_window, horizon, padding = 0):
+        """Get labels for a given turbine, consisting of the values of the
+        corrected score for one turbine dependend on feature window, horizon and
         optionally a certain padding.
 
         Parameters
         ----------
-        windmill : Windmill
-                   Features of the given windmill.
+        turbine : Turbine
+                   Features of the given turbine.
         feature_window : int
                          The amount of time steps of the feature window.
         horizon: int
@@ -88,18 +88,18 @@ class PowerMapping(Mapping):
             Label array for regression.
         """
 
-        timesteps = len(windmill.measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbine.measurements) - (feature_window + horizon + padding - 1)
 
         labels = zeros(timesteps, dtype = float32)
         for t in range(padding, timesteps):
             offset = t + feature_window + horizon - 1
-            labels[t] = windmill.measurements[cs][offset]
+            labels[t] = turbine.measurements[cs][offset]
 
         return labels
 
     def get_features_park(self, windpark, feature_window, horizon, padding = 0):
         """Get features for a given windpark, consisting of the values of the
-        corrected score for all mills in the park dependend on feature_window
+        corrected score for all turbines in the park dependend on feature_window
         size and time horizon and optionally a certain padding.
 
         Parameters
@@ -117,25 +117,25 @@ class PowerMapping(Mapping):
             Pattern matrix for regression.
         """
 
-        mills = windpark.get_windmills()
-        amount = len(mills)
-        timesteps = len(mills[0].measurements) - (feature_window + horizon + padding - 1)
+        turbines = windpark.get_turbines()
+        amount = len(turbines)
+        timesteps = len(turbines[0].measurements) - (feature_window + horizon + padding - 1)
 
         features = zeros((timesteps, amount * feature_window), dtype = float32)
 
-        for idx, mill in enumerate(mills):
+        for idx, turbine in enumerate(turbines):
             for t in range(padding, timesteps):
                 startc = idx * feature_window
                 endc = (idx + 1) * feature_window
-                features[t][startc:endc] = mill.measurements[cs][t:t + feature_window]
+                features[t][startc:endc] = turbine.measurements[cs][t:t + feature_window]
 
         return features
 
     def get_labels_park(self, windpark, feature_window, horizon, padding = 0):
         """Get labels for a given windpark, consisting of the values of the
-        corrected score for all mills in the park dependend on feature window,
+        corrected score for all turbines in the park dependend on feature window,
         horizon and optionally a certain padding. The labels are the sums of
-        the corrected score of all windmills in the park.
+        the corrected score of all turbines in the park.
 
         Parameters
         ----------
@@ -152,13 +152,13 @@ class PowerMapping(Mapping):
             Label array for regression.
         """
 
-        mills = windpark.get_windmills()
-        timesteps = len(mills[0].measurements) - (feature_window + horizon + padding - 1)
+        turbines = windpark.get_turbines()
+        timesteps = len(turbines[0].measurements) - (feature_window + horizon + padding - 1)
 
-        sum_mills = zeros(timesteps, dtype = float32)
-        for mill in mills:
+        sum_turbines = zeros(timesteps, dtype = float32)
+        for turbine in turbines:
             for t in range(padding, timesteps):
-                sum_mills[t] += mill.measurements[cs][t + feature_window + horizon - 1]
+                sum_turbines[t] += turbine.measurements[cs][t + feature_window + horizon - 1]
 
-        return sum_mills
+        return sum_turbines
 

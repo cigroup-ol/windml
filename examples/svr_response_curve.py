@@ -1,5 +1,5 @@
 """
-Response Curve of a Wind Mill
+Response Curve of a Turbine
 --------------------------------------------------
 
 The response curve is the mapping from wind speed to wind power production. In
@@ -25,8 +25,8 @@ from windml.datasets.nrel import NREL
 from windml.visualization.plot_response_curve import plot_response_curve
 
 ds = NREL()
-windmill = ds.get_windmill(NREL.park_id['tehachapi'], 2004)
-timeseries = windmill.get_measurements()
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
+timeseries = turbine.get_measurements()
 skip = 10
 
 # plot true values

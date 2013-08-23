@@ -38,7 +38,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def plot_multiple_timeseries(windpark, show = True):
-    """Plot multiple power series of some mills.
+    """Plot multiple power series of some turbines.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def plot_multiple_timeseries(windpark, show = True):
 
     ax.set_xlabel('Time')
     ax.set_xlim3d(0, length)
-    ax.set_ylabel('Windmill')
+    ax.set_ylabel('Turbine')
     ax.set_ylim3d(-1, number_turbines)
     ax.set_zlabel('Power')
     ax.set_zlim3d(0,30.)

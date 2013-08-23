@@ -47,8 +47,8 @@ def haversine(origin, destination):
 
     return d
 
-def distance(windmill_a, windmill_b):
-    origin = windmill_a.latitude, windmill_a.longitude
-    destination = windmill_b.latitude, windmill_b.longitude
+def distance(turbine_a, turbine_b):
+    origin = turbine_a.latitude, turbine_a.longitude
+    destination = turbine_b.latitude, turbine_b.longitude
     return haversine(origin, destination)
 

@@ -34,15 +34,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import numpy as np
 from numpy import searchsorted
 
-class Windmill(object):
-    """The class Windmill represents a single windmill. It contains
-    the properties of the windmill, including the index of the mill,
+class Turbine(object):
+    """The class Turbine represents a single turbine. It contains
+    the properties of the turbine, including the index of the turbine,
     its coordinates, the average power density and capacity, the mean wind speed
     and the elevation of the hub."""
 
     def __init__(self, idx, latitude, longitude, power_density, power_capacity,\
         speed, elevation):
-        """Initializes windmill with a given target id, lat, long, power
+        """Initializes turbine with a given target id, lat, long, power
         density and power capacity.
 
         Parameters
@@ -58,9 +58,9 @@ class Windmill(object):
         power_capacity : float
                          Power Capacity.
         speed : float
-                Mean wind speed of the mill per year.
+                Mean wind speed of the turbine per year.
         elevation : float
-                    Height of the windmill hub.
+                    Height of the turbine hub.
         """
 
         self.idx = idx
@@ -73,7 +73,7 @@ class Windmill(object):
         self.measurements = None
 
     def add_measurements(self, measurements):
-        """Set measurements of the windmill.
+        """Set measurements of the turbine.
 
         Parameters
         ----------
@@ -100,7 +100,7 @@ class Windmill(object):
         return self.measurements[start_index : end_index]
 
     def get_measurements(self):
-        """Get measurements of the windmill.
+        """Get measurements of the turbine.
 
         Returns
         -------

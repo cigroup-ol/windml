@@ -4,8 +4,8 @@ Forecast Error Depending on Horizon
 
 This example shows the dependence of the mean squared error (forecast error) on
 a growing forecast horizon. The models KNN, linear regression, and the naive
-(persistance) model are compared. In this example, the wind mill 'Tehachapi' is
-the target mill. The forecast is based on the whole wind park, which is defined
+(persistance) model are compared. In this example, the turbine 'Tehachapi' is
+the target turbine. The forecast is based on the whole wind park, which is defined
 by the latter id and a given radius of 3 kilometres. For the mapping of
 pattern-label combinations the :ref:`powermapping` is used.  The power mapping
 is based on the :ref:`generaltimeseriesmodel`. The feature window and the
@@ -30,7 +30,7 @@ from sklearn.neighbors import KNeighborsRegressor
 
 def compute_mse(regressor, horizon):
     # get wind park and corresponding target. forecast is for the target
-    # wind mill
+    # turbine
     park_id = NREL.park_id['tehachapi']
     windpark = NREL().get_windpark(park_id, 3, 2004, 2005)
     target = windpark.get_target()
@@ -40,7 +40,7 @@ def compute_mse(regressor, horizon):
     feature_window = 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
-    Y = mapping.get_labels_mill(target, feature_window, horizon)
+    Y = mapping.get_labels_turbine(target, feature_window, horizon)
 
     # train roughly for the year 2004.
     train_to = int(math.floor(len(X) * 0.5))

@@ -3,7 +3,7 @@ Location of AEMO Turbines
 -------------------------------------------------------------------------
 
 The black dots illustrate the locations of the turbines. The red dot
-illustrates the target windmill.
+illustrates the target turbine.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -16,7 +16,7 @@ from windml.visualization.show_coord_topo import show_coord_topo
 # see http://windfarmperformance.info/ for more information of the park
 windpark = AEMO().get_windpark(AEMO.park_id['cathrock'], 3200)
 
-print "Working on windpark around target mill", str(windpark.get_target_idx())
+print "Working on windpark around target turbine", str(windpark.get_target_idx())
 print "Plotting windpark ..."
 
 title = "Turbines of AEMO Data Set"

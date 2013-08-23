@@ -2,8 +2,8 @@
 Multiple Time Series of Power
 -------------------------------------------------------------------------
 
-This example visualizes multiple time series of various wind mills. It is
-useful to illustrate differences and correlations of neighboring wind mills.
+This example visualizes multiple time series of various turbines. It is
+useful to illustrate differences and correlations of neighboring turbines.
 """
 
 # Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>

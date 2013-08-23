@@ -55,8 +55,8 @@ class DataSource(object):
         """
         pass
 
-    def get_windmill(self, target_idx, year_from=0, year_to=0):
-        """This method returns a Windmill object of a given data source.
+    def get_turbine(self, target_idx, year_from=0, year_to=0):
+        """This method returns a Turbine object of a given data source.
 
         Parameters
         ----------
@@ -71,8 +71,8 @@ class DataSource(object):
         Returns
         -------
 
-        Windmill
-            An according windmill for target id and time span.
+        Turbine
+            An according turbine for target id and time span.
         """
         pass
 

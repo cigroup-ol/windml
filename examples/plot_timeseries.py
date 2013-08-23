@@ -3,7 +3,7 @@ Time-Series of Wind Speed and Power
 --------------------------------------------------
 
 This example plots a time-series of a single
-wind mill in the wind park 'tehachapi'.
+turbine in the wind park 'tehachapi'.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -19,6 +19,6 @@ from windml.datasets.nrel import NREL
 from windml.visualization.plot_timeseries import plot_timeseries
 
 ds = NREL()
-mill = ds.get_windmill(NREL.park_id['tehachapi'], 2004)
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 
-plot_timeseries(mill)
+plot_timeseries(turbine)

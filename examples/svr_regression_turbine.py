@@ -5,8 +5,8 @@ SVR Wind Power Forecasting
 -------------------------------------------------------------------------
 
 Support Vector Regression for prediction of a time series of wind power for a
-target wind mill in Tehachapi. The prediction model is based on the wind power
-time series of the target mill and the time series of its neighbors defined by
+target turbine in Tehachapi. The prediction model is based on the wind power
+time series of the target turbine and the time series of its neighbors defined by
 a radius of 3 kilometers.For the mapping of pattern-label combinations the
 :ref:`powermapping` is used. The power mapping is based on the
 :ref:`generaltimeseriesmodel`. The feature window and the forecast horizon both
@@ -39,7 +39,7 @@ from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
 from sklearn.neighbors import KNeighborsRegressor
 
-# get windpark and corresponding target. forecast is for the target windmill
+# get windpark and corresponding target. forecast is for the target turbine
 park_id = NREL.park_id['tehachapi']
 windpark = NREL().get_windpark(park_id, 3, 2004, 2005)
 target = windpark.get_target()
@@ -50,7 +50,7 @@ feature_window = 3
 horizon = 3
 mapping = PowerMapping()
 X = mapping.get_features_park(windpark, feature_window, horizon)
-Y = mapping.get_labels_mill(target, feature_window, horizon)
+Y = mapping.get_labels_turbine(target, feature_window, horizon)
 
 # train roughly for the year 2004.
 train_to = int(math.floor(len(X) * 0.5))

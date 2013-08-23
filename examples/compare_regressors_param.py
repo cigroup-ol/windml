@@ -5,7 +5,7 @@ Comparison of KNN and Random Forest Regression
 This example shows the mean squared error (forecast error) when using KNN with
 different parameters K and random forest regression trees with a variable
 number of estimators utilized in the ensemble regressor. In this example, the
-wind mill 'Tehachapi' is the target mill. The forecast is based on the whole
+turbine 'Tehachapi' is the target turbine. The forecast is based on the whole
 wind park, which is defined by the id and a given radius of 3 kilometers. For
 the mapping of pattern-label combinations, the :ref:`powermapping` is used.
 The power mapping is based on the :ref:`generaltimeseriesmodel`. The feature
@@ -31,7 +31,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 def compute_mse(regressor, param):
     # get wind park and corresponding target. forecast is for the target
-    # wind mill
+    # turbine
     park_id = NREL.park_id['tehachapi']
     windpark = NREL().get_windpark(park_id, 3, 2004)
     target = windpark.get_target()
@@ -42,7 +42,7 @@ def compute_mse(regressor, param):
     horizon = 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
-    Y = mapping.get_labels_mill(target, feature_window, horizon)
+    Y = mapping.get_labels_turbine(target, feature_window, horizon)
 
     # train roughly for the year 2004.
     train_to = int(math.floor(len(X) * 0.5))

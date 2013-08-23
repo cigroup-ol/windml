@@ -1,8 +1,8 @@
 """
-Amount of Windmills
+Amount of Turbines
 -------------------------------------------------------------
 
-This plot shows the number of wind mills with regard to various radii for
+This plot shows the number of turbines with regard to various radii for
 different wind parks Vantage, Palm Springs, Tehachapi and Cheyenne.
 """
 
@@ -20,13 +20,13 @@ parks = ['vantage', 'palmsprings', 'tehachapi', 'cheyenne']
 radius_interval = [0.0, 8.0]
 stepsize = 0.5
 
-def amount_of_windmills(radius, park):
+def amount_of_turbines(radius, park):
     target = NREL.park_id[park]
     ds = NREL()
     windpark = ds.get_windpark(target, radius, 2004, 2005)
-    target = ds.get_windmill(target, 2004, 2005)
-    windmills = windpark.get_windmills()
-    return len(windmills)
+    target = ds.get_turbine(target, 2004, 2005)
+    turbines = windpark.get_turbines()
+    return len(turbines)
 
 results = {}
 for park in parks:
@@ -41,7 +41,7 @@ for park in parks:
         values.append(value)
 
     for value in values:
-        k = amount_of_windmills(value, park)
+        k = amount_of_turbines(value, park)
         results_park[value] = k
 
     results[park] = results_park
@@ -64,7 +64,7 @@ for park in parks:
     plt.ylim([0, 80])
 
     plt.xlabel('Radius')
-    plt.ylabel('Amount of Windmills')
+    plt.ylabel('Amount of Turbines')
     plt.scatter(X,Y, color=colors[park], marker=markers[park], label=labels[park])
 
 plt.legend(loc='lower right')

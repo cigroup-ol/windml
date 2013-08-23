@@ -47,7 +47,7 @@ import csv
 
 from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
-from windml.model.windmill import Windmill
+from windml.model.turbine import Turbine
 
 class AEMO(object):
     """ Australian Energy Market Operator ("AEMO") data source contains measurements of 28
@@ -67,7 +67,7 @@ class AEMO(object):
     * lkbonny1
     * lkbonny2
     * lkbonny3
-    * mtmillar
+    * mtturbinear
     * nbhwf1
     * snowtwn1
     * starhlwf
@@ -114,7 +114,7 @@ class AEMO(object):
         'lkbonny1' : 9,
         'lkbonny2' : 10,
         'lkbonny3' : 11,
-        'mtmillar' : 12,
+        'mtturbinear' : 12,
         'nbhwf1' : 13,
         'snowtwn1' : 14,
         'starhlwf' : 15,
@@ -150,9 +150,9 @@ class AEMO(object):
 
     def get_windpark(self, target_idx, radius):
         """This method fetches and returns a windpark from AEMO, which consists of
-        the target mill with the given target_idx and the surrounding wind mill
-        within a given radius around the target mill. When called, the wind
-        measurements for a given range of years are downloaded for every mill
+        the target turbine with the given target_idx and the surrounding turbine
+        within a given radius around the target turbine. When called, the wind
+        measurements for a given range of years are downloaded for every turbine
         in the park.
 
         Parameters
@@ -171,21 +171,21 @@ class AEMO(object):
         self.check_availability()
 
         result = Windpark(target_idx, radius)
-        target_mill = self.get_windmill(target_idx)
-        lat_target = radians(target_mill.latitude)
-        lon_target = radians(target_mill.longitude)
+        target_turbine = self.get_turbine(target_idx)
+        lat_target = radians(target_turbine.latitude)
+        lon_target = radians(target_turbine.longitude)
 
-        mills = self.get_all_windmills()
+        turbines = self.get_all_turbines()
 
         Earth_Radius = 6371
 
-        for mill in mills:
+        for turbine in turbines:
             # because we append the target as last element
-            if(mill.idx == target_idx):
+            if(turbine.idx == target_idx):
                 continue
 
-            lat_act = radians(mill.latitude)
-            lon_act = radians(mill.longitude)
+            lat_act = radians(turbine.latitude)
+            lon_act = radians(turbine.longitude)
             dLat = (lat_act - lat_target)
             dLon = (lon_act - lon_target)
 
@@ -197,21 +197,21 @@ class AEMO(object):
             distance_act = Earth_Radius * c;
 
             if(distance_act < radius):
-                result.add_windmill(mill)
+                result.add_turbine(turbine)
 
-        result.add_windmill(target_mill)
+        result.add_turbine(target_turbine)
         return result
 
-    def get_all_windmills(self):
+    def get_all_turbines(self):
         self.check_availability()
 
-        mills = []
+        turbines = []
         for key, idx in self.park_id.iteritems():
-            mills.append(self.get_windmill(idx))
-        return mills
+            turbines.append(self.get_turbine(idx))
+        return turbines
 
-    def get_windmill(self, target_idx):
-        """This method fetches and returns a single windmill object.
+    def get_turbine(self, target_idx):
+        """This method fetches and returns a single turbine object.
 
         Parameters
         ----------
@@ -222,8 +222,8 @@ class AEMO(object):
         Returns
         -------
 
-        Windmill
-            An according windmill for target id.
+        Turbine
+            An according turbine for target id.
         """
 
         self.check_availability()
@@ -236,10 +236,10 @@ class AEMO(object):
         power_capacity = mdata['power_capacity']
         speed = nan
         elevation = nan
-        mill = Windmill(target_idx, latitude, longitude, power_density,\
+        turbine = Turbine(target_idx, latitude, longitude, power_density,\
                         power_capacity, speed, elevation)
-        mill.add_measurements(measurements)
-        return mill
+        turbine.add_measurements(measurements)
+        return turbine
 
     def bytes_to_string(self, nbytes):
         """Byte representation for progress bar.

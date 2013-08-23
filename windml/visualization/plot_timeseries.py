@@ -38,18 +38,18 @@ import datetime as dr
 import time
 from pylab import *
 
-def plot_timeseries(windmill, show = True):
-    """Plot windspeed and power production of a windmill
+def plot_timeseries(turbine, show = True):
+    """Plot windspeed and power production of a turbine
 
     Parameters
     ----------
-    windmill : Windmill
-               The given windmill to the timeseries.
+    turbine : Turbine
+               The given turbine to the timeseries.
     """
 
     plt.clf()
 
-    timeseries=windmill.get_measurements()
+    timeseries=turbine.get_measurements()
     d=np.array([m[0] for m in timeseries])
     y1=np.array([m[1] for m in timeseries]) #score
     y2=np.array([m[2] for m in timeseries]) #speed
@@ -71,7 +71,7 @@ def plot_timeseries(windmill, show = True):
     plt.plot(d_time[0:288], y1[0:288], label = 'Power Production')
     plt.plot(d_time[0:288], y2[0:288], label = 'Wind Speed')
     plt.legend(loc='lower right')
-    plt.title("Timeseries of the Selected Mill")
+    plt.title("Timeseries of the Selected Turbine")
 
     if(show):
         plt.show()

@@ -34,14 +34,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class Mapping(object):
     """Maps time series to feature-label pairs"""
 
-    def get_features_mill(self, windmill, feature_window, horizon, padding):
-        """Get features from a given windmill dependend on feature_window size
+    def get_features_turbine(self, turbine, feature_window, horizon, padding):
+        """Get features from a given turbine dependend on feature_window size
         and time horizon and optionally a certain padding.
 
         Parameters
         ----------
-        windmill : Windmill
-                   Features of the given windmill.
+        turbine : Turbine
+                   Features of the given turbine.
         feature_window : int
                          The amount of time steps of the feature window.
         horizon: int
@@ -74,14 +74,14 @@ class Mapping(object):
         """
         pass
 
-    def get_labels_mill(self, windmill, feature_window, horizon, padding):
-        """Get labels for a given windmill, dependend on feature window,
+    def get_labels_turbine(self, turbine, feature_window, horizon, padding):
+        """Get labels for a given turbine, dependend on feature window,
         horizon and optionally a certain padding.
 
         Parameters
         ----------
-        windmill : Windmill
-                   Features of the given windmill.
+        turbine : Turbine
+                   Features of the given turbine.
         feature_window : int
                          The amount of time steps of the feature window.
         horizon: int
@@ -94,10 +94,10 @@ class Mapping(object):
         """
         pass
 
-    def get_labels_park(self, windmill, feature_window, horizon, padding):
+    def get_labels_park(self, turbine, feature_window, horizon, padding):
         """Get labels for a given windpark dependend on feature window, horizon
         and optionally a certain padding. The labels are the sums of the
-        corrected score of all windmills in the park.
+        corrected score of all turbines in the park.
 
         Parameters
         ----------

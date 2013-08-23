@@ -39,20 +39,20 @@ import time
 
 from pylab import *
 
-def plot_response_curve(windmill, show = True):
+def plot_response_curve(turbine, show = True):
     """
     Produced power plot dependend on the wind speed.
 
     Parameters
     ----------
 
-    windmill: Windmill
-              The given windmill.
+    turbine: Turbine
+              The given turbine.
     """
 
     plt.clf()
 
-    timeseries=windmill.get_measurements()
+    timeseries=turbine.get_measurements()
     score=np.array([m[1] for m in timeseries]) #score
     speed=np.array([m[2] for m in timeseries]) #speed
 
@@ -61,7 +61,7 @@ def plot_response_curve(windmill, show = True):
     plt.xlabel("Wind Speed(m/s)")
     plt.ylabel("Corrected Power (MW)")
     plt.plot(speed, score, 'bo')
-    plt.title("Response Curve of the Selected Windmill")
+    plt.title("Response Curve of the Selected Turbine")
 
     if(show):
         plt.show()

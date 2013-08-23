@@ -25,7 +25,7 @@ General Times Series Model
 
 The model predicts wind power exclusively based on past wind power
 measurements.  For this task, one can formulate the prediction as regression
-problem examplary for a single wind mill. The wind power measurement
+problem examplary for a single turbine. The wind power measurement
 :math:`\mathbf{x} = p(t)` (pattern) is mapped to the power production at target
 time :math:`y = p(t+\lambda)` (label).  For the regression model, we assume to
 have :math:`N` of such pattern label pairs :math:`(\mathbf{x}_i,y_i)` that are
@@ -46,22 +46,22 @@ Furthermore, we test, if taking into account differences of measurements
 the results. The absolute values and their differences result in patterns with
 a dimension of :math:`d_{st}=(2\mu+1)`, see :ref:`powerdiffmapping`. Most
 prediction tasks require the construction of a pattern which consists of wind
-power time series of wind mills in the neighborhood of the target wind mill.
+power time series of turbines in the neighborhood of the target turbine.
 See the corresponding figure below. A wind park is defined by a target wind
-mill and a certain radius :math:`r`. Wind power values can be aggregated to a
+turbine and a certain radius :math:`r`. Wind power values can be aggregated to a
 single value or can seperately be used in the pattern vector.
 
 .. figure:: _static/neigh.png
-    :alt: Neighborhood of a wind mill
+    :alt: Neighborhood of a turbine
     :align: center
 
 Wind Prediction as a Regression Problem
 +++++++++++++++++++++++++++++++++++++++
 
 In the following, we employ support vector regression for prediction of a time
-series of wind power for a target wind mill in Tehachapi, see
+series of wind power for a target turbine in Tehachapi, see
 :ref:`example_svr_regression`. The prediction model is based on the wind power
-time series of the target mill and the time series of its neighbors defined by
+time series of the target turbine and the time series of its neighbors defined by
 a radius of 3 kilometers.For the mapping of pattern-label combinations the
 :ref:`powermapping` is used. The power mapping is based on the
 :ref:`generaltimeseriesmodel`. The feature window and the forecast horizon both

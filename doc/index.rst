@@ -42,8 +42,8 @@ For an installation guide, an overview of the architecture, and the functionalit
 .. figure:: ./_images/show_flip_book_1_thumb.png
     :target: ./examples/show_flip_book.html
 
-.. figure:: ./_images/svr_regression_mill_1_thumb.png
-    :target: ./examples/svr_regression_mill.html
+.. figure:: ./_images/svr_regression_turbine_1_thumb.png
+    :target: ./examples/svr_regression_turbine.html
 
 .. figure:: ./_images/wind_embeddings_1_thumb.png
     :target: ./examples/wind_embeddings.html
@@ -67,7 +67,7 @@ For a further list of examples with plots, we refer to the :ref:`examples` page.
     feature_window, horizon = 3, 3
     mapping = PowerMapping()
     X = mapping.get_features_park(windpark, feature_window, horizon)
-    Y = mapping.get_labels_mill(target, feature_window, horizon)
+    Y = mapping.get_labels_turbine(target, feature_window, horizon)
     reg = KNeighborsRegressor(10, 'uniform')
 
     train_to, test_to = int(math.floor(len(X) * 0.5)), len(X)

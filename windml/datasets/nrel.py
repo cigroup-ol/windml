@@ -75,14 +75,14 @@ import time
 
 from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
-from windml.model.windmill import Windmill
+from windml.model.turbine import Turbine
 
 class NREL(DataSource):
     """ The National Renewable Energy Laboratory ("NREL") data source
-    contains measurements of more than 32,000 wind mills.
+    contains measurements of more than 32,000 turbines.
     The data set allows the access of wind speeds and wind power measurements
-    of a wind mill at a specified time based on the id. For an easier startup,
-    we provide a dictionary with pre-defined windmills, containing ids of:
+    of a turbine at a specified time based on the id. For an easier startup,
+    we provide a dictionary with pre-defined turbines, containing ids of:
 
         * tehachapi
         * cheyenne
@@ -131,8 +131,8 @@ class NREL(DataSource):
         'casper': 23167
     }
 
-    def get_windmill(self, target_idx, year_from, year_to=0):
-        """This method fetches and returns a single windmill object.
+    def get_turbine(self, target_idx, year_from, year_to=0):
+        """This method fetches and returns a single turbine object.
 
         Parameters
         ----------
@@ -147,8 +147,8 @@ class NREL(DataSource):
         Returns
         -------
 
-        Windmill
-            An according windmill for target id and time span.
+        Turbine
+            An according turbine for target id and time span.
         """
 
         #if only one year is desired
@@ -158,22 +158,22 @@ class NREL(DataSource):
         # determine the coordinates of the target
         target=self.fetch_nrel_meta_data(target_idx)
 
-        #add target mill as last element
-        newmill = Windmill(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
+        #add target turbine as last element
+        newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         for y in range(year_from, year_to+1):
            measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score', 'speed'])
            if y==year_from:
                measurements = measurement
            else:
                measurements = np.concatenate((measurements, measurement))
-        newmill.add_measurements(measurements)
-        return newmill
+        newturbine.add_measurements(measurements)
+        return newturbine
 
     def get_windpark(self, target_idx, radius, year_from=0, year_to=0):
         """This method fetches and returns a windpark from NREL, which consists of
-        the target mill with the given target_idx and the surrounding wind mill
-        within a given radius around the target mill. When called, the wind
-        measurements for a given range of years are downloaded for every mill
+        the target turbine with the given target_idx and the surrounding turbine
+        within a given radius around the target turbine. When called, the wind
+        measurements for a given range of years are downloaded for every turbine
         in the park.
 
         Parameters
@@ -209,11 +209,11 @@ class NREL(DataSource):
         rel_input_lat = []
         rel_input_lon = []
 
-        #fetch all mills
-        mills = self.fetch_nrel_meta_data_all()
-        for row in mills:
-            mill_index = np.int(row[0])
-            if (mill_index != target_idx):
+        #fetch all turbines
+        turbines = self.fetch_nrel_meta_data_all()
+        for row in turbines:
+            turbine_index = np.int(row[0])
+            if (turbine_index != target_idx):
                 lat_act = math.radians(np.float64(row[1]))
                 lon_act = math.radians(np.float64(row[2]))
                 dLat = (lat_act-lat_target)
@@ -224,7 +224,7 @@ class NREL(DataSource):
                 c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
                 distance_act = Earth_Radius * c;
                 if (distance_act < radius):
-                    newmill = Windmill(row[0], row[1] , row[2] , row[3] , row[4] , row[5], row[6])
+                    newturbine = Turbine(row[0], row[1] , row[2] , row[3] , row[4] , row[5], row[6])
                     if year_from != 0:
                         for y in range(year_from, year_to+1):
                            measurement = self.fetch_nrel_data(row[0], y, ['date','corrected_score','speed'])
@@ -232,11 +232,11 @@ class NREL(DataSource):
                                measurements = measurement
                            else:
                                measurements = np.concatenate((measurements, measurement))
-                        newmill.add_measurements(measurements)
-                    result.add_windmill(newmill)
+                        newturbine.add_measurements(measurements)
+                    result.add_turbine(newturbine)
 
-        #add target mill as last element
-        newmill = Windmill(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
+        #add target turbine as last element
+        newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         if year_from != 0:
             for y in range(year_from, year_to+1):
                measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score','speed'])
@@ -244,8 +244,8 @@ class NREL(DataSource):
                    measurements = measurement
                else:
                    measurements = np.concatenate((measurements, measurement))
-            newmill.add_measurements(measurements)
-        result.add_windmill(newmill)
+            newturbine.add_measurements(measurements)
+        result.add_turbine(newturbine)
         return result
 
     def fetch_nrel_meta_data_all(self, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
@@ -262,7 +262,7 @@ class NREL(DataSource):
         Returns
         -------
         numpy.array
-            Array of meta data for a windmills.
+            Array of meta data for a turbines.
         """
         data_home = os.getenv("HOME") + "/nrel_data/"
         archive_file_name = "meta.csv"
@@ -294,13 +294,13 @@ class NREL(DataSource):
         data_arr=np.array([(a,b,c,d,e,f,g) for (a,b,c,d,e,f,g) in data], dtype=self.NREL_META_DTYPE)
         return data_arr[columns]
 
-    def fetch_nrel_meta_data(self, mill_id, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
+    def fetch_nrel_meta_data(self, turbine_id, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
                                 data_home = None):
         """ Loader for NREL meta data, gets one entry by id.
 
         Parameters
         ----------
-        mill_id : specifies the id of the WEA to be used.
+        turbine_id : specifies the id of the WEA to be used.
         columns : optional, default=['id','latitude','longitude','power_density','power_capacity','speed','elevation']
                   Specify the columns to be selected, see code above.
         data_home : optional, default=None
@@ -309,16 +309,16 @@ class NREL(DataSource):
         Returns
         -------
         numpy.array
-            array of meta data for a windmill.
+            array of meta data for a turbine.
         """
 
         attributes = ['id','latitude','longitude','power_density','power_capacity','speed','elevation']
         data=self.fetch_nrel_meta_data_all(attributes, data_home)
-        for mill in data:
-            if mill_id==mill[0]:
+        for turbine in data:
+            if turbine_id==turbine[0]:
                 ret=[]
                 for c in columns:
-                    ret.append(mill[c])
+                    ret.append(turbine[c])
                 return ret
 
     def bytes_to_string(self, nbytes):
@@ -400,13 +400,13 @@ class NREL(DataSource):
         else:
             return buf.getvalue()
 
-    def fetch_nrel_data(self, mill_id, year,\
+    def fetch_nrel_data(self, turbine_id, year,\
         columns=['date','speed','power_output','score','corrected_score'], data_home = None):
         """ Loader for NREL wind measurements.
 
         Parameters
         ----------
-        mill_id : id of the mill that shall be fetched.
+        turbine_id : id of the turbine that shall be fetched.
                  Number between 1 and 32043
         year : year for that the data shall be fetched. can be 2004, 2005, 2006
         columns : optional, default=['date','speed','power_output','score','corrected_score']
@@ -420,10 +420,10 @@ class NREL(DataSource):
             Includes all values of given attributes (columns) for a given year.
         """
 
-        #todo assert that year is in [2004,2005,2006] and mill_id is valid, too
+        #todo assert that year is in [2004,2005,2006] and turbine_id is valid, too
         data_home = os.getenv("HOME") + "/nrel_data/"+str(year)+"/"
-        archive_file_name = str(mill_id) +".npy"
-        DATA_URL = self.BASE_URL + str(year)+"/"+str(mill_id)+".csv"
+        archive_file_name = str(turbine_id) +".npy"
+        DATA_URL = self.BASE_URL + str(year)+"/"+str(turbine_id)+".csv"
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)

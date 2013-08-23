@@ -1,5 +1,5 @@
 """
-Clustering of Wind Mills
+Clustering of Turbines
 -------------------------------------------------------------------------
 
 Clustering of monthly wind power for 12 months for a wind park near Tehachapi
@@ -26,9 +26,9 @@ X = np.array(windpark.get_powermatrix())
 clf = KMeans(k=3)
 turbine = []
 
-for windmill in windpark.mills:
+for turbine in windpark.turbines:
 
-    month_power = windml.util.power_features.compute_highlevel_features(windmill)
+    month_power = windml.util.power_features.compute_highlevel_features(turbine)
     turbine.append(month_power)
 
 clf.fit(turbine)
