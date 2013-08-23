@@ -41,8 +41,7 @@ figure = plt.figure(figsize=(15, 10))
 
 # plot 1
 plot1 = plt.subplot(2, 2, 1)
-plt.title("Park Topology")
-show_coord_topo(windpark, show = False)
+show_coord_topo(windpark, "Park Topology", show = False)
 
 # plot 2
 plot2 = plt.subplot(2, 2, 2)
