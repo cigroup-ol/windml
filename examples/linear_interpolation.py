@@ -1,6 +1,10 @@
 """
 Linear Interpolation of Missing Data
 -------------------------------------------------------------------------
+
+The AEMO data set lacks of complete data. Some measurements are missing.  There
+are different methodologies available to handle missing data. In this example
+the linear interpolation is used to estimate missing power values.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
