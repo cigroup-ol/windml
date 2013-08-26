@@ -38,7 +38,7 @@ import datetime as dr
 import time
 from pylab import *
 
-def plot_timeseries(turbine, show = True):
+def plot_timeseries(turbine, start, end, show = True):
     """Plot windspeed and power production of a turbine
 
     Parameters
@@ -68,8 +68,8 @@ def plot_timeseries(turbine, show = True):
     ax.grid(True)
     plt.ylim(-2, 32)
     plt.ylabel("Corrected Power (MW), Wind Speed (m/s)")
-    plt.plot(d_time[0:288], y1[0:288], label = 'Power Production')
-    plt.plot(d_time[0:288], y2[0:288], label = 'Wind Speed')
+    plt.plot(d_time[start:end], y1[start:end], label = 'Power Production')
+    plt.plot(d_time[start:end], y2[start:end], label = 'Wind Speed')
     plt.legend(loc='lower right')
     plt.title("Timeseries of the Selected Turbine")
 

@@ -21,4 +21,4 @@ from windml.visualization.plot_timeseries import plot_timeseries
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 
-plot_timeseries(turbine)
+plot_timeseries(turbine, 0, 288)
