@@ -1,6 +1,10 @@
 """
 Damage the Timeseries
 -------------------------------------------------------------------------
+
+This example shows how to artificially damage a time series by uniform
+distributed removal of data (MAR = 'Missing At Random').  The percentage of
+missing data is given to the preprocessing operator.
 """
 
 from windml.datasets.nrel import NREL
@@ -13,8 +17,8 @@ from windml.preprocessing.preprocessing import destroy
 
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
-measurements = turbine.get_measurements()[:6000]
-damaged = destroy(measurements, method='mar', percentage=.60)
+measurements = turbine.get_measurements()[:1000]
+damaged = destroy(measurements, method='mar', percentage=.80)
 turbine.measurements = damaged
-plot_timeseries(turbine, 0, 6000)
+plot_timeseries(turbine, 0, 1000)
 
