@@ -2,9 +2,10 @@
 Damage the Timeseries NMAR
 -------------------------------------------------------------------------
 
-This example shows how to artificially damage a time series by uniform
-distributed removal of data (NMAR = 'Not Missing At Random').  The percentage of
-missing data is given to the preprocessing operator.
+This example shows how to artificially remove intervals of a given min and max
+length from a time series. The percentage of missing data points has to be
+specified. It is possible that the random intervals intersect each other.
+The method is called 'Not Missing At Random' (NMAR).
 """
 
 from windml.datasets.nrel import NREL
