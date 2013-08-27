@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 class MissingDataFinder(object):
+
     def find(self, measurements, timestep):
         missing_between = []
         d = measurements['date']

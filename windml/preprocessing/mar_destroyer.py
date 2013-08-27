@@ -31,24 +31,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from windml.preprocessing.topologic_interpolation import TopologicInterpolation
-from windml.preprocessing.linear_interpolation import LinearInterpolation
-from windml.preprocessing.override_missing import OverrideMissing
-from windml.preprocessing.mar_destroyer import MARDestroyer
-from windml.preprocessing.nmar_destroyer import NMARDestroyer
+from random import randint
+from math import floor
+from numpy import zeros, float32, int32
 
-def override_missing(timeseries, timestep, override_val):
-    return OverrideMissing().override(timeseries, timestep, override_val)
+class MARDestroyer(object):
+    def destroy(self, timeseries, **args):
+        percentage = args['percentage']
 
-def interpolate(timeseries, method, **args):
-    methods = {'linear': LinearInterpolation().interpolate,
-               'topologic': TopologicInterpolation().interpolate}
-    return methods[method](timeseries, **args)
+        lseries = timeseries.shape[0]
+        remove_indices = []
+        amount_remove = int(floor(lseries * percentage))
+        new_amount = lseries - amount_remove
 
-def destroy(timeseries, method, **args):
-    methods = {'mar': MARDestroyer().destroy,
-               'nmar': NMARDestroyer().destroy}
-    return methods[method](timeseries, **args)
+        # allocate new numpy array
+        newmat = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
-def normalize(timeseries):
-    pass
+        rolled = []
+        for i in xrange(amount_remove):
+            x = randint(0, lseries - 1)
+            while(x in rolled):
+                x = randint(0, lseries - 1)
+            rolled.append(x)
+            remove_indices.append(x)
+
+        current = 0
+        for i in xrange(lseries):
+            if(i not in remove_indices):
+                newmat[current] = timeseries[i]
+                current += 1
+
+        return newmat

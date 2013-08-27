@@ -1,5 +1,5 @@
 """
-Damage the Timeseries
+Damage the Timeseries MAR
 -------------------------------------------------------------------------
 
 This example shows how to artificially damage a time series by uniform
