@@ -6,6 +6,7 @@ from windml.preprocessing.missing_data_finder import MissingDataFinder
 from windml.preprocessing.linear_interpolation import LinearInterpolation
 from windml.preprocessing.mar_destroyer import MARDestroyer
 from windml.preprocessing.nmar_destroyer import NMARDestroyer
+from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 
 class TestAEMO(unittest.TestCase):
     def test_linear_interpolation(self):
@@ -19,6 +20,14 @@ class TestAEMO(unittest.TestCase):
         turbine = NREL().get_turbine(NREL.park_id['tehachapi'], 2004)
         timeseries = turbine.get_measurements()[:1000]
         damaged = MARDestroyer().destroy(timeseries, percentage=.50)
+        misses = MissingDataFinder().find(damaged, 600)
+        assert(len(misses) > 0)
+
+    def test_marthres_destroyer(self):
+        turbine = NREL().get_turbine(NREL.park_id['tehachapi'], 2004)
+        timeseries = turbine.get_measurements()[:1000]
+        damaged = MARThresDestroyer().destroy(timeseries, percentage=.50,\
+                lower_bound = 0, upper_bound = 20)
         misses = MissingDataFinder().find(damaged, 600)
         assert(len(misses) > 0)
 

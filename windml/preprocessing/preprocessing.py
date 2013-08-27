@@ -36,6 +36,7 @@ from windml.preprocessing.linear_interpolation import LinearInterpolation
 from windml.preprocessing.override_missing import OverrideMissing
 from windml.preprocessing.mar_destroyer import MARDestroyer
 from windml.preprocessing.nmar_destroyer import NMARDestroyer
+from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 
 def override_missing(timeseries, timestep, override_val):
     return OverrideMissing().override(timeseries, timestep, override_val)
@@ -47,7 +48,8 @@ def interpolate(timeseries, method, **args):
 
 def destroy(timeseries, method, **args):
     methods = {'mar': MARDestroyer().destroy,
-               'nmar': NMARDestroyer().destroy}
+               'nmar': NMARDestroyer().destroy,
+               'mar_with_threshold': MARThresDestroyer().destroy}
     return methods[method](timeseries, **args)
 
 def normalize(timeseries):
