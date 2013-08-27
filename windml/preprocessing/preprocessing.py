@@ -31,14 +31,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+from windml.preprocessing.topologic_interpolation import TopologicInterpolation
 from windml.preprocessing.linear_interpolation import LinearInterpolation
 from windml.preprocessing.override_missing import OverrideMissing
+from windml.preprocessing.destroyer import Destroyer
+
 
 def override_missing(timeseries, timestep, override_val):
     return OverrideMissing().override(timeseries, timestep, override_val)
 
 def interpolate(timeseries, method, **args):
-    methods = {'linear': LinearInterpolation().interpolate}
+    methods = {'linear': LinearInterpolation().interpolate,
+               'topologic': TopologicInterpolation().interpolate}
+    return methods[method](timeseries, **args)
+
+def destroy(timeseries, method, **args):
+    methods = {'mar': Destroyer().destroy}
     return methods[method](timeseries, **args)
 
 def normalize(timeseries):
