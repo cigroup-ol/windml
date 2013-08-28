@@ -1,5 +1,5 @@
 """
-Topologic Interpolation
+Topological Interpolation
 -------------------------------------------------------------------------
 
 In this example the target turbine in the windpark Tehachapi lacks of wind
