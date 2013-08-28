@@ -31,32 +31,49 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from windml.preprocessing.topologic_interpolation import TopologicInterpolation
-from windml.preprocessing.backward_copy import BackwardCopy
-from windml.preprocessing.forward_copy import ForwardCopy
-from windml.preprocessing.linear_interpolation import LinearInterpolation
-from windml.preprocessing.override_missing import OverrideMissing
-from windml.preprocessing.mar_destroyer import MARDestroyer
-from windml.preprocessing.nmar_destroyer import NMARDestroyer
-from windml.preprocessing.marthres_destroyer import MARThresDestroyer
+from windml.preprocessing.missing_data_finder import MissingDataFinder
+from numpy import zeros, int32, float32, nan
 
-def override_missing(timeseries, timestep, override_val):
-    return OverrideMissing().override(timeseries, timestep, override_val)
+class BackwardCopy(object):
+    def interpolate(self, timeseries, **args):
+        timestep = args['timestep']
 
-def interpolate(timeseries, method, **args):
-    methods = {'linear': LinearInterpolation().interpolate,
-               'topologic': TopologicInterpolation().interpolate,
-               'forwardcopy': ForwardCopy().interpolate,
-               'backwardcopy': BackwardCopy().interpolate}
+        new_amount = timeseries.shape[0]
+        misses = MissingDataFinder().find(timeseries, timestep)
 
-    return methods[method](timeseries, **args)
+        starts = {}
+        for start, end, amount in misses:
+            new_amount += amount
+            starts[start] = [end, amount]
 
-def destroy(timeseries, method, **args):
-    methods = {'mar': MARDestroyer().destroy,
-               'nmar': NMARDestroyer().destroy,
-               'mar_with_threshold': MARThresDestroyer().destroy}
+        # allocate new numpy array
+        filled = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
-    return methods[method](timeseries, **args)
+        keys = starts.keys()
+        current_index = 0
 
-def normalize(timeseries):
-    pass
+        for i in range(len(timeseries)):
+            if(i in keys):
+            # missing data starting
+                cs = 'corrected_score'
+                d = 'date'
+                sp = 'speed'
+
+                # add start measurement
+                filled[current_index] = timeseries[i]
+                current_index += 1
+
+                end, n = starts[i]
+                for j in range(1, n + 1):
+                    new_timestep = timeseries[i][d] + j * timestep
+                    csval = timeseries[end][cs]
+                    spval = timeseries[end][sp]
+                    filled[current_index] = (new_timestep, csval , spval)
+                    current_index += 1
+            else:
+                filled[current_index] = timeseries[i]
+                current_index += 1
+
+        return filled
