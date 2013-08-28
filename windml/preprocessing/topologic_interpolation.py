@@ -40,7 +40,7 @@ class TopologicInterpolation(object):
     def interpolate(self, timeseries, **args):
         cs = 'corrected_score'
         sp = 'speed'
-        d = 'date'
+        date = 'date'
 
         timestep = args['timestep']
         location = args['location']
@@ -81,9 +81,9 @@ class TopologicInterpolation(object):
 
         # allocate new numpy array
         new_mat = zeros((new_amount,),\
-                dtype=[(d, int32),\
-                       (cs, float32),\
-                       (sp, float32)])
+                dtype=[('date', int32),\
+                       ('corrected_score', float32),\
+                       ('speed', float32)])
 
         keys = starts.keys()
         current_index = 0
@@ -134,7 +134,7 @@ class TopologicInterpolation(object):
                             y += y_k
                             ws += ws_k
 
-                        new_timestep = timeseries[i][d] + j * timestep
+                        new_timestep = timeseries[i][date] + j * timestep
                         new_mat[current_index] = (new_timestep, y, ws)
                         current_index += 1
             else: # if not missing
