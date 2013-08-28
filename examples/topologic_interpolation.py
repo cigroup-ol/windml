@@ -2,11 +2,12 @@
 Topologic Interpolation
 -------------------------------------------------------------------------
 
-In this example the target turbine in the windpark Tehachapi lacks of
-wind power and wind speed data. The distribution of the missing data is
-Not Missing At Random (NMAR). The missing data is topologically interpolated
-with the help of neighbor turbines by weighten the data according to their
-distances to the target turbine. A neighborhood radius of 10 km is chosen.
+In this example the target turbine in the windpark Tehachapi lacks of wind
+power and wind speed data. The distribution of the missing data is Not Missing
+At Random (NMAR). The missing data is topologically interpolated with the help
+of neighbor turbines by weighten (anti-proportional) the data according to
+their distances to the target turbine. A neighborhood radius of 10 km is
+chosen.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>

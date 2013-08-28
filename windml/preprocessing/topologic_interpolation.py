@@ -38,18 +38,22 @@ from numpy import zeros, int32, float32, nan
 
 class TopologicInterpolation(object):
     def interpolate(self, timeseries, **args):
+        cs = 'corrected_score'
+        sp = 'speed'
+        d = 'date'
+
         timestep = args['timestep']
         location = args['location']
         neighbor_series = args['neighbor_series']
         neighbor_locations = args['neighbor_locations']
 
-        # override missing on neighbours
+        # override missing on neighbors
         lnseries = len(neighbor_series)
         ov_neighbor_series = []
         ovm = OverrideMissing()
         for i in xrange(lnseries):
             ov_series = ovm.override(neighbor_series[i], timestep, -1)
-            ov_neighbour_series.append(ov_series)
+            ov_neighbor_series.append(ov_series)
 
         # find missing data on target
         finder = MissingDataFinder()
@@ -59,12 +63,12 @@ class TopologicInterpolation(object):
         # find missing data from neighbors
         nmisses = []
         for i in xrange(0, len(neighbor_series)):
-            nmisses.append(finder.find(neighbour_series[i], timestep))
+            nmisses.append(finder.find(neighbor_series[i], timestep))
 
         # calucating distances
         distances = []
         for i in xrange(0, len(neighbor_series)):
-            d = distance(location, neighbor_locations[i])
+            d = haversine(location, neighbor_locations[i])
             if(d == 0):
                 raise Exception("distance is 0.")
             distances.append(d)
@@ -76,9 +80,10 @@ class TopologicInterpolation(object):
             starts[start] = [end, amount]
 
         # allocate new numpy array
-        filled = zeros((new_amount,), dtype=[('date', int32),\
-                ('corrected_score', float32),\
-                ('speed', float32)])
+        new_mat = zeros((new_amount,),\
+                dtype=[(d, int32),\
+                       (cs, float32),\
+                       (sp, float32)])
 
         keys = starts.keys()
         current_index = 0
@@ -86,16 +91,13 @@ class TopologicInterpolation(object):
         for i in range(len(timeseries)):
             if(i in keys):
             # missing data starting
-                cs = 'corrected_score'
-                d = 'date'
-
                 # add start measurement
-                filled[current_index] = timeseries[i]
+                new_mat[current_index] = timeseries[i]
                 current_index += 1
 
                 end, n = starts[i]
 
-                w_hat_ks = {}
+                w_hat_k = {}
                 for j in range(1, n + 1):
                     candidates = []
                     sum_of_w_hat = 0
@@ -112,7 +114,7 @@ class TopologicInterpolation(object):
                     if(len(candidates) == 0):
                         y = timeseries[i][cs]
                         new_timestep = timeseries[i][d] + j * timestep
-                        filled[current_index] = (new_timestep, y, nan)
+                        new_mat[current_index] = (new_timestep, y, nan)
                         current_index += 1
                     else:
                         # calculate weight and sum, for later use in
@@ -123,17 +125,20 @@ class TopologicInterpolation(object):
 
                         # calculation of label
                         y = 0
+                        ws = 0
                         for k in candidates:
                             # w_k is anti-proportional
                             w_k = w_hat_k[k] / sum_of_w_hat
-                            y_k = w_k * ov_neighbor_series[i + j]
+                            y_k = w_k * ov_neighbor_series[k][i + j][cs]
+                            ws_k = w_k * ov_neighbor_series[k][i + j][sp]
                             y += y_k
+                            ws += ws_k
 
                         new_timestep = timeseries[i][d] + j * timestep
-                        filled[current_index] = (new_timestep, y, nan)
+                        new_mat[current_index] = (new_timestep, y, ws)
                         current_index += 1
             else: # if not missing
-                filled[current_index] = timeseries[i]
+                new_mat[current_index] = timeseries[i]
                 current_index += 1
 
-        return filled
+        return new_mat
