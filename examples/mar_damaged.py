@@ -7,8 +7,11 @@ distributed removal of data (MAR = 'Missing At Random').  The percentage of
 missing data is given to the preprocessing operator.
 """
 
+# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
+# Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
+# License: BSD 3 clause
+
 from windml.datasets.nrel import NREL
-from windml.visualization.plot_timeseries import plot_timeseries
 from windml.visualization.plot_timeseries import plot_timeseries
 from windml.preprocessing.preprocessing import destroy
 
@@ -17,10 +20,6 @@ import matplotlib.dates as md
 from pylab import *
 
 from numpy import array
-
-# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
-# Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
-# License: BSD 3 clause
 
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
