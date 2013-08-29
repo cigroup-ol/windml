@@ -31,36 +31,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from windml.preprocessing.topologic_interpolation import TopologicInterpolation
-from windml.preprocessing.backward_copy import BackwardCopy
-from windml.preprocessing.forward_copy import ForwardCopy
-from windml.preprocessing.linear_interpolation import LinearInterpolation
-from windml.preprocessing.override_missing import OverrideMissing
-from windml.preprocessing.mar_destroyer import MARDestroyer
-from windml.preprocessing.nmar_destroyer import NMARDestroyer
-from windml.preprocessing.marthres_destroyer import MARThresDestroyer
-from windml.preprocessing.duplicate_remover import DuplicateRemover
+class DuplicateRemover(object):
+    def remove(self, timeseries):
+        last_time = 0
+        new_amount = 0
+        for i in xrange(timeseries.shape[0]):
+            date = timeseries[i]['date']
+            if(date > last_time):
+                new_amount += 1
+                last_time = date
 
-def override_missing(timeseries, timestep, override_val):
-    return OverrideMissing().override(timeseries, timestep, override_val)
+        new_mat = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
-def interpolate(timeseries, method, **args):
-    methods = {'linear': LinearInterpolation().interpolate,
-               'topologic': TopologicInterpolation().interpolate,
-               'forwardcopy': ForwardCopy().interpolate,
-               'backwardcopy': BackwardCopy().interpolate}
+        last_time = 0
+        for i in xrange(new_amount):
+            date = timeseries[i]['date']
+            if(date > last_time):
+                new_mat[i] = timeseries[i]
 
-    return methods[method](timeseries, **args)
-
-def destroy(timeseries, method, **args):
-    methods = {'mar': MARDestroyer().destroy,
-               'nmar': NMARDestroyer().destroy,
-               'mar_with_threshold': MARThresDestroyer().destroy}
-
-    return methods[method](timeseries, **args)
-
-def remove_duplicates(timeseries):
-    return DuplicateRemover().remove(timeseries)
-
-def normalize(timeseries):
-    pass
+        return new_mat
