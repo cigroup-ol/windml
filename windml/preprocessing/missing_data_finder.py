@@ -35,11 +35,18 @@ class MissingDataFinder(object):
 
     def find(self, measurements, timestep):
         missing_between = []
-        d = measurements['date']
-        for i in range(len(d) - 1):
-            if((d[i + 1]) - d[i] > timestep):
-                n = ((d[i + 1] - d[i]) / timestep) - 1
+        for i in xrange(len(measurements) - 1):
+            d = measurements[i]['date']
+            dn = measurements[i + 1]['date']
+            if((dn - d > timestep):
+                n = ((dn - d) / timestep) - 1
                 missing_between.append((i, i + 1, n))
         return missing_between
 
-
+    def get_distances(self, measurements):
+        distances = []
+        for i in xrange(len(measurements) - 1):
+            d = measurements[i]['date']
+            dn = measurements[i + 1]['date']
+            distances.append(dn - d)
+        return distances
