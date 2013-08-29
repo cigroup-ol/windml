@@ -50,3 +50,10 @@ class MissingDataFinder(object):
             dn = measurements[i + 1]['date']
             distances.append(dn - d)
         return distances
+
+    def validate_distances(self, measurements, timesteps):
+        for d in self.get_distances(measurements)
+            if(d != timesteps):
+                return False
+        return True
+
