@@ -59,6 +59,7 @@ class LinearInterpolation(object):
             # missing data starting
                 cs = 'corrected_score'
                 d = 'date'
+                sp = 'speed'
 
                 # add start measurement
                 filled[current_index] = timeseries[i]
