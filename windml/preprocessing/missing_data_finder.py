@@ -52,7 +52,7 @@ class MissingDataFinder(object):
         return distances
 
     def validate_distances(self, measurements, timesteps):
-        for d in self.get_distances(measurements)
+        for d in self.get_distances(measurements):
             if(d != timesteps):
                 return False
         return True
