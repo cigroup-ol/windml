@@ -56,10 +56,16 @@ class MARThresDestroyer(object):
         if(len(marked_indices) == 0):
             raise Exception("No data met criteria")
 
+        # first and last element must not be deleted, because
+        # the interpolated has to have the same length.
+        exceptions = [0, lseries - 1]
+
         amount_remove = int(floor(len(marked_indices) * percentage))
         removed = 0
         while removed < amount_remove:
             x = randint(0, len(marked_indices) - 1)
+            while(x in exceptions):
+                x = randint(0, len(marked_indices) - 1)
             remove_indices.append(marked_indices[x])
             marked_indices.remove(marked_indices[x])
             removed += 1

@@ -53,12 +53,14 @@ class NMARDestroyer(object):
             marked += (end - start)
             marked_intervals.append((start, end))
 
+        exceptions = [0, lseries - 1]
+
         removed_indices = []
         index_old = 0
         while index_old < lseries:
             for interval in marked_intervals:
                 (start, end) = interval
-                if(start <= index_old <= end):
+                if((start <= index_old <= end) and index_old not in exceptions):
                     removed_indices.append(index_old)
                     break
             index_old += 1

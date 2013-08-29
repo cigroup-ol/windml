@@ -1,3 +1,36 @@
+"""
+Copyright (c) 2013,
+Fabian Gieseke, Justin P. Heinermann, Oliver Kramer, Jendrik Poloczek,
+Nils A. Treiber
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+    Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+    Neither the name of the Computational Intelligence Group of the University
+    of Oldenburg nor the names of its contributors may be used to endorse or
+    promote products derived from this software without specific prior written
+    permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""
+
 import unittest
 
 from windml.datasets.aemo import AEMO
@@ -11,27 +44,49 @@ from windml.preprocessing.topologic_interpolation import TopologicInterpolation
 from windml.preprocessing.forward_copy import ForwardCopy
 from windml.preprocessing.backward_copy import BackwardCopy
 
+#@todo every interpolation method test with nmar, mar_thres, mar.
 class TestPreprocessing(unittest.TestCase):
     def test_linear_interpolation(self):
-        turbine = AEMO().get_turbine(AEMO.park_id['cathrock'])
-        timeseries = turbine.get_measurements()[24515:150000]
-        t_hat = LinearInterpolation().interpolate(timeseries, timestep=300)
-        misses = MissingDataFinder().find(t_hat, 300)
-        assert(len(misses) < 1)
+        park_id = NREL.park_id['tehachapi']
+        windpark = NREL().get_windpark(park_id, 10, 2004)
+        target = windpark.get_target()
+        timestep = 600
+        measurements = target.get_measurements()[300:500]
+        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        before_misses = MissingDataFinder().find(damaged, timestep)
+        t_hat = LinearInterpolation().interpolate(damaged, timestep=timestep)
+        after_misses = MissingDataFinder().find(t_hat, timestep)
+
+        assert(measurements.shape[0] == t_hat.shape[0])
+        assert(len(after_misses) < 1)
 
     def test_forward_copy_interpolation(self):
-        turbine = AEMO().get_turbine(AEMO.park_id['cathrock'])
-        timeseries = turbine.get_measurements()[24515:150000]
-        t_hat = ForwardCopy().interpolate(timeseries, timestep=300)
-        misses = MissingDataFinder().find(t_hat, 300)
-        assert(len(misses) < 1)
+        park_id = NREL.park_id['tehachapi']
+        windpark = NREL().get_windpark(park_id, 10, 2004)
+        target = windpark.get_target()
+        timestep = 600
+        measurements = target.get_measurements()[300:500]
+        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        before_misses = MissingDataFinder().find(damaged, timestep)
+        t_hat = ForwardCopy().interpolate(measurements, timestep=timestep)
+        after_misses = MissingDataFinder().find(t_hat, timestep)
+
+        assert(measurements.shape[0] == t_hat.shape[0])
+        assert(len(after_misses) < 1)
 
     def test_backward_copy_interpolation(self):
-        turbine = AEMO().get_turbine(AEMO.park_id['cathrock'])
-        timeseries = turbine.get_measurements()[24515:150000]
-        t_hat = BackwardCopy().interpolate(timeseries, timestep=300)
-        misses = MissingDataFinder().find(t_hat, 300)
-        assert(len(misses) < 1)
+        park_id = NREL.park_id['tehachapi']
+        windpark = NREL().get_windpark(park_id, 10, 2004)
+        target = windpark.get_target()
+        timestep = 600
+        measurements = target.get_measurements()[300:500]
+        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        before_misses = MissingDataFinder().find(damaged, timestep)
+        t_hat = BackwardCopy().interpolate(measurements, timestep=timestep)
+        after_misses = MissingDataFinder().find(t_hat, timestep)
+
+        assert(measurements.shape[0] == t_hat.shape[0])
+        assert(len(after_misses) < 1)
 
     def test_topological_interpolation(self):
         park_id = NREL.park_id['tehachapi']
@@ -48,12 +103,14 @@ class TestPreprocessing(unittest.TestCase):
         nseries = [t.get_measurements()[300:500] for t in neighbors]
         nlocs = [(t.longitude, t.latitude) for t in neighbors]
 
-        tinterpolated = TopologicInterpolation().interpolate(\
+        t_hat = TopologicInterpolation().interpolate(\
                                     damaged, method="topologic",\
                                     timestep=timestep, location=tloc,\
                                     neighbor_series = nseries,\
                                     neighbor_locations = nlocs)
-        misses = MissingDataFinder().find(tinterpolated, timestep)
+        misses = MissingDataFinder().find(t_hat, timestep)
+
+        assert(measurements.shape[0] == t_hat.shape[0])
         assert(len(misses) < 1)
 
     def test_mar_destroyer(self):

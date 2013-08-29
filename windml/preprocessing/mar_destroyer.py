@@ -49,10 +49,14 @@ class MARDestroyer(object):
                 ('corrected_score', float32),\
                 ('speed', float32)])
 
+        # first and last element must not be deleted, because
+        # the interpolated has to have the same length.
+        exceptions = [0, lseries - 1]
+
         rolled = []
         for i in xrange(amount_remove):
             x = randint(0, lseries - 1)
-            while(x in rolled):
+            while(x in rolled or x in exceptions):
                 x = randint(0, lseries - 1)
             rolled.append(x)
             remove_indices.append(x)
