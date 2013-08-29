@@ -38,7 +38,7 @@ class MissingDataFinder(object):
         for i in xrange(len(measurements) - 1):
             d = measurements[i]['date']
             dn = measurements[i + 1]['date']
-            if((dn - d > timestep):
+            if(dn - d > timestep):
                 n = ((dn - d) / timestep) - 1
                 missing_between.append((i, i + 1, n))
         return missing_between
