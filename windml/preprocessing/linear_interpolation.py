@@ -67,13 +67,16 @@ class LinearInterpolation(object):
                 end, n = starts[i]
                 # interpolate
                 dy = (timeseries[end][cs] - timeseries[i][cs])
+                dy2 = (timeseries[end][sp] - timeseries[i][sp])
                 dx = (timeseries[end][d] - timeseries[i][d])
                 gradient = dy / dx
+                gradient2 = dy2 / dx
 
                 for j in range(1, n + 1):
                     y = gradient * timestep * j + timeseries[i][cs]
+                    y2 = gradient2 * timestep * j + timeseries[i][sp]
                     new_timestep = timeseries[i][d] + j * timestep
-                    filled[current_index] = (new_timestep, y, nan)
+                    filled[current_index] = (new_timestep, y, y2)
 
                     current_index += 1
             else:
