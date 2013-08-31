@@ -67,7 +67,7 @@ class AEMO(object):
     * lkbonny1
     * lkbonny2
     * lkbonny3
-    * mtturbinear
+    * mtmillar
     * nbhwf1
     * snowtwn1
     * starhlwf
@@ -114,7 +114,7 @@ class AEMO(object):
         'lkbonny1' : 9,
         'lkbonny2' : 10,
         'lkbonny3' : 11,
-        'mtturbinear' : 12,
+        'mtmillar' : 12,
         'nbhwf1' : 13,
         'snowtwn1' : 14,
         'starhlwf' : 15,
