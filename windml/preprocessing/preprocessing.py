@@ -40,6 +40,10 @@ from windml.preprocessing.mar_destroyer import MARDestroyer
 from windml.preprocessing.nmar_destroyer import NMARDestroyer
 from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 from windml.preprocessing.duplicate_remover import DuplicateRemover
+from windml.preprocessing.nrel_repair import NRELRepair
+
+def repair_nrel(timeseries):
+    return NRELRepair().repair(timeseries)        
 
 def override_missing(timeseries, timestep, override_val):
     return OverrideMissing().override(timeseries, timestep, override_val)

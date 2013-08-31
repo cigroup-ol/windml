@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import unittest
 
+from windml.preprocessing.nrel_repair import NRELRepair
 from windml.datasets.aemo import AEMO
 from windml.datasets.nrel import NREL
 from windml.preprocessing.missing_data_finder import MissingDataFinder
@@ -46,6 +47,13 @@ from windml.preprocessing.backward_copy import BackwardCopy
 
 #@todo every interpolation method test with nmar, mar_thres, mar.
 class TestPreprocessing(unittest.TestCase):
+    def test_nrel_repair(self):
+        ds = NREL()
+        target = ds.get_turbine(NREL.park_id['tehachapi'], 2005)
+        measurements = target.get_measurements()[:43504]
+        measurements = NRELRepair().repair(measurements)
+        assert(NRELRepair().validate(measurements))                
+
     def test_linear_interpolation(self):
         park_id = NREL.park_id['tehachapi']
         windpark = NREL().get_windpark(park_id, 10, 2004)

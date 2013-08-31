@@ -457,3 +457,4 @@ class NREL(DataSource):
             data_arr = np.array(data, dtype=self.NREL_DATA_DTYPE)
         return data_arr[columns]
 
+

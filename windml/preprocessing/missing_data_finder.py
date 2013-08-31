@@ -43,17 +43,3 @@ class MissingDataFinder(object):
                 missing_between.append((i, i + 1, n))
         return missing_between
 
-    def get_distances(self, measurements):
-        distances = []
-        for i in xrange(len(measurements) - 1):
-            d = measurements[i]['date']
-            dn = measurements[i + 1]['date']
-            distances.append(dn - d)
-        return distances
-
-    def validate_distances(self, measurements, timesteps):
-        for d in self.get_distances(measurements):
-            if(d != timesteps):
-                return False
-        return True
-
