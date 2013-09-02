@@ -131,7 +131,7 @@ class AEMO(object):
         'waubrawf' : 26,
         'yambukwf' : 27 }
 
-    data_home = os.getenv("HOME") + "/aemo_data/"
+    data_home = str(os.getenv("HOME")) + "/aemo_data/"
     data_home_raw = data_home + "raw/"
     data_home_npy = data_home + "npy/"
 

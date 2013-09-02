@@ -264,7 +264,7 @@ class NREL(DataSource):
         numpy.array
             Array of meta data for a turbines.
         """
-        data_home = os.getenv("HOME") + "/nrel_data/"
+        data_home = str(os.getenv("HOME")) + "/nrel_data/"
         archive_file_name = "meta.csv"
         DATA_URL = self.BASE_URL + "site_meta.csv"
         if not os.path.exists(data_home):
