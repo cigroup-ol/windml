@@ -60,11 +60,6 @@ class TopologicInterpolation(object):
         new_amount = timeseries.shape[0]
         misses = finder.find(timeseries, timestep)
 
-        # find missing data from neighbors
-        nmisses = []
-        for i in xrange(0, len(neighbor_series)):
-            nmisses.append(finder.find(neighbor_series[i], timestep))
-
         # calucating distances
         distances = []
         for i in xrange(0, len(neighbor_series)):
