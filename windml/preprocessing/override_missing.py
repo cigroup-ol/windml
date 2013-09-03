@@ -67,7 +67,7 @@ class OverrideMissing(object):
                 end, n = starts[i]
                 for j in range(1, n + 1):
                     new_timestep = timeseries[i][d] + j * timestep
-                    filled[current_index] = (new_timestep, val, nan)
+                    filled[current_index] = (new_timestep, val, val)
                     current_index += 1
             else:
                 filled[current_index] = timeseries[i]
