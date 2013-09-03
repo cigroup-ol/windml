@@ -44,6 +44,9 @@ from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 from windml.preprocessing.topologic_interpolation import TopologicInterpolation
 from windml.preprocessing.forward_copy import ForwardCopy
 from windml.preprocessing.backward_copy import BackwardCopy
+from windml.preprocessing.mreg_interpolation import MRegInterpolation
+from sklearn.neighbors import KNeighborsRegressor
+
 
 #@todo every interpolation method test with nmar, mar_thres, mar.
 class TestPreprocessing(unittest.TestCase):
@@ -52,7 +55,24 @@ class TestPreprocessing(unittest.TestCase):
         target = ds.get_turbine(NREL.park_id['tehachapi'], 2005)
         measurements = target.get_measurements()[:43504]
         measurements = NRELRepair().repair(measurements)
-        assert(NRELRepair().validate(measurements))                
+        assert(NRELRepair().validate(measurements))
+
+    def test_mreg_interpolation(self):
+        park_id = NREL.park_id['tehachapi']
+        windpark = NREL().get_windpark(park_id, 3, 2004)
+        target = windpark.get_target()
+        timestep = 600
+        measurements = target.get_measurements()[300:500]
+        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        before_misses = MissingDataFinder().find(damaged, timestep)
+        neighbors = windpark.get_turbines()[:-1]
+
+        reg = KNeighborsRegressor(10, 'uniform')
+        nseries = [t.get_measurements()[300:500] for t in neighbors]
+        t_hat = MRegInterpolation().interpolate(damaged, timestep=timestep,\
+            neighbor_series=nseries, reg=reg, regargs=[])
+        after_misses = MissingDataFinder().find(t_hat, timestep)
+        assert(len(after_misses) < 1)
 
     def test_linear_interpolation(self):
         park_id = NREL.park_id['tehachapi']

@@ -41,9 +41,10 @@ from windml.preprocessing.nmar_destroyer import NMARDestroyer
 from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 from windml.preprocessing.duplicate_remover import DuplicateRemover
 from windml.preprocessing.nrel_repair import NRELRepair
+from windml.preprocessing.mreg_interpolation import MRegInterpolation
 
 def repair_nrel(timeseries):
-    return NRELRepair().repair(timeseries)        
+    return NRELRepair().repair(timeseries)
 
 def override_missing(timeseries, timestep, override_val):
     return OverrideMissing().override(timeseries, timestep, override_val)
@@ -52,7 +53,8 @@ def interpolate(timeseries, method, **args):
     methods = {'linear': LinearInterpolation().interpolate,
                'topologic': TopologicInterpolation().interpolate,
                'forwardcopy': ForwardCopy().interpolate,
-               'backwardcopy': BackwardCopy().interpolate}
+               'backwardcopy': BackwardCopy().interpolate,
+               'mreg': MRegInterpolation().interpolate}
 
     return methods[method](timeseries, **args)
 
