@@ -30,10 +30,10 @@ from numpy import array, zeros, float32, int32
 
 # get windpark and corresponding target. forecast is for the target turbine
 park_id = NREL.park_id['tehachapi']
-windpark = NREL().get_windpark(park_id, 10, 2004)
+windpark = NREL().get_windpark(park_id, 5, 2004)
 target = windpark.get_target()
 
-measurements = target.get_measurements()[300:500]
+measurements = target.get_measurements()[300:1000]
 damaged = destroy(measurements, method="nmar", percentage=.80,\
         min_length=10, max_length=100)
 
@@ -41,7 +41,7 @@ tloc = (target.longitude, target.latitude)
 
 neighbors = windpark.get_turbines()[:-1]
 
-nseries = [t.get_measurements()[300:500] for t in neighbors]
+nseries = [t.get_measurements()[300:1000] for t in neighbors]
 nlocs = [(t.longitude, t.latitude) for t in neighbors]
 
 tinterpolated = interpolate(damaged, method="topologic",\
@@ -90,8 +90,8 @@ plt.ylabel("Corrected Power (MW), Wind Speed (m/s)")
 plt.plot(d_time, y1, label = 'Power Production (interpolated)', color="b")
 plt.plot(d_time, y2, label = 'Wind Speed (interpolated)', color="g")
 
-plt.plot(d_time_true, y1_true, label = 'Power Production', color="r", linestyle="--")
-plt.plot(d_time_true, y2_true, label = 'Wind Speed', color="k", linestyle="--")
+plt.plot(d_time_true, y1_true, label = 'Power Production', color="b", linestyle="--")
+plt.plot(d_time_true, y2_true, label = 'Wind Speed', color="g", linestyle="--")
 
 
 plt.plot(d_time_hat, y1_hat, label = 'Power Production (damaged)',
