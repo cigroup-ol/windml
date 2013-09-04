@@ -48,6 +48,7 @@ class MRegInterpolation(object):
         cs = 'corrected_score'
         sp = 'speed'
         date = 'date'
+        fields = ['corrected_score', 'speed']
 
         timestep = args['timestep']
         neighbor_series = args['neighbor_series']
@@ -64,45 +65,61 @@ class MRegInterpolation(object):
 
         ovtimeseries = OverrideMissing().override(timeseries, timestep, -1)
 
-        X, Y = [], []
-        for t in xrange(len(neighbor_series[0])):
-            if(ovtimeseries[t][cs] != -1):
-                Y.append([ovtimeseries[t][cs], ovtimeseries[t][sp]])
-                pattern = []
-                for nseries in neighbor_series:
-                    pattern.append(nseries[t][cs])
-                for nseries in neighbor_series:
-                    pattern.append(nseries[t][sp])
-                X.append(pattern)
+        for field in fields:
+            X, Y = [], []
 
-        Xa, Ya = array(X), array(Y)
+            for t in xrange(len(neighbor_series[0])):
+                if(ovtimeseries[t][field] != -1):
+                    Y.append(ovtimeseries[t][field])
+                    pattern = []
+                    for nseries in neighbor_series:
+                        pattern.append(nseries[t][field])
+                    X.append(pattern)
 
-        if(reg == 'knn'):
-            regargs = args['regargs']
-            neighbors = regargs['n']
-            variant = regargs['variant']
-            reg = KNeighborsRegressor(neighbors, variant)
-        elif(reg == 'linear_model'):
-            reg = linear_model.LinearRegression()
-        elif(reg == 'svr'):
-            regargs = args['regargs']
-        else:
-            raise Exception("No regressor selected.")
+            Xa, Ya = array(X), array(Y)
 
+            if(reg == 'knn'):
+                regargs = args['regargs']
+                neighbors = regargs['n']
+                variant = regargs['variant']
+                regressor = KNeighborsRegressor(neighbors, variant)
+            elif(reg == 'linear_model'):
+                regressor = linear_model.LinearRegression()
+            elif(reg == 'svr'):
+                regargs = args['regargs']
 
-        import pdb; pdb.set_trace()
+                if(regargs['cv_method'] == 'kfold'):
+                    fold = regargs['cv_args']['k_folds']
+                    pattern_count = Xa.shape[0]
+                    cv_method = KFold(pattern_count, fold)
+                else:
+                    raise Exception("not implemented")
 
-        reg.fit(Xa,Ya)
+                # search for the best parameters with crossvalidation.
+                kernel, epsilon, tuned_parameters =\
+                    regargs['kernel'], regargs['epsilon'], regargs['tuned_parameters']
+                grid = GridSearchCV(SVR(kernel = kernel, epsilon = epsilon),\
+                    param_grid = tuned_parameters, cv=cv_method, verbose = 0)
 
-        for t in xrange(len(ovtimeseries)):
-            if(ovtimeseries[t][cs] == -1):
-                pattern = []
-                for nseries in neighbor_series:
-                    pattern.append(nseries[t][cs])
-                for nseries in neighbor_series:
-                    pattern.append(nseries[t][sp])
-                y_hat = reg.predict(array(pattern))
-                ovtimeseries[t][cs] = y_hat[0][0]
-                ovtimeseries[t][sp] = y_hat[0][1]
+                grid.fit(Xa, Ya)
+
+                # train a SVR regressor with best found parameters.
+                regressor = SVR(kernel=kernel, epsilon=0.1, C = grid.best_estimator.C,\
+                    gamma = grid.best_estimator.gamma)
+            else:
+                raise Exception("No regressor selected.")
+
+            regressor.fit(Xa,Ya)
+
+            for t in xrange(len(ovtimeseries)):
+                if(ovtimeseries[t][field] == -1):
+                    pattern = []
+                    for nseries in neighbor_series:
+                        pattern.append(nseries[t][field])
+                    y_hat = regressor.predict(array(pattern))
+                    if(len(y_hat.shape) > 0):
+                        ovtimeseries[t][field] = y_hat[0]
+                    else:
+                        ovtimeseries[t][field] = y_hat
 
         return ovtimeseries
