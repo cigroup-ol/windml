@@ -35,6 +35,12 @@ from windml.util.distance import haversine
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from windml.preprocessing.override_missing import OverrideMissing
 
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.grid_search import GridSearchCV
+from sklearn.cross_validation import KFold
+from sklearn.svm import SVR
+from sklearn import linear_model
+
 from numpy import zeros, int32, float32, nan, array
 
 class MRegInterpolation(object):
@@ -70,6 +76,22 @@ class MRegInterpolation(object):
                 X.append(pattern)
 
         Xa, Ya = array(X), array(Y)
+
+        if(reg == 'knn'):
+            regargs = args['regargs']
+            neighbors = regargs['n']
+            variant = regargs['variant']
+            reg = KNeighborsRegressor(neighbors, variant)
+        elif(reg == 'linear_model'):
+            reg = linear_model.LinearRegression()
+        elif(reg == 'svr'):
+            regargs = args['regargs']
+        else:
+            raise Exception("No regressor selected.")
+
+
+        import pdb; pdb.set_trace()
+
         reg.fit(Xa,Ya)
 
         for t in xrange(len(ovtimeseries)):

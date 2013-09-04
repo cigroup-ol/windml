@@ -9,7 +9,6 @@ In this example the k-nearest neighbor regression is used.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
-# Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # License: BSD 3 clause
 
 import matplotlib.pyplot as plt
@@ -19,7 +18,6 @@ from windml.mapping.power_mapping import PowerMapping
 from windml.preprocessing.preprocessing import destroy
 from windml.preprocessing.preprocessing import interpolate
 from windml.visualization.plot_timeseries import plot_timeseries
-from sklearn.neighbors import KNeighborsRegressor
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
@@ -29,7 +27,7 @@ from numpy import array, zeros, float32, int32
 
 # get windpark and corresponding target. forecast is for the target turbine
 park_id = NREL.park_id['tehachapi']
-windpark = NREL().get_windpark(park_id, 5, 2004)
+windpark = NREL().get_windpark(park_id, 3, 2004)
 target = windpark.get_target()
 
 measurements = target.get_measurements()[300:1000]
@@ -39,12 +37,11 @@ damaged = destroy(measurements, method="nmar", percentage=.80,\
 neighbors = windpark.get_turbines()[:-1]
 nseries = [t.get_measurements()[300:1000] for t in neighbors]
 
-reg = KNeighborsRegressor(10, 'uniform')
-
-tinterpolated = interpolate(damaged, method="mreg",\
+tinterpolated = interpolate(damaged, method='mreg',\
                             timestep=600,\
                             neighbor_series = nseries,\
-                            reg = reg)
+                            reg = 'knn',
+                            regargs = {'n': 10, 'variant':'uniform'})
 
 d = array([m[0] for m in tinterpolated])
 y1 = array([m[1] for m in tinterpolated]) #score
