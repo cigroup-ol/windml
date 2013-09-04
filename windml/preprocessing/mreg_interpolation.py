@@ -102,10 +102,15 @@ class MRegInterpolation(object):
                     param_grid = tuned_parameters, cv=cv_method, verbose = 0)
 
                 grid.fit(Xa, Ya)
+                import pdb; pdb.set_trace()
 
                 # train a SVR regressor with best found parameters.
-                regressor = SVR(kernel=kernel, epsilon=0.1, C = grid.best_estimator.C,\
-                    gamma = grid.best_estimator.gamma)
+                regressor = SVR(kernel=kernel, epsilon=0.1, C = grid.best_params_['C'],\
+                    gamma = grid.best_params_['gamma'])
+
+                # if regressor hook function specified, call hook
+                if('reghook' in args.keys()):
+                    args['reghook'](regressor)
             else:
                 raise Exception("No regressor selected.")
 
