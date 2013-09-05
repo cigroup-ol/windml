@@ -102,7 +102,6 @@ class MRegInterpolation(object):
                     param_grid = tuned_parameters, cv=cv_method, verbose = 0)
 
                 grid.fit(Xa, Ya)
-                import pdb; pdb.set_trace()
 
                 # train a SVR regressor with best found parameters.
                 regressor = SVR(kernel=kernel, epsilon=0.1, C = grid.best_params_['C'],\
