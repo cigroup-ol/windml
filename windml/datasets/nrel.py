@@ -76,6 +76,7 @@ import time
 from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
+from windml.util.distance import haversine
 
 class NREL(DataSource):
     """ The National Renewable Energy Laboratory ("NREL") data source
@@ -168,6 +169,84 @@ class NREL(DataSource):
                measurements = np.concatenate((measurements, measurement))
         newturbine.add_measurements(measurements)
         return newturbine
+
+    def get_windpark_nearest(self, target_idx, n_nearest,\
+                    year_from=0, year_to=0):
+        """This method fetches and returns a windpark from NREL, which consists
+        of the target turbine with the given target_idx and the surrounding
+        n-nearest turbines around the target turbine. When called, the wind
+        measurements for a given range of years are downloaded for every
+        turbine in the park.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     see windml.datasets.nrel.park_id for example ids.
+        year_from  : int
+                     2004 - 2006
+        year_to    : int
+                     2004 - 2006
+
+        Returns
+        -------
+
+        Windpark
+            An according windpark for target id, n-nearest, and time span.
+        """
+
+        self.get_windpark(target_idx, 5, year_from, year_to)
+        meta = self.fetch_nrel_meta_data_all()
+        target = self.fetch_nrel_meta_data(target_idx)
+        tlat, tlon = target[1], target[2]
+
+        nearest = []
+        distances = []
+        for i in xrange(n_nearest):
+            smallest = None
+            for t in xrange(meta.shape[0]):
+                d = haversine((tlat, tlon), (meta[t][1], meta[t][2]))
+                if(smallest == None and t != target_idx and t not in nearest):
+                    smallest = t
+                    smallest_d = d
+                else:
+                    if(d <= smallest_d and t != target_idx and t not in nearest):
+                        smallest = t
+                        smallest_d = d
+            nearest.append(meta[smallest])
+            distances.append(smallest_d)
+
+        result = Windpark(target_idx, distances[-1])
+
+        for row in nearest:
+            newturbine = Turbine(row[0], row[1] , row[2] , row[3] , row[4],\
+                                 row[5], row[6])
+            if year_from != 0:
+                for y in range(year_from, year_to+1):
+                   measurement = self.fetch_nrel_data(row[0], y,\
+                                   ['date','corrected_score','speed'])
+                   if y==year_from:
+                       measurements = measurement
+                   else:
+                       measurements = np.concatenate((measurements, measurement))
+                newturbine.add_measurements(measurements)
+            result.add_turbine(newturbine)
+
+        #add target turbine as last element
+        newturbine = Turbine(target[0], target[1] , target[2] , target[3],\
+                             target[4] , target[5], target[6])
+        if year_from != 0:
+            for y in range(year_from, year_to+1):
+               measurement = self.fetch_nrel_data(target[0], y,\
+                               ['date','corrected_score','speed'])
+               if y==year_from:
+                   measurements = measurement
+               else:
+                   measurements = np.concatenate((measurements, measurement))
+            newturbine.add_measurements(measurements)
+        result.add_turbine(newturbine)
+
+        return result
 
     def get_windpark(self, target_idx, radius, year_from=0, year_to=0):
         """This method fetches and returns a windpark from NREL, which consists of
