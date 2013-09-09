@@ -195,24 +195,26 @@ class NREL(DataSource):
             An according windpark for target id, n-nearest, and time span.
         """
 
-        self.get_windpark(target_idx, 5, year_from, year_to)
         meta = self.fetch_nrel_meta_data_all()
         target = self.fetch_nrel_meta_data(target_idx)
         tlat, tlon = target[1], target[2]
 
+        marked = []
         nearest = []
         distances = []
         for i in xrange(n_nearest):
             smallest = None
             for t in xrange(meta.shape[0]):
                 d = haversine((tlat, tlon), (meta[t][1], meta[t][2]))
-                if(smallest == None and t != target_idx and t not in nearest):
+                if(smallest == None and t != target_idx - 1 and t not in marked):
                     smallest = t
                     smallest_d = d
                 else:
-                    if(d <= smallest_d and t != target_idx and t not in nearest):
+                    if(d <= smallest_d and t != target_idx - 1 and t not in marked):
                         smallest = t
                         smallest_d = d
+
+            marked.append(smallest)
             nearest.append(meta[smallest])
             distances.append(smallest_d)
 
