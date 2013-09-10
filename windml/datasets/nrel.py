@@ -195,6 +195,10 @@ class NREL(DataSource):
             An according windpark for target id, n-nearest, and time span.
         """
 
+        #if only one year is desired
+        if year_to==0:
+            year_to=year_from
+
         meta = self.fetch_nrel_meta_data_all()
         target = self.fetch_nrel_meta_data(target_idx)
         tlat, tlon = target[1], target[2]
