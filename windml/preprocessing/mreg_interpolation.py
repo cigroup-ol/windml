@@ -44,6 +44,17 @@ from sklearn import linear_model
 from numpy import zeros, int32, float32, nan, array
 
 class MRegInterpolation(object):
+
+    def multi_interpolate(self, timeseries, **args):
+        timestep = args['timestep']
+        neighbor_series = args['neighbor_series']
+        reg = args['reg']
+        regargs = args['regargs']
+
+        # check if there
+
+        return timeseries
+
     def interpolate(self, timeseries, **args):
         cs = 'corrected_score'
         sp = 'speed'

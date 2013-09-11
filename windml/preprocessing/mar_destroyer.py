@@ -67,4 +67,4 @@ class MARDestroyer(object):
                 newmat[current] = timeseries[i]
                 current += 1
 
-        return newmat
+        return newmat, remove_indices

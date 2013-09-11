@@ -31,7 +31,7 @@ windpark = NREL().get_windpark(park_id, 3, 2004)
 target = windpark.get_target()
 
 measurements = target.get_measurements()[300:1000]
-damaged = destroy(measurements, method="nmar", percentage=.80,\
+damaged, indices = destroy(measurements, method="nmar", percentage=.80,\
         min_length=10, max_length=100)
 
 neighbors = windpark.get_turbines()[:-1]

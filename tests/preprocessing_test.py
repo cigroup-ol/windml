@@ -57,20 +57,43 @@ class TestPreprocessing(unittest.TestCase):
         measurements = NRELRepair().repair(measurements)
         assert(NRELRepair().validate(measurements))
 
+    def test_mreg_interpolation_multi(self):
+        park_id = NREL.park_id['tehachapi']
+        windpark = NREL().get_windpark(park_id, 3, 2004)
+        target = windpark.get_target()
+        timestep = 600
+        measurements = target.get_measurements()[300:500]
+        damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
+        before_misses = MissingDataFinder().find(damaged, timestep)
+        neighbors = windpark.get_turbines()[:-1]
+
+        reg = 'knn' # KNeighborsRegressor(10, 'uniform')
+        regargs = {'n' : 10, 'variant' : 'uniform'}
+
+        nseries = [t.get_measurements()[300:500] for t in neighbors]
+
+
+        t_hat = MRegInterpolation().interpolate(damaged, timestep=timestep,\
+            neighbor_series=nseries, reg=reg, regargs=regargs)
+        after_misses = MissingDataFinder().find(t_hat, timestep)
+        assert(len(after_misses) < 1)
+
     def test_mreg_interpolation(self):
         park_id = NREL.park_id['tehachapi']
         windpark = NREL().get_windpark(park_id, 3, 2004)
         target = windpark.get_target()
         timestep = 600
         measurements = target.get_measurements()[300:500]
-        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
         before_misses = MissingDataFinder().find(damaged, timestep)
         neighbors = windpark.get_turbines()[:-1]
 
-        reg = KNeighborsRegressor(10, 'uniform')
+        reg = 'knn' # KNeighborsRegressor(10, 'uniform')
+        regargs = {'n' : 10, 'variant' : 'uniform'}
+
         nseries = [t.get_measurements()[300:500] for t in neighbors]
         t_hat = MRegInterpolation().interpolate(damaged, timestep=timestep,\
-            neighbor_series=nseries, reg=reg, regargs=[])
+            neighbor_series=nseries, reg=reg, regargs=regargs)
         after_misses = MissingDataFinder().find(t_hat, timestep)
         assert(len(after_misses) < 1)
 
@@ -80,7 +103,7 @@ class TestPreprocessing(unittest.TestCase):
         target = windpark.get_target()
         timestep = 600
         measurements = target.get_measurements()[300:500]
-        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
         before_misses = MissingDataFinder().find(damaged, timestep)
         t_hat = LinearInterpolation().interpolate(damaged, timestep=timestep)
         after_misses = MissingDataFinder().find(t_hat, timestep)
@@ -94,7 +117,7 @@ class TestPreprocessing(unittest.TestCase):
         target = windpark.get_target()
         timestep = 600
         measurements = target.get_measurements()[300:500]
-        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
         before_misses = MissingDataFinder().find(damaged, timestep)
         t_hat = ForwardCopy().interpolate(measurements, timestep=timestep)
         after_misses = MissingDataFinder().find(t_hat, timestep)
@@ -108,7 +131,7 @@ class TestPreprocessing(unittest.TestCase):
         target = windpark.get_target()
         timestep = 600
         measurements = target.get_measurements()[300:500]
-        damaged = MARDestroyer().destroy(measurements, percentage=.50)
+        damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
         before_misses = MissingDataFinder().find(damaged, timestep)
         t_hat = BackwardCopy().interpolate(measurements, timestep=timestep)
         after_misses = MissingDataFinder().find(t_hat, timestep)
@@ -122,7 +145,7 @@ class TestPreprocessing(unittest.TestCase):
         target = windpark.get_target()
         timestep = 600
         measurements = target.get_measurements()[300:500]
-        damaged = NMARDestroyer().destroy(measurements, percentage=.80,\
+        damaged, indices = NMARDestroyer().destroy(measurements, percentage=.80,\
                 min_length=10, max_length=100)
 
         tloc = (target.longitude, target.latitude)
@@ -144,14 +167,14 @@ class TestPreprocessing(unittest.TestCase):
     def test_mar_destroyer(self):
         turbine = NREL().get_turbine(NREL.park_id['tehachapi'], 2004)
         timeseries = turbine.get_measurements()[:1000]
-        damaged = MARDestroyer().destroy(timeseries, percentage=.50)
+        damaged, indices = MARDestroyer().destroy(timeseries, percentage=.50)
         misses = MissingDataFinder().find(damaged, 600)
         assert(len(misses) > 0)
 
     def test_marthres_destroyer(self):
         turbine = NREL().get_turbine(NREL.park_id['tehachapi'], 2004)
         timeseries = turbine.get_measurements()[:1000]
-        damaged = MARThresDestroyer().destroy(timeseries, percentage=.50,\
+        damaged, indices = MARThresDestroyer().destroy(timeseries, percentage=.50,\
                 lower_bound = 0, upper_bound = 20)
         misses = MissingDataFinder().find(damaged, 600)
         assert(len(misses) > 0)
@@ -159,7 +182,7 @@ class TestPreprocessing(unittest.TestCase):
     def test_nmar_destroyer(self):
         turbine = NREL().get_turbine(NREL.park_id['tehachapi'], 2004)
         timeseries = turbine.get_measurements()[:1000]
-        damaged = NMARDestroyer().destroy(timeseries, percentage=.50,\
+        damaged, indices = NMARDestroyer().destroy(timeseries, percentage=.50,\
                 min_length=10, max_length=50)
         misses = MissingDataFinder().find(damaged, 600)
         assert(len(misses) > 0)

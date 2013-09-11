@@ -24,7 +24,7 @@ from numpy import array
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 measurements = turbine.get_measurements()[:1000]
-damaged = destroy(measurements, method='mar', percentage=.80)
+damaged, indices = destroy(measurements, method='mar', percentage=.80)
 
 d = array([m[0] for m in measurements])
 y1 = array([m[1] for m in measurements]) #score

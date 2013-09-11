@@ -23,8 +23,8 @@ from pylab import *
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 measurements = turbine.get_measurements()[:1000]
-damaged = destroy(measurements, method='mar_with_threshold', percentage=.80,\
-                lower_bound = 0, upper_bound = 20)
+damaged, indices = destroy(measurements, method='mar_with_threshold',\
+                percentage=.80, lower_bound = 0, upper_bound = 20)
 
 d = array([m[0] for m in measurements])
 y1 = array([m[1] for m in measurements]) #score

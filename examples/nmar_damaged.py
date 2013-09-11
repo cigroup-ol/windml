@@ -24,7 +24,7 @@ from pylab import *
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 measurements = turbine.get_measurements()[:1000]
-damaged = destroy(measurements, method='nmar',\
+damaged, indices = destroy(measurements, method='nmar',\
                   percentage=.80, min_length=10, max_length=50)
 
 d = array([m[0] for m in measurements])

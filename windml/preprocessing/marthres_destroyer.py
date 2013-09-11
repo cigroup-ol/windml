@@ -86,4 +86,4 @@ class MARThresDestroyer(object):
                 index_old += 1
                 index_new += 1
 
-        return new_mat
+        return new_mat, remove_indices
