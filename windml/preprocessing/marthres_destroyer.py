@@ -60,6 +60,9 @@ class MARThresDestroyer(object):
         # the interpolated has to have the same length.
         exceptions = [0, lseries - 1]
 
+        if('exclude' in args.keys()):
+            exceptions = exception + args['exclude']
+
         amount_remove = int(floor(len(marked_indices) * percentage))
         removed = 0
         while removed < amount_remove:

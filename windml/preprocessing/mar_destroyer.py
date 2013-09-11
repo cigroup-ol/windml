@@ -53,6 +53,10 @@ class MARDestroyer(object):
         # the interpolated has to have the same length.
         exceptions = [0, lseries - 1]
 
+        # exclude indices
+        if('exclude' in args.keys()):
+            exceptions = exceptions + args['exclude']
+
         rolled = []
         for i in xrange(amount_remove):
             x = randint(0, lseries - 1)
