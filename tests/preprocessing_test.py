@@ -47,7 +47,6 @@ from windml.preprocessing.backward_copy import BackwardCopy
 from windml.preprocessing.mreg_interpolation import MRegInterpolation
 from sklearn.neighbors import KNeighborsRegressor
 
-
 #@todo every interpolation method test with nmar, mar_thres, mar.
 class TestPreprocessing(unittest.TestCase):
     def test_nrel_repair(self):
@@ -62,19 +61,34 @@ class TestPreprocessing(unittest.TestCase):
         windpark = NREL().get_windpark(park_id, 3, 2004)
         target = windpark.get_target()
         timestep = 600
-        measurements = target.get_measurements()[300:500]
+        measurements = target.get_measurements()[300:350]
         damaged, indices = MARDestroyer().destroy(measurements, percentage=.50)
         before_misses = MissingDataFinder().find(damaged, timestep)
         neighbors = windpark.get_turbines()[:-1]
-
+        count_neighbors = len(neighbors)
         reg = 'knn' # KNeighborsRegressor(10, 'uniform')
         regargs = {'n' : 10, 'variant' : 'uniform'}
 
-        nseries = [t.get_measurements()[300:500] for t in neighbors]
+        processed = 0
+        missed = {k : count_neighbors for k in indices}
+        exclude = []
+        damaged_nseries = []
 
+        for neighbor in neighbors:
+            nseries = neighbor.get_measurements()[300:350]
+            damaged, indices = MARDestroyer().destroy(nseries, percentage=.50, exclude=exclude)
+
+            for index in indices:
+                if(index not in missed.keys()):
+                    missed[index] = count_neighbors
+                missed[index] -= 1
+                if(missed[index] == 1):
+                    exclude.append(index) # exclude in next iterations
+            damaged_nseries.append(damaged)
 
         t_hat = MRegInterpolation().interpolate(damaged, timestep=timestep,\
-            neighbor_series=nseries, reg=reg, regargs=regargs)
+            neighbor_series=damaged_nseries, reg=reg, regargs=regargs)
+
         after_misses = MissingDataFinder().find(t_hat, timestep)
         assert(len(after_misses) < 1)
 
