@@ -57,13 +57,14 @@ class MARDestroyer(object):
         if('exclude' in args.keys()):
             exceptions = exceptions + args['exclude']
 
-        rolled = []
+        indices = range(0, timeseries.shape[0])
+        for exception in exceptions:
+            indices.remove(exception)
+
         for i in xrange(amount_remove):
-            x = randint(0, lseries - 1)
-            while(x in rolled or x in exceptions):
-                x = randint(0, lseries - 1)
-            rolled.append(x)
-            remove_indices.append(x)
+            x = randint(0, len(indices) - 1)
+            remove_indices.append(indices[x])
+            indices.remove(indices[x])
 
         current = 0
         for i in xrange(lseries):
