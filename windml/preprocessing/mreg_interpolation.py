@@ -37,7 +37,7 @@ from windml.preprocessing.override_missing import OverrideMissing
 
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.cross_validation import KFold, cross_val_score
 from sklearn.svm import SVR
 from sklearn import linear_model
 
@@ -140,7 +140,7 @@ class MRegInterpolation(object):
                     for am in merged:
                         pattern.append(data[am][missing][field])
                     data[m][missing][field] = reg.predict(pattern)
-                else:
+                else:   # we have no candidates, and we use merged here
                     ### FITTING
                     labels, patterns = [],[]
                     for i in range(len(mseries)):
@@ -165,8 +165,8 @@ class MRegInterpolation(object):
 
             merged.append(m)
 
-        #############
-
+        # we used the interpolated information of all turbines to interpolate
+        # the missing data of the target turbine.
         ovtimeseries = OverrideMissing().override(timeseries, timestep, -1)
 
         labels, patterns = [], []
@@ -228,9 +228,30 @@ class MRegInterpolation(object):
 
             if(reg == 'knn'):
                 regargs = args['regargs']
-                neighbors = regargs['n']
                 variant = regargs['variant']
-                regressor = KNeighborsRegressor(neighbors, variant)
+
+                if('kfold' in regargs.keys()):
+                    kfold = regargs['kfold']
+                    ncandidates = regargs['n']
+
+                    regressors = {}
+                    best_n = ncandidates[0]
+                    regressor = KNeighborsRegressor(best_n, variant)
+                    regressors[best_n] = regressor
+                    best_score = cross_val_score(regressor, Xa, Ya, cv=kfold).mean()
+
+                    for n in ncandidates[1:]: # try every n and use cross validation
+                        regressor = KNeighborsRegressor(n, variant)
+                        regressors[n] = regressor
+                        score = cross_val_score(regressor, Xa, Ya, cv=kfold).mean()
+                        if(score > best_score):
+                            best_n = n
+                            best_score = score
+                    regressor = regressors[best_n]
+                else:
+                    neighbors = regargs['n']
+                    regressor = KNeighborsRegressor(neighbors, variant)
+
             elif(reg == 'linear_model'):
                 regressor = linear_model.LinearRegression()
             elif(reg == 'svr'):
