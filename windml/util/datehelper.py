@@ -31,9 +31,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from datetime import date
+from datetime import datetime
 
 def timestamp_to_datetime(time):
-    return date.fromtimestamp(time).\
+    return datetime.fromtimestamp(time).\
         strftime('%Y-%m-%d %H:%M:%S')
 
