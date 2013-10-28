@@ -35,20 +35,22 @@ windpark = NREL().get_windpark(park_id, 3, 2004)
 target = windpark.get_target()
 timestep = 600
 measurements = target.get_measurements()[300:1000]
-damaged_target, indices = MARDestroyer().destroy(measurements, percentage=.20)
+
+damaged_target, indices_target = destroy(measurements, method="nmar", min_length=10, max_length=100, percentage=.50)
+
 neighbors = windpark.get_turbines()[:-1]
 count_neighbors = len(neighbors)
 reg = 'knn' # KNeighborsRegressor(10, 'uniform')
 regargs = {'n' : 10, 'variant' : 'uniform'}
 
 processed = 0
-missed = {k : count_neighbors for k in indices}
+missed = {k : count_neighbors for k in indices_target}
 exclude = []
 damaged_nseries = []
 
 for neighbor in neighbors:
     nseries = neighbor.get_measurements()[300:1000]
-    damaged, indices = MARDestroyer().destroy(nseries, percentage=.20, exclude=exclude)
+    damaged, indices = destroy(measurements, method="nmar", percentage=.50, min_length=10, max_length=100, exclude=exclude)
 
     for index in indices:
         if(index not in missed.keys()):
@@ -58,8 +60,12 @@ for neighbor in neighbors:
             exclude.append(index) # exclude in next iterations
     damaged_nseries.append(damaged)
 
-tinterpolated = MRegInterpolation().interpolate(damaged_target, timestep=timestep,\
-    neighbor_series=damaged_nseries, reg=reg, regargs=regargs)
+tinterpolated = interpolate(damaged_target, method='mreg',\
+                            timestep=600,\
+                            neighbor_series = damaged_nseries,\
+                            reg = 'knn',
+                            regargs = {'n': 10, 'variant':'uniform'})
+
 
 d = array([m[0] for m in tinterpolated])
 y1 = array([m[1] for m in tinterpolated]) #score
