@@ -29,7 +29,6 @@ from pylab import *
 
 from numpy import array
 from itertools import product, chain
-from playdoh import map as pmap
 
 parks = {
     'reno' : 11637,
@@ -37,7 +36,7 @@ parks = {
 
 timestep = 600
 methods = ['mreg_knn', 'mreg_lin', 'linear', 'forwardcopy']
-rates = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+rates = [0.1, 0.3, 0.5, 0.7, 0.9]
 destroy_method = 'mar'
 labels = {'linear': 'Linear Interpolation', 'forwardcopy':'LOCF',\
           'backwardcopy': 'Backward Copy', 'mreg_knn' :'KNN Regression',
@@ -142,8 +141,6 @@ def experiment(method, windpark, damaged, rate):
 
 # generating destroyed measurements which are constant over all
 # methods
-import multiprocessing
-cpus = multiprocessing.cpu_count() - 2
 
 data = []
 
@@ -157,7 +154,7 @@ for i in xrange(2):
     de = lambda (rate) : (rate, (destroy(measurements, method=destroy_method,\
                     percentage=rate)[0]))
 
-    dseries = pmap(de, rates, cpu=cpus)
+    dseries = map(de, rates)
     for rate, series in dseries:
         damaged_series[rate] = series
 
@@ -166,7 +163,7 @@ for i in xrange(2):
         error, var, std = experiment(method, windpark, damaged_series[rate], rate)
         return method, rate, error, var, std
 
-    results = pmap(run, list(chain(product(methods, rates))), cpu=cpus)
+    results = map(run, list(chain(product(methods, rates))))
     encoding = lambda method, rate, error, park, var, std :\
         {"method": method,\
         "rate": rate,\
@@ -245,8 +242,8 @@ plt.gca().xaxis.set_major_formatter(formatter)
 plt.xlabel("Rate of Missing Data")
 plt.ylabel("Reconstruction MSE")
 plt.xlim([0.1, 0.9])
-plt.ylim([0, 4])
-plt.legend()
+
+plt.legend(loc="lower right")
 
 plt.show()
 
