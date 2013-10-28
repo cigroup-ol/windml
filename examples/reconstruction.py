@@ -243,7 +243,7 @@ plt.xlabel("Rate of Missing Data")
 plt.ylabel("Reconstruction MSE")
 plt.xlim([0.1, 0.9])
 plt.ylim([0, 10])
-plt.legend(loc="lower right")
+plt.legend(loc="upper left")
 
 plt.show()
 
