@@ -7,13 +7,12 @@ this example the response curve is learned via support vector regression.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
-# Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
-# Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
 # License: BSD 3 clause
 
 from matplotlib import dates
 import matplotlib.pylab as plt
 import datetime, time
+import numpy as np
 
 from numpy import array, matrix
 from sklearn.grid_search import GridSearchCV
@@ -21,63 +20,103 @@ from sklearn.cross_validation import KFold
 from sklearn import __version__ as sklearn_version
 from sklearn.svm import SVR
 
+from sklearn.neighbors import KNeighborsRegressor
 from windml.datasets.nrel import NREL
 from windml.visualization.plot_response_curve import plot_response_curve
 
+
 ds = NREL()
-turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
+turbine = ds.get_turbine(NREL.park_id['palmsprings'], 2004, 2006)
 timeseries = turbine.get_measurements()
-skip = 10
+max_speed = 40
+skip = 1
 
-# plot true values
-X = [m[2] for m in timeseries[::skip]]
-Y = [m[1] for m in timeseries[::skip]]
-plt.scatter(X, Y, color="#CCCCCC")
 
-amount = len(timeseries)
-speed = matrix([[m[2]] for m in timeseries[::skip]])
-score = array([m[1] for m in timeseries[::skip]])
+# plot true values as blue points
+speed = [m[2] for m in timeseries[::skip]]
+score = [m[1] for m in timeseries[::skip]]
 
-"""
-# Due to performance issues we use fixed parameters
-# for a real world scenerio we have to find optimal parameters
-# for the SVR regressor.
 
-cv_method = KFold(amount, 10)
-gamma_range = [0.0001, 0.000001]
-C_range = [2 ** i for i in range(1, 4, 1)]
+# Second Plot: KNN-Interpolation
+# Built patterns und labels
+X_train = speed[0:len(speed):1]
+Y_train = score[0:len(score):1]
+X_train_array = array([[element] for element in X_train])
 
-tuned_parameters = [{
-    'kernel': ['rbf'],
-    'C': C_range,
-    'gamma': gamma_range}]
-
-# search for the best parameters with crossvalidation.
-grid = GridSearchCV(SVR(kernel='rbf', epsilon = 0.1),\
-    param_grid = tuned_parameters, cv=cv_method, verbose = 0)
-
-grid.fit(speed, score)
-
-# train a SVR regressor with best found parameters.
-svr = SVR(kernel='rbf', epsilon=0.1, C = grid.best_estimator.C,\
-    gamma = grid.best_estimator.gamma)
-"""
-
-# train a SVR regressor with best found parameters.
-svr = SVR(kernel='rbf', epsilon=0.1, C = 100.0,\
-    gamma = 0.001)
+# initialize KNN regressor from sklearn.
+k_neighbors = 30
+knn = KNeighborsRegressor(k_neighbors, 'uniform')
 
 # fitting the pattern-label pairs
-svr.fit(speed, score)
+T = np.linspace(0, max_speed, 500)[:, np.newaxis]
+Y_hat = knn.fit(X_train_array, Y_train).predict(T)
 
-speeds = sorted([m[2] for m in timeseries[::skip]])
-speeds_X = array([[speed] for speed in speeds])
-score_hat = svr.predict(speeds_X)
 
-plt.title("SVR Regression of a Response Curve")
-plt.plot(speeds, score_hat)
-plt.xlim([0,25])
+# Last Plot
+start_speed = 15
+threshold = 25
+elements = max_speed-start_speed
+
+num_over_thres = np.zeros((elements), dtype=np.int)
+num_below_thres = np.zeros((elements), dtype=np.int)
+
+for i in range(len(X_train)):
+    elem = 0
+    for j in range(start_speed, max_speed):
+        act_value = np.float32(j)
+        if (X_train[i] >= (act_value) and X_train[i] < (act_value+1.0)):
+            if (Y_train[i] < threshold):
+                num_below_thres[elem] += 1
+            else:
+                num_over_thres[elem] += 1
+        elem += 1
+
+
+fraction = np.zeros(max_speed, dtype=np.float32)
+for i in range(start_speed, len(fraction)):
+    if (np.float32(num_below_thres[i-start_speed]+num_over_thres[i-start_speed]) > 0):
+        fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
+    else:
+        fraction[i] = -1
+print fraction
+
+
+
+figure = plt.figure(figsize=(15, 10))
+plot_abs = plt.subplot(2, 2, 1)
+plt.title("Measurements")
+plt.scatter(speed, score, color="b")
+plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
-plt.ylim([-5, 35])
+plt.ylim([-2, 32])
 plt.ylabel("Correct Score [MW]")
+
+plot_scatter = plt.subplot(2, 2, 2)
+plt.title("KNN Interpolation of the Response Curve")
+plt.plot(T, Y_hat, color='b')
+plt.scatter(speed, score, color="#CCCCCC")
+plt.xlim([-1, max_speed])
+plt.xlabel("Windspeed [m/s]")
+plt.ylim([-2, 32])
+plt.ylabel("Correct Score [MW]")
+
+plot_abs = plt.subplot(2, 2, 3)
+plt.title("Distribution of Wind Speeds")
+plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', normed=True, color='b')
+plt.xlim([-1, max_speed])
+plt.ylim(-0.01, 0.13)
+plt.xlabel("Windspeed [m/s]")
+plt.ylabel("Relative Frequency")
+
+plot_scatter = plt.subplot(2, 2, 4)
+plt.title("Frequency of Cut-Outs")
+steps = range(40)
+plt.plot(steps, fraction, "o", color='b')
+plt.xlim([-1,max_speed])
+plt.xlabel("Windspeed [m/s]")
+plt.ylim([-0.1, 1.1])
+plt.ylabel("Probabilty of Cut-Out Events (Thres = 15)")
+
 plt.show()
+
+
