@@ -444,16 +444,35 @@ class ExampleBuilder:
     def subdir_contents(self, path, subdirs):
         subdirs = [os.path.join(path, subdir) for subdir in subdirs]
 
-        subdir_contents = ("\n\n"
-                           ".. toctree::\n"
-                           "   :maxdepth: 2\n\n")
+        headlines = {'missingdata' : 'Missing Data',
+                     'prediction' : 'Prediction',
+                     'visualization' : 'Visualization',
+                     'statistics' : 'Statistics'}
+
+        toctree =  ("\n\n"
+                    ".. toctree::\n"
+                    "   :hidden:\n\n")
+        contents = "\n\n"
 
         for subdir in subdirs:
-            index = os.path.splitext(self.rst_index_filename(subdir))[0]
-            subdir_contents += '   %s\n' % os.path.relpath(index, path)
+            subdirs, filelist = self.parse_directory(subdir)
+            contents += ("%s\n" % headlines[subdir])
+            contents += ("+" * len(subdir) + "\n")
 
-        subdir_contents += '\n'
-        return subdir_contents
+            for f in filelist:
+                f = os.path.join(path + subdir, f)
+                rel_thumb = os.path.relpath(self.thumb_filename(f) % 1, path)
+                rel_html = os.path.relpath(self.html_filename(f), path)
+
+                toctree += "   ./%s\n\n" % os.path.splitext(rel_html)[0]
+
+                contents += (".. figure:: ./%s\n"
+                             "    :target: ./%s\n"
+                             "\n"
+                             "    :ref:`%s`\n\n" % (rel_thumb,
+                                                    rel_html,
+                                                    self.sphinx_tag(f)))
+        return toctree + contents
 
     def generate_dir_rst(self, path):
         """Create an RST file for a directory
