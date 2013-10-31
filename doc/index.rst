@@ -40,13 +40,13 @@ Getting Started
 For an installation guide, an overview of the architecture, and the functionalities of windML, please visit the :ref:`gettingstarted` page. For a formal description of the applied techniques, see section :ref:`techniques`. The :ref:`examples` gallery illustrates the main functionalities.  
 
 .. figure:: ./_images/show_flip_book_1_thumb.png
-    :target: ./examples/show_flip_book.html
+    :target: ./examples/visualization/show_flip_book.html
 
 .. figure:: ./_images/svr_regression_turbine_1_thumb.png
-    :target: ./examples/svr_regression_turbine.html
+    :target: ./examples/prediction/svr_regression_turbine.html
 
 .. figure:: ./_images/wind_embeddings_1_thumb.png
-    :target: ./examples/wind_embeddings.html
+    :target: ./examples/visualization/wind_embeddings.html
 
 Brief Example
 -------------
