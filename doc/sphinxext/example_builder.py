@@ -57,12 +57,15 @@ DEFAULT_INDEX_TEMPLATE = """
         border-bottom: None;
     }
 
+    h2 {
+        clear: both;
+    }
 
     .figure {
         float: left;
         margin: 10px;
         width: auto;
-        height: 200px;
+        height: 240px;
         width: 180px;
     }
 
@@ -449,29 +452,34 @@ class ExampleBuilder:
                      'visualization' : 'Visualization',
                      'statistics' : 'Statistics'}
 
+	order = ['prediction', 'visualization', 'missingdata', 'statistics']
+
         toctree =  ("\n\n"
                     ".. toctree::\n"
                     "   :hidden:\n\n")
         contents = "\n\n"
 
-        for subdir in subdirs:
+        for subdir in order:
             subdirs, filelist = self.parse_directory(subdir)
             contents += ("%s\n" % headlines[subdir])
-            contents += ("+" * len(subdir) + "\n")
+            contents += ("+" * len(subdir) + "\n\n")
 
+	    contents += ".. container:: figures\n\n"
             for f in filelist:
                 f = os.path.join(path + subdir, f)
                 rel_thumb = os.path.relpath(self.thumb_filename(f) % 1, path)
                 rel_html = os.path.relpath(self.html_filename(f), path)
 
                 toctree += "   ./%s\n\n" % os.path.splitext(rel_html)[0]
-
-                contents += (".. figure:: ./%s\n"
-                             "    :target: ./%s\n"
+		
+                contents += ("    .. figure:: ./%s\n"
+                             "        :target: ./%s\n"
                              "\n"
-                             "    :ref:`%s`\n\n" % (rel_thumb,
+                             "        :ref:`%s`\n\n" % (rel_thumb,
                                                     rel_html,
-                                                    self.sphinx_tag(f)))
+       	                                            self.sphinx_tag(f)))
+
+
         return toctree + contents
 
     def generate_dir_rst(self, path):
