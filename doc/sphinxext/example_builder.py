@@ -459,6 +459,7 @@ class ExampleBuilder:
                     "   :hidden:\n\n")
         contents = "\n\n"
 
+
         for subdir in order:
             subdirs, filelist = self.parse_directory(subdir)
             contents += ("%s\n" % headlines[subdir])

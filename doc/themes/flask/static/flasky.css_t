@@ -14,8 +14,8 @@
 /* -- page layout ----------------------------------------------------------- */
  
 body {
-    font-family: 'Crimson Text', 'Georgia', serif;
-    font-size: 1.3em;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
     background-color: white;
     color: #000;
     margin: 0;
@@ -90,12 +90,12 @@ div.sphinxsidebarwrapper {
 div.sphinxsidebarwrapper p.logo {
     padding: 0 0 20px 0;
     margin: 0;
-    text-align: center;
+    text-align: left;
 }
  
 div.sphinxsidebar h3,
 div.sphinxsidebar h4 {
-    font-family: 'Crimson Text', 'Garamond', 'Georgia', serif;
+    font-family: 'Open Sans', sans-serif;
     color: #444;
     font-size: 24px;
     font-weight: normal;
@@ -131,7 +131,7 @@ div.sphinxsidebar ul {
  
 div.sphinxsidebar input {
     border: 1px solid #ccc;
-    font-family: 'Crimson Text', 'Georgia', serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 1em;
 }
  
@@ -151,14 +151,16 @@ div.body h3,
 div.body h4,
 div.body h5,
 div.body h6 {
-    font-family: 'Crimson Text', 'Garamond', 'Georgia', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     margin: 30px 0px 10px 0px;
     padding: 0;
 }
 
-div.body h1 { margin-top: 0; padding-top: 0; font-size: 240%; }
-div.body h2 { font-size: 180%; }
+div.body h1 { margin-top: 0px; padding-top: 0; font-size: 250%; }
+div#windml h1 { margin-top: 0px; padding-top: 0; font-size: 350%; }
+
+div.body h2 { font-size: 180%; border-bottom: 1px solid #CCCCCC}
 div.body h3 { font-size: 150%; }
 div.body h4 { font-size: 130%; }
 div.body h5 { font-size: 100%; }
@@ -197,7 +199,7 @@ dd div.admonition {
 }
 
 div.admonition p.admonition-title {
-    font-family: 'Crimson Text', 'Garamond', 'Georgia', serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     font-size: 24px;
     margin: 0 0 10px 0;
@@ -241,7 +243,7 @@ p.admonition-title:after {
 
 pre, tt {
     font-family: 'Inconsolata', 'Consolas', 'Menlo', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 img.screenshot {
@@ -338,7 +340,6 @@ pre {
 
 dl pre, blockquote pre, li pre {
     margin-left: -60px;
-    padding-left: 60px;
 }
 
 dl dl pre {

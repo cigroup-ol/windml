@@ -3,6 +3,11 @@
 .. raw:: html
 
     <style type="text/css">
+
+    h1.div#windml {
+        font-size: 350%;
+    }
+
     a.image-reference {
         border-bottom: None;
     }
@@ -11,8 +16,12 @@
         border-bottom: None;
     }
 
-    .figure {
+    .figures {
         float: left;
+    }
+
+    .figure {
+	float: left;
         margin: 10px;
         margin-bottom: 1px;
         width: auto;
@@ -26,7 +35,7 @@
 
     </style>
 
-Documentation of windML 0.4
+windML 
 ===========================
 
 .. .. topic:: Machine learning library for wind energy information systems. 
@@ -39,14 +48,21 @@ Getting Started
 
 For an installation guide, an overview of the architecture, and the functionalities of windML, please visit the :ref:`gettingstarted` page. For a formal description of the applied techniques, see section :ref:`techniques`. The :ref:`examples` gallery illustrates the main functionalities.  
 
-.. figure:: ./_images/show_flip_book_1_thumb.png
-    :target: ./examples/visualization/show_flip_book.html
+.. container:: figures
 
-.. figure:: ./_images/svr_regression_turbine_1_thumb.png
-    :target: ./examples/prediction/svr_regression_turbine.html
+    .. figure:: ./_images/show_flip_book_1_thumb.png
+        :target: ./examples/visualization/show_flip_book.html
+    
+    .. figure:: ./_images/svr_regression_turbine_1_thumb.png
+        :target: ./examples/prediction/svr_regression_turbine.html
+    
+    .. figure:: ./_images/wind_embeddings_1_thumb.png
+        :target: ./examples/visualization/wind_embeddings.html
 
-.. figure:: ./_images/wind_embeddings_1_thumb.png
-    :target: ./examples/visualization/wind_embeddings.html
+.. raw:: html
+
+    <div style="clear: both"></div>
+
 
 Brief Example
 -------------
@@ -56,24 +72,24 @@ of wind time-series forecasting based on *K nearest neighbors* (KNN) regression.
 For a further list of examples with plots, we refer to the :ref:`examples` page.
  ::
 
-    from windml.datasets.nrel import NREL
-    from windml.mapping.power_mapping import PowerMapping
-    from sklearn.neighbors import KNeighborsRegressor
-    import math
-
-    windpark = NREL().get_windpark(NREL.park_id['tehachapi'], 3, 2004, 2005)
-    target = windpark.get_target()
-
-    feature_window, horizon = 3, 3
-    mapping = PowerMapping()
-    X = mapping.get_features_park(windpark, feature_window, horizon)
-    Y = mapping.get_labels_turbine(target, feature_window, horizon)
-    reg = KNeighborsRegressor(10, 'uniform')
-
-    train_to, test_to = int(math.floor(len(X) * 0.5)), len(X)
-    train_step, test_step = 5, 5
-    reg = reg.fit(X[0:train_to:train_step], Y[0:train_to:train_step])
-    y_hat = reg.predict(X[train_to:test_to:test_step])
+  from windml.datasets.nrel import NREL
+  from windml.mapping.power_mapping import PowerMapping
+  from sklearn.neighbors import KNeighborsRegressor
+  import math
+  
+  windpark = NREL().get_windpark(NREL.park_id['tehachapi'], 3, 2004, 2005)
+  target = windpark.get_target()
+  
+  feature_window, horizon = 3, 3
+  mapping = PowerMapping()
+  X = mapping.get_features_park(windpark, feature_window, horizon)
+  Y = mapping.get_labels_turbine(target, feature_window, horizon)
+  reg = KNeighborsRegressor(10, 'uniform')
+  
+  train_to, test_to = int(math.floor(len(X) * 0.5)), len(X)
+  train_step, test_step = 5, 5
+  reg = reg.fit(X[0:train_to:train_step], Y[0:train_to:train_step])
+  y_hat = reg.predict(X[train_to:test_to:test_step])
 
 Contributors
 ------------
