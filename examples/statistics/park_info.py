@@ -17,7 +17,7 @@ from windml.datasets.nrel import NREL
 from windml.visualization.show_coord_topo import show_coord_topo
 
 ds = NREL()
-windpark = ds.get_windpark(NREL.park_id['tehachapi'], 10, 2004)
+windpark = ds.get_windpark(NREL.park_id['tehachapi'], 2, 2004)
 X = np.array(windpark.get_powermatrix())
 
 feat, month_power, ramps_up, ramps_down, power_freq =\
