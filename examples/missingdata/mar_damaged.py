@@ -3,8 +3,9 @@ Damage the Timeseries MAR
 -------------------------------------------------------------------------
 
 This example shows how to artificially damage a time series by uniform
-distributed removal of data (MAR = 'Missing At Random').  The percentage of
-missing data is given to the preprocessing operator.
+distributed removal of data (MAR = 'Missing At Random') for experimental
+analyses. The percentage of missing data is a parameter of the preprocessing
+operator.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>

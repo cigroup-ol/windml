@@ -2,11 +2,11 @@
 Reconstruction MSE of Imputation
 -------------------------------------------------------------------------
 
-The time series of the target turbine 'reno' is destroyed missing at
-random given a certain percentage. Different imputation methods are
-compared w.r.t. to their reconstruction MSE to the original time series.
-For the imputation the Last Observation Carried Forward (LOCF), Linear
-Interpolation, Multiple Linear Regression and the KNN Regression are used.
+The time series of the target turbine near Reno is destroyed missing at random
+(MAR) given a certain percentage of damage. Different imputation methods are
+compared w.r.t. their reconstruction MSE and to the original time series. For
+the imputation the last observation carried forward (LOCF), linear
+interpolation, multiple linear regression and kNN regression are used.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>

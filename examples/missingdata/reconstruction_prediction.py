@@ -2,14 +2,14 @@
 Prediction with Imputated Time Series
 -------------------------------------------------------------------------
 
-The time series of the target turbine 'reno' is destroyed missing
-at random given a certain percentage. The damaged time series is
-imputated using different imputation methods: Last Observation
-Carried Forward (LOCF), Linear Interpolation, Multiple Linear Regression
-and KNN Regression. The imputated time series is the used for short-term
-wind prediction using the spatio-temporal time series model with
-Mulitple Linear Regression. The plot shows the prediction MSE dependend
-on the rate of missing data and the imputation method.
+The time series of the target turbine near Reno is destroyed missing at random
+(MAR) given a certain percentage of damage. The damaged time series is
+imputated using different imputation methods: last observation carried forward
+(LOCF), linear interpolation, multiple linear regression and kNN regression.
+The imputated time series is used for short-term wind prediction employing the
+spatio-temporal time series model with multiple linear regression. The plot
+shows the prediction MSE depending on the rate of missing data for different
+imputation methods.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>

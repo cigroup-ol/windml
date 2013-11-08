@@ -2,10 +2,9 @@
 SVR Regression for Interpolation
 -------------------------------------------------------------------------
 
-In this example the target turbine in the windpark Tehachapi lacks of wind
+In this example, the target turbine in the windpark Tehachapi lacks of wind
 power and wind speed data. The distribution of the missing data is Not Missing
-At Random (NMAR). The missing data is interpolated by a multivariate regression.
-In this example the SVR regression is used.
+At Random (NMAR). The missing data is interpolated by SVR regression.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
