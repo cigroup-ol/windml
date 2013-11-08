@@ -2,8 +2,10 @@
 Response Curve of a Turbine
 --------------------------------------------------
 
-The response curve is the mapping from wind speed to wind power production. In
-this example the response curve is learned via support vector regression.
+The response curve illustrates the relationship between wind speed
+and generated power. The response curve is fitted via k-nearest neighbor
+regression. Distribution of wind speeds and frequencies of cut-out help
+to interpret the response curve shape.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -26,7 +28,7 @@ from windml.visualization.plot_response_curve import plot_response_curve
 
 
 ds = NREL()
-turbine = ds.get_turbine(NREL.park_id['palmsprings'], 2004, 2006)
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004, 2006)
 timeseries = turbine.get_measurements()
 max_speed = 40
 skip = 1
