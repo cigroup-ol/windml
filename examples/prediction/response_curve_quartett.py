@@ -47,7 +47,7 @@ X_train_array = array([[element] for element in X_train])
 
 # initialize KNN regressor from sklearn.
 k_neighbors = 30
-knn = KNeighborsRegressor(k_neighbors, 'uniform')
+knn = KNeighborsRegressor(k_neighbors, 'uniform', warn_on_equidistant = False)
 
 # fitting the pattern-label pairs
 T = np.linspace(0, max_speed, 500)[:, np.newaxis]
@@ -80,7 +80,6 @@ for i in range(start_speed, len(fraction)):
         fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
     else:
         fraction[i] = -1
-print fraction
 
 
 
