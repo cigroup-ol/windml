@@ -1,5 +1,5 @@
 """
-Multivariate Regression for Interpolation
+KNN Regression for Interpolation
 -------------------------------------------------------------------------
 
 In this example the target turbine in the windpark Tehachapi lacks of wind
