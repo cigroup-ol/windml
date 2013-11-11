@@ -2,8 +2,11 @@
 Response Curve of a Turbine
 --------------------------------------------------
 
-The response curve is the mapping from wind speed to wind power production. In
-this example the response curve is learned via support vector regression.
+This example illustrates the relationship between the wind speed and the generated
+power. The response curve is fitted via a K-nearest neighbor regression. Finally,
+the probabilty of cut-out events is shown.
+
+
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -26,7 +29,7 @@ from windml.visualization.plot_response_curve import plot_response_curve
 
 
 ds = NREL()
-turbine = ds.get_turbine(NREL.park_id['palmsprings'], 2004, 2006)
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004, 2006)
 timeseries = turbine.get_measurements()
 max_speed = 40
 skip = 1
@@ -44,9 +47,8 @@ Y_train = score[0:len(score):1]
 X_train_array = array([[element] for element in X_train])
 
 # initialize KNN regressor from sklearn.
-k_neighbors = 30
+k_neighbors = 20
 knn = KNeighborsRegressor(k_neighbors, 'uniform')
-
 # fitting the pattern-label pairs
 T = np.linspace(0, max_speed, 500)[:, np.newaxis]
 Y_hat = knn.fit(X_train_array, Y_train).predict(T)
@@ -64,7 +66,7 @@ for i in range(len(X_train)):
     elem = 0
     for j in range(start_speed, max_speed):
         act_value = np.float32(j)
-        if (X_train[i] >= (act_value) and X_train[i] < (act_value+1.0)):
+        if (X_train[i] >= (act_value) and X_train[i] < (act_value+1)):
             if (Y_train[i] < threshold):
                 num_below_thres[elem] += 1
             else:
@@ -75,7 +77,8 @@ for i in range(len(X_train)):
 fraction = np.zeros(max_speed, dtype=np.float32)
 for i in range(start_speed, len(fraction)):
     if (np.float32(num_below_thres[i-start_speed]+num_over_thres[i-start_speed]) > 0):
-        fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
+        fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres\
+            [i-start_speed]+num_over_thres[i-start_speed])
     else:
         fraction[i] = -1
 print fraction
@@ -102,7 +105,8 @@ plt.ylabel("Correct Score [MW]")
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Distribution of Wind Speeds")
-plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', normed=True, color='b')
+plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', \
+    normed=True, color='b')
 plt.xlim([-1, max_speed])
 plt.ylim(-0.01, 0.13)
 plt.xlabel("Windspeed [m/s]")
