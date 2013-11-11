@@ -1,11 +1,12 @@
 """
-Damage the Timeseries MAR + Threshold
+Damage the Timeseries MAR
 -------------------------------------------------------------------------
 
 This example shows how to artificially damage a time series by uniform
-distributed removal of data (MAR = 'Missing At Random') for data under a lower
-bound and higher than the upper bound.The percentage of missing data is given
-to the preprocessing operator.  """
+distributed removal of data (MAR = 'Missing At Random') for experimental
+analyses. The percentage of missing data is a parameter of the preprocessing
+operator.
+"""
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
@@ -15,16 +16,16 @@ from windml.datasets.nrel import NREL
 from windml.visualization.plot_timeseries import plot_timeseries
 from windml.preprocessing.preprocessing import destroy
 
-from numpy import array
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 from pylab import *
 
+from numpy import array
+
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
 measurements = turbine.get_measurements()[:1000]
-damaged = destroy(measurements, method='mar_with_threshold', percentage=.80,\
-                lower_bound = 0, upper_bound = 20)
+damaged, indices = destroy(measurements, method='mar', percentage=.80)
 
 d = array([m[0] for m in measurements])
 y1 = array([m[1] for m in measurements]) #score

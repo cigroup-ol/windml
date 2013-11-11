@@ -37,13 +37,162 @@ from windml.preprocessing.override_missing import OverrideMissing
 
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.cross_validation import KFold, cross_val_score
 from sklearn.svm import SVR
 from sklearn import linear_model
 
 from numpy import zeros, int32, float32, nan, array
 
 class MRegInterpolation(object):
+
+    #@todo highly experimental
+    def multi_interpolate(self, timeseries, args):
+        timestep = args['timestep']
+        neighbor_series = args['neighbor_series']
+        reg = args['reg']
+        regargs = args['regargs']
+
+        # order by damaged elements, ascending.
+        mdf = MissingDataFinder()
+
+        order = []
+        for i in xrange(len(neighbor_series)):
+            misses = mdf.find(neighbor_series[i], timestep)
+            missing = sum(map(lambda m : m[2], misses))
+            order.append((i, missing - i))
+
+        sorted(order, key = lambda o : o[1])
+        merge_order = map(lambda o : o[0], order)
+
+        data = neighbor_series
+
+        for i in xrange(len(data)):
+           data[i] = OverrideMissing().override(data[i], timestep, -1)
+
+        field = 'corrected_score'
+
+        ## algorithm
+        merged = []
+        for m in merge_order:
+            mseries = data[m]
+            regressors = {}
+            pattern_size = {}
+            useful = {}
+            repairable = {}
+            misses = []
+            available_in_c = {}
+            cnt_patterns = {}
+
+            for i in xrange(len(mseries)):
+                if(mseries[i][field] == -1):
+                    if(i not in useful.keys()):
+                        useful[i] = []
+
+            for c in merge_order:
+                if(c == m or c in merged):
+                    continue # dont want merge with itself or merged
+                cseries = data[c]
+                cnt_patterns[c] = 0
+                available_in_c[c] = []
+
+                for i in xrange(len(mseries)):
+                    if(mseries[i][field] == -1 and cseries[i][field] != -1):
+                        if(i not in useful.keys()):
+                            useful[i] = []
+                        useful[i].append(c)
+                        continue # cannot be used as pattern but for predicting
+                    if(mseries[i][field] == -1 or cseries[i][field] == -1):
+                       continue # cannot be used as a pattern
+                    available_in_c[c].append(i)
+                    cnt_patterns[c] += 1
+
+            # now check which one has most patterns from candidates of useful
+            for missing, candidates in useful.iteritems():
+                if(len(candidates) > 0): # we have candidates
+                    highest_ps = 0
+                    highest_candidate = None
+                    for candidate in candidates:
+                        if(cnt_patterns[candidate] > highest_ps):
+                            highest_ps = cnt_patterns[candidate]
+                            highest_candidate = candidate
+
+                    labels, patterns = [], []
+                    # use highest_candidate with merge
+                    ### FITTING
+                    for i in available_in_c[highest_candidate]:
+                        labels.append(mseries[i][field])
+                        pattern = []
+                        pattern.append(data[highest_candidate][i][field])
+                        for am in merged:
+                            pattern.append(data[am][i][field])
+                        patterns.append(pattern)
+                    if(reg == 'knn'):
+                        regargs = args['regargs']
+                        neighbors = regargs['n']
+                        variant = regargs['variant']
+                        regressor = KNeighborsRegressor(neighbors, variant)
+
+                    reg = regressor.fit(patterns, labels)
+
+                    ### PREDICTION
+                    pattern = []
+                    pattern.append(data[highest_candidate][missing][field])
+                    for am in merged:
+                        pattern.append(data[am][missing][field])
+                    data[m][missing][field] = reg.predict(pattern)
+                else:   # we have no candidates, and we use merged here
+                    ### FITTING
+                    labels, patterns = [],[]
+                    for i in range(len(mseries)):
+                        if(mseries[i][field] == -1):
+                            continue
+                        labels.append(mseries[i][field])
+                        pattern = []
+                        for am in merged:
+                            pattern.append(data[am][i][field])
+                        patterns.append(pattern)
+                    if(reg == 'knn'):
+                        regargs = args['regargs']
+                        neighbors = regargs['n']
+                        variant = regargs['variant']
+                        regressor = KNeighborsRegressor(neighbors, variant)
+                    reg = regressor.fit(patterns, labels)
+                    ### PREDICTION
+                    pattern = []
+                    for am in merged:
+                        pattern.append(data[am][missing][field])
+                    data[m][missing][field] = reg.predict(pattern)
+
+            merged.append(m)
+
+        # we used the interpolated information of all turbines to interpolate
+        # the missing data of the target turbine.
+        ovtimeseries = OverrideMissing().override(timeseries, timestep, -1)
+
+        labels, patterns = [], []
+        for i in xrange(len(timeseries)):
+            if(timeseries[i][field] != -1):
+                labels.append(ovtimeseries[i][field])
+            pattern = []
+            for series in data:
+                pattern.append(series[i][field])
+            patterns.append(pattern)
+        if(reg == 'knn'):
+            regargs = args['regargs']
+            neighbors = regargs['n']
+            variant = regargs['variant']
+            regressor = KNeighborsRegressor(neighbors, variant)
+        regressor.fit(patterns, labels)
+
+        for i in xrange(len(ovtimeseries)):
+            if(ovtimeseries[i][field] == -1):
+                pattern = []
+                for series in data:
+                    pattern.append(series[i][field])
+                ovtimeseries[i][field] = regressor.predict(pattern)
+
+        return ovtimeseries
+
     def interpolate(self, timeseries, **args):
         cs = 'corrected_score'
         sp = 'speed'
@@ -60,8 +209,7 @@ class MRegInterpolation(object):
         for nseries in neighbor_series:
             misses = MissingDataFinder().find(nseries, timestep)
             if(len(misses) > 0):
-                print misses
-                raise Exception("missing data in neighbors")
+                return self.multi_interpolate(timeseries, args)
 
         ovtimeseries = OverrideMissing().override(timeseries, timestep, -1)
 
@@ -80,9 +228,30 @@ class MRegInterpolation(object):
 
             if(reg == 'knn'):
                 regargs = args['regargs']
-                neighbors = regargs['n']
                 variant = regargs['variant']
-                regressor = KNeighborsRegressor(neighbors, variant)
+
+                if('kfold' in regargs.keys()):
+                    kfold = regargs['kfold']
+                    ncandidates = regargs['n']
+
+                    regressors = {}
+                    best_n = ncandidates[0]
+                    regressor = KNeighborsRegressor(best_n, variant)
+                    regressors[best_n] = regressor
+                    best_score = cross_val_score(regressor, Xa, Ya, cv=kfold).mean()
+
+                    for n in ncandidates[1:]: # try every n and use cross validation
+                        regressor = KNeighborsRegressor(n, variant)
+                        regressors[n] = regressor
+                        score = cross_val_score(regressor, Xa, Ya, cv=kfold).mean()
+                        if(score > best_score):
+                            best_n = n
+                            best_score = score
+                    regressor = regressors[best_n]
+                else:
+                    neighbors = regargs['n']
+                    regressor = KNeighborsRegressor(neighbors, variant)
+
             elif(reg == 'linear_model'):
                 regressor = linear_model.LinearRegression()
             elif(reg == 'svr'):

@@ -1,16 +1,12 @@
 Roadmap
 =======
 
-Release 0.4 (Winter 2013)
+Release 0.5 (Winter 2013)
 -------------------------
 
-The following features will be implemented in release 0.4:
+The following features will be implemented in release 0.5:
 
-* Complete integration of additional data sets
-    
-    * *AEMO* 
-    * *OWIDA* 
-
+* Full integration of the AEMO wind data set
 * Ramp statistics and forecasting 
-* Aggregated power mapping
-* Missing data and preprocessing tools
+* Benchmark for comparison of prediction techniques
+

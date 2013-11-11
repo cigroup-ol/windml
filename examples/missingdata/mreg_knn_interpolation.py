@@ -1,11 +1,11 @@
 """
-Multivariate Regression for Interpolation
+KNN Regression for Interpolation
 -------------------------------------------------------------------------
 
-In this example the target turbine in the windpark Tehachapi lacks of wind
+In this example, the target turbine in the windpark Tehachapi lacks of wind
 power and wind speed data. The distribution of the missing data is Not Missing
-At Random (NMAR). The missing data is interpolated by a multivariate regression.
-In this example the k-nearest neighbor regression is used.
+At Random (NMAR). The missing data is interpolated by k-nearest neighbor
+regression.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
@@ -31,7 +31,7 @@ windpark = NREL().get_windpark(park_id, 3, 2004)
 target = windpark.get_target()
 
 measurements = target.get_measurements()[300:1000]
-damaged = destroy(measurements, method="nmar", percentage=.80,\
+damaged, indices = destroy(measurements, method="nmar", percentage=.80,\
         min_length=10, max_length=100)
 
 neighbors = windpark.get_turbines()[:-1]
@@ -40,7 +40,8 @@ nseries = [t.get_measurements()[300:1000] for t in neighbors]
 tinterpolated = interpolate(damaged, method='mreg',\
                             timestep=600,\
                             neighbor_series = nseries,\
-                            reg = 'linear_model')
+                            reg = 'knn',
+                            regargs = {'n': 10, 'variant':'uniform'})
 
 d = array([m[0] for m in tinterpolated])
 y1 = array([m[1] for m in tinterpolated]) #score

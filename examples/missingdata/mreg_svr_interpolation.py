@@ -1,11 +1,10 @@
 """
-Multivariate Regression for Interpolation
+SVR Regression for Interpolation
 -------------------------------------------------------------------------
 
-In this example the target turbine in the windpark Tehachapi lacks of wind
+In this example, the target turbine in the windpark Tehachapi lacks of wind
 power and wind speed data. The distribution of the missing data is Not Missing
-At Random (NMAR). The missing data is interpolated by a multivariate regression.
-In this example the k-nearest neighbor regression is used.
+At Random (NMAR). The missing data is interpolated by SVR regression.
 """
 
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
@@ -33,14 +32,14 @@ windpark = NREL().get_windpark(park_id, 5, 2004)
 target = windpark.get_target()
 
 measurements = target.get_measurements()[300:1000]
-damaged = destroy(measurements, method='nmar', percentage=.80,\
+damaged, indices = destroy(measurements, method='nmar', percentage=.80,\
         min_length=10, max_length=100)
 
 neighbors = windpark.get_turbines()[:-1]
 nseries = [t.get_measurements()[300:1000] for t in neighbors]
 
 gamma_range = [0.0001, 0.000001]
-C_range = [2 ** i for i in range(-3, 10, 1)]
+C_range = [2 ** i for i in range(-3, 5, 1)]
 regargs = {
     "epsilon" : 0.1,
     "cv_method" : "kfold",
