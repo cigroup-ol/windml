@@ -92,7 +92,7 @@ class Benchmark():
         plt.ylabel("MSE")
 
         index = arange(len(self.results[self.results.keys()[0]]))
-        bar_width = 0.1
+        bar_width = 0.3
 
         current_bar = 0
         for regressor, rresults in self.results.iteritems():
@@ -110,7 +110,7 @@ class Benchmark():
                          mses,
                          bar_width,
                          color=colorset[current_bar],
-                         label=str(regressor))
+                         label=regressor.__class__.__name__)
 
             current_bar = current_bar + 1
 
