@@ -80,7 +80,10 @@ def QuickNDirty():
     from windml.preprocessing.preprocessing import repair_nrel
 
     parks = {'palmsprings' : 1175,
-             'reno' : 11637}
+             'reno' : 11637,
+             'casper' : 23167,
+             'carway' : 30498}
+
 
     testbed = {}
 
