@@ -28,8 +28,6 @@ import matplotlib.pyplot as plt
 from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
-
-from sklearn.grid_search import GridSearchCV
 from sklearn import linear_model
 
 # get windpark and corresponding target. forecast is for the target turbine
