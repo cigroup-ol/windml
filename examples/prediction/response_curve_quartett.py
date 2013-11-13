@@ -26,18 +26,15 @@ from sklearn.neighbors import KNeighborsRegressor
 from windml.datasets.nrel import NREL
 from windml.visualization.plot_response_curve import plot_response_curve
 
-
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004, 2006)
 timeseries = turbine.get_measurements()
 max_speed = 40
 skip = 1
 
-
 # plot true values as blue points
 speed = [m[2] for m in timeseries[::skip]]
 score = [m[1] for m in timeseries[::skip]]
-
 
 # Second Plot: KNN-Interpolation
 # Built patterns und labels
@@ -52,7 +49,6 @@ knn = KNeighborsRegressor(k_neighbors, 'uniform', warn_on_equidistant = False)
 # fitting the pattern-label pairs
 T = np.linspace(0, max_speed, 500)[:, np.newaxis]
 Y_hat = knn.fit(X_train_array, Y_train).predict(T)
-
 
 # Last Plot
 start_speed = 15
@@ -73,15 +69,15 @@ for i in range(len(X_train)):
                 num_over_thres[elem] += 1
         elem += 1
 
-
 fraction = np.zeros(max_speed, dtype=np.float32)
 for i in range(start_speed, len(fraction)):
-    if (np.float32(num_below_thres[i-start_speed]+num_over_thres[i-start_speed]) > 0):
-        fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
+    if (np.float32(num_below_thres[i-start_speed]+\
+                    num_over_thres[i-start_speed]) > 0):
+        fraction[i] = np.float32(num_below_thres[i-start_speed])/\
+                        (num_below_thres[i-start_speed]+\
+                        num_over_thres[i-start_speed])
     else:
         fraction[i] = -1
-
-
 
 figure = plt.figure(figsize=(15, 10))
 plot_abs = plt.subplot(2, 2, 1)
@@ -119,5 +115,3 @@ plt.ylim([-0.1, 1.1])
 plt.ylabel("Probabilty of Cut-Out Events (Thres = 15)")
 
 plt.show()
-
-
