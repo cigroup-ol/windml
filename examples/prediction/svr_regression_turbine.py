@@ -29,15 +29,11 @@ The absolute prediction error is the deviation to the main diagonal.
 import math
 import matplotlib.pyplot as plt
 
-from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold
 from sklearn import __version__ as sklearn_version
 from sklearn.svm import SVR
-
 from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
-from sklearn.neighbors import KNeighborsRegressor
 
 # get windpark and corresponding target. forecast is for the target turbine
 park_id = NREL.park_id['tehachapi']
