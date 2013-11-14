@@ -42,8 +42,8 @@ for steps in [0,1,2,4]:
         colors.append(abs(X[i]-X[i+steps]))
         ax = plt.subplot(2, 2, j)
     plt.title("Ramps, Horizon = "+str(steps))
-    plt.xlabel("Wind Speed in time t")
-    plt.ylabel("Wind Speed in time t + " +str(steps))
+    plt.xlabel("Wind Speed [m/s] in time t")
+    plt.ylabel("Wind Speed [m/s] in time t + " +str(steps))
 
     ax.scatter(x1, x2, s=15, c=colors, linewidth=0.0, cmap=plt.cm.jet)
     j+=1
