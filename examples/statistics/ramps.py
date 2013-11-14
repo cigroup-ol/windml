@@ -8,6 +8,7 @@ different forecast horizons as deviations from the main diagonal.
 """
 
 # Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
+# Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
 # License: BSD 3 clause
 
 import matplotlib.pyplot as plt
@@ -41,6 +42,9 @@ for steps in [0,1,2,4]:
         colors.append(abs(X[i]-X[i+steps]))
         ax = plt.subplot(2, 2, j)
     plt.title("Ramps, Horizon = "+str(steps))
+    plt.xlabel("Wind Speed in time t")
+    plt.ylabel("Wind Speed in time t + " +str(steps))
+
     ax.scatter(x1, x2, s=15, c=colors, linewidth=0.0, cmap=plt.cm.jet)
     j+=1
 
