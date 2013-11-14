@@ -19,6 +19,7 @@ from matplotlib import offsetbox
 from sklearn import manifold, datasets, decomposition, lda
 
 from windml.visualization.plot_timeseries import plot_timeseries
+from windml.visualization.colorset import cmap
 from windml.datasets.nrel import NREL
 
 K = 30
@@ -40,7 +41,7 @@ def plot_embedding(X, title=None, j=1):
     ax = plt.subplot(2, 2, j)
     for i in range(X.shape[0]):
         plt.text(X[i, 0], X[i, 1], str(int(y[i])),
-                color = plt.cm.jet(y[i] / 30.),
+                color = cmap(y[i] / 30.),
                 fontdict={'weight': 'bold', 'size': 9})
 
     if title is not None:

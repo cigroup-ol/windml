@@ -25,6 +25,7 @@ from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from windml.datasets.nrel import NREL
 from windml.visualization.plot_response_curve import plot_response_curve
+from windml.visualization.colorset import colorset
 
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004, 2006)
@@ -82,7 +83,7 @@ for i in range(start_speed, len(fraction)):
 figure = plt.figure(figsize=(15, 10))
 plot_abs = plt.subplot(2, 2, 1)
 plt.title("Measurements")
-plt.scatter(speed, score, color="b")
+plt.scatter(speed, score, color=colorset[0])
 plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
 plt.ylim([-2, 32])
@@ -90,7 +91,7 @@ plt.ylabel("Correct Score [MW]")
 
 plot_scatter = plt.subplot(2, 2, 2)
 plt.title("KNN Interpolation of the Response Curve")
-plt.plot(T, Y_hat, color='b')
+plt.plot(T, Y_hat, color=colorset[0])
 plt.scatter(speed, score, color="#CCCCCC")
 plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
@@ -99,7 +100,8 @@ plt.ylabel("Correct Score [MW]")
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Distribution of Wind Speeds")
-plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', normed=True, color='b')
+plt.hist(X_train, bins=np.float(max_speed), histtype='stepfilled',\
+         normed=True, color=colorset[0], linewidth=0)
 plt.xlim([-1, max_speed])
 plt.ylim(-0.01, 0.13)
 plt.xlabel("Windspeed [m/s]")
@@ -108,8 +110,8 @@ plt.ylabel("Relative Frequency")
 plot_scatter = plt.subplot(2, 2, 4)
 plt.title("Frequency of Cut-Outs")
 steps = range(40)
-plt.plot(steps, fraction, "o", color='b')
-plt.xlim([-1,max_speed])
+plt.plot(steps, fraction, "o", color=colorset[0], linewidth=0)
+plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
 plt.ylim([-0.1, 1.1])
 plt.ylabel("Probabilty of Cut-Out Events (Thres = 15)")

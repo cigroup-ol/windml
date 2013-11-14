@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
+from windml.visualization.colorset import colorset
 
 from sklearn.grid_search import GridSearchCV
 from sklearn import linear_model
@@ -87,7 +88,8 @@ def compute_mse(regressor, horizon):
 regressors = ['linear', 'knn']
 horizons = range(2, 18, 2)
 
-marker = {'linear': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
+color = {'linear': colorset[0], 'knn': colorset[3], 'naive': colorset[2]}
+marker = {'linear': 'o--', 'knn': 'o--', 'naive': 'o--'}
 labels = {'linear': 'Linear', 'knn': 'KNN', 'naive' : 'Naive'}
 
 plt.title("MSE depending on Forecast Horizon")
@@ -102,9 +104,11 @@ for regressor in regressors:
         mse_y_hat, mse_naive_hat = compute_mse(regressor, horizon)
         mse.append(mse_y_hat)
         mse_naive_hats.append(mse_naive_hat)
-    plt.plot(horizons, mse, marker[regressor], label=labels[regressor])
+    plt.plot(horizons, mse, marker[regressor], color=color[regressor],\
+             label=labels[regressor])
 
-plt.plot(horizons, mse_naive_hats, marker['naive'], label=labels['naive'])
+plt.plot(horizons, mse_naive_hats, marker['naive'], label=labels['naive'],\
+         color=color['naive'])
 
 plt.legend(loc='lower right')
 plt.show()
