@@ -91,8 +91,8 @@ marker = {'linear': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
 labels = {'linear': 'Linear', 'knn': 'KNN', 'naive' : 'Naive'}
 
 plt.title("MSE depending on Forecast Horizon")
-plt.xlabel("Forecast Horizon")
-plt.ylabel("MSE")
+plt.xlabel("Forecast Horizon Time [600s]")
+plt.ylabel("MSE of Power [MW]")
 
 mse_naive_hats = []
 for regressor in regressors:

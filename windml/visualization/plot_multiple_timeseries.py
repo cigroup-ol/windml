@@ -72,11 +72,11 @@ def plot_multiple_timeseries(windpark, show = True):
     poly.set_alpha(0.7)
     ax.add_collection3d(poly, zs=zs, zdir='y')
 
-    ax.set_xlabel('Time')
+    ax.set_xlabel('Time [600s]')
     ax.set_xlim3d(0, length)
     ax.set_ylabel('Turbine')
     ax.set_ylim3d(-1, number_turbines)
-    ax.set_zlabel('Power')
+    ax.set_zlabel('Power [MW]')
     ax.set_zlim3d(0,30.)
 
     plt.title("Time Series Comparison")

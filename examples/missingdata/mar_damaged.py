@@ -54,7 +54,7 @@ ax.xaxis.set_major_formatter(xfmt)
 
 ax.grid(True)
 plt.ylim(-2, 32)
-plt.ylabel("Corrected Power (MW), Wind Speed (m/s)")
+plt.ylabel("Corrected Power [MW], Wind Speed [m/s]")
 
 plt.plot(d_time, y1, label = 'Power Production', color="b", alpha=0.5)
 plt.plot(d_time, y2, label = 'Wind Speed', color="g", alpha=0.5)

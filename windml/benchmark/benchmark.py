@@ -87,10 +87,6 @@ class Benchmark():
                 print "%s MSE: %f" % (park, statistics['mse'])
 
     def visualize_mse_on_parks(self):
-        plt.title("MSE on parks")
-        plt.xlabel("Park")
-        plt.ylabel("MSE")
-
         index = arange(len(self.results[self.results.keys()[0]]))
         bar_width = 0.3
 
@@ -115,8 +111,8 @@ class Benchmark():
             current_bar = current_bar + 1
 
         plt.xlabel('Park')
-        plt.ylabel('MSE')
-        plt.title('MSE by Park')
+        plt.ylabel('MSE [MW]')
+        plt.title('MSE [MW] by Park')
 
         plt.xticks(index + (current_bar * bar_width) / 2.0,\
                    park_names)

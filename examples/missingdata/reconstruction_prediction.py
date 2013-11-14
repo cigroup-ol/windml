@@ -251,8 +251,8 @@ def to_percent(y, position):
 formatter = FuncFormatter(to_percent)
 
 plt.gca().xaxis.set_major_formatter(formatter)
-plt.xlabel("Rate of Missing Data")
-plt.ylabel("Prediction MSE")
+plt.xlabel("Rate of Missing Data in Percent")
+plt.ylabel("Prediction MSE of Power [MW]")
 plt.xlim([0.1, 0.9])
 plt.ylim([12.5, 16])
 plt.legend(loc="upper left")

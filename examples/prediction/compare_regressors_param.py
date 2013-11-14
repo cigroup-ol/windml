@@ -95,7 +95,7 @@ labels = {'rf': 'Random Forest', 'knn': 'KNN', 'naive' : 'Naive'}
 
 plt.title("MSE depending on Algorithm Parameter")
 plt.xlabel("Algorithm Parameter (k for KNN, Number of Estimators for RF )")
-plt.ylabel("MSE")
+plt.ylabel("MSE of Power [MW]")
 plt.xlim([1, 128])
 
 mse_naive_hats = []
