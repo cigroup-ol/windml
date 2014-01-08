@@ -67,7 +67,7 @@ def plot_timeseries(turbine, start, end, show = True):
 
     ax.grid(True)
     plt.ylim(-2, 32)
-    plt.ylabel("Corrected Power (MW), Wind Speed (m/s)")
+    plt.ylabel("Corrected Power [MW], Wind Speed [m/s]")
     plt.plot(d_time[start:end], y1[start:end], label = 'Power Production')
     plt.plot(d_time[start:end], y2[start:end], label = 'Wind Speed')
     plt.legend(loc='lower right')

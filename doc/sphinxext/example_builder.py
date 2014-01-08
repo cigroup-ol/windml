@@ -447,12 +447,14 @@ class ExampleBuilder:
     def subdir_contents(self, path, subdirs):
         subdirs = [os.path.join(path, subdir) for subdir in subdirs]
 
-        headlines = {'missingdata' : 'Missing Data',
+        headlines = {'benchmark' : 'Benchmark',
+                     'missingdata' : 'Missing Data',
                      'prediction' : 'Prediction',
                      'visualization' : 'Visualization',
                      'statistics' : 'Statistics'}
 
-	order = ['prediction', 'visualization', 'missingdata', 'statistics']
+	order = ['prediction', 'visualization', 'missingdata', 'statistics',\
+             'benchmark']
 
         toctree =  ("\n\n"
                     ".. toctree::\n"
@@ -472,7 +474,7 @@ class ExampleBuilder:
                 rel_html = os.path.relpath(self.html_filename(f), path)
 
                 toctree += "   ./%s\n\n" % os.path.splitext(rel_html)[0]
-		
+
                 contents += ("    .. figure:: ./%s\n"
                              "        :target: ./%s\n"
                              "\n"

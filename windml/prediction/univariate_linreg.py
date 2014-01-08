@@ -31,56 +31,38 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.collections import PolyCollection
-from matplotlib.colors import colorConverter
-import matplotlib.pyplot as plt
-import numpy as np
+from sklearn import linear_model
+from windml.mapping.power_mapping import PowerMapping
 
-def plot_multiple_timeseries(windpark, show = True):
-    """Plot multiple power series of some turbines.
+class UnivariateLinreg():
+    """ Univariate model with PowerMapping and linear regression. This model
+    only uses measurements of the target turbine for training """
 
-    Parameters
-    ----------
+    def __init__(self):
+        self.model = linear_model.LinearRegression()
+        self.feature_window = 3
+        self.horizon = 3
 
-    windpark : Windpark
-               A given windpark to plot power series.
-    """
+    def fit(self, wp_train):
+        target = wp_train.get_target()
+        turbines = wp_train.get_turbines()
+        wp_train.turbines = [turbines[-1]] # only use target
 
-    X = np.array(windpark.get_powermatrix())
-    number_turbines = len(X[0])
-    number_measurements = len(X)
+        mapping = PowerMapping()
+        X_train = mapping.get_features_park(wp_train, self.feature_window, self.horizon)
+        y_train = mapping.get_labels_turbine(target, self.feature_window, self.horizon)
 
-    length = 100
-    X = X[:length]
+        self.model.fit(X_train, y_train)
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    def predict(self, wp_test):
+        target = wp_test.get_target()
 
-    cc = lambda arg: colorConverter.to_rgba(arg, alpha=0.6)
+        turbines = wp_test.get_turbines()
+        wp_test.turbines = [turbines[-1]] # only use target
 
-    xs = range(1,number_measurements)
-    verts = []
-    zs = range(0,number_turbines)
+        mapping = PowerMapping()
+        X_test = mapping.get_features_park(wp_test, self.feature_window, self.horizon)
+        y_test = mapping.get_labels_turbine(target, self.feature_window, self.horizon)
 
-    for z in zs:
-        ys = X[:,z]
-        ys[0], ys[-1] = 0, 0
-        verts.append(list(zip(xs, ys)))
-
-    poly = PolyCollection(verts, facecolors = [cc('r'), cc('g'), cc('b'), cc('y'),cc('r'), cc('g'), cc('b')])
-    poly.set_alpha(0.7)
-    ax.add_collection3d(poly, zs=zs, zdir='y')
-
-    ax.set_xlabel('Time [600s]')
-    ax.set_xlim3d(0, length)
-    ax.set_ylabel('Turbine')
-    ax.set_ylim3d(-1, number_turbines)
-    ax.set_zlabel('Power [MW]')
-    ax.set_zlim3d(0,30.)
-
-    plt.title("Time Series Comparison")
-
-    if(show):
-        plt.show()
+        return self.model.predict(X_test), y_test
 

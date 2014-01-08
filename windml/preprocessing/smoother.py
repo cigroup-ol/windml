@@ -31,56 +31,36 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.collections import PolyCollection
-from matplotlib.colors import colorConverter
-import matplotlib.pyplot as plt
-import numpy as np
+from numpy import zeros, int32, float32
 
-def plot_multiple_timeseries(windpark, show = True):
-    """Plot multiple power series of some turbines.
+class Smoother(object):
+    def smooth(self, timeseries, args):
+        ilen = args['interval_length']
 
-    Parameters
-    ----------
+        new_amount = timeseries.shape[0]
+        smoothed_ts = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
-    windpark : Windpark
-               A given windpark to plot power series.
-    """
+        if(ilen % 2 == 0 or ilen == 1):
+            raise Exception("interval length must be odd and not 1.")
 
-    X = np.array(windpark.get_powermatrix())
-    number_turbines = len(X[0])
-    number_measurements = len(X)
+        padding = int((ilen - 1) / 2.0)
 
-    length = 100
-    X = X[:length]
+        # copy data in the beginning and the end cannot be smoothed
+        # because of padding
+        for i in range(0, padding):
+            smoothed_ts[i] = timeseries[i] # copy old data
+        for i in range(len(timeseries) - padding, len(timeseries)):
+            smoothed_ts[i] = timeseries[i] # copy old data
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+        # smooth data
+        for i in range(padding, len(timeseries) - padding):
+            sp_mean = timeseries[(i - padding):(i + padding)]['speed'].mean()
+            cs_mean = timeseries[(i - padding):(i + padding)]['corrected_score'].mean()
 
-    cc = lambda arg: colorConverter.to_rgba(arg, alpha=0.6)
+            smoothed_ts[i] = timeseries[i] # copy old data
+            smoothed_ts[i]['corrected_score'] = cs_mean
+            smoothed_ts[i]['speed'] = sp_mean
 
-    xs = range(1,number_measurements)
-    verts = []
-    zs = range(0,number_turbines)
-
-    for z in zs:
-        ys = X[:,z]
-        ys[0], ys[-1] = 0, 0
-        verts.append(list(zip(xs, ys)))
-
-    poly = PolyCollection(verts, facecolors = [cc('r'), cc('g'), cc('b'), cc('y'),cc('r'), cc('g'), cc('b')])
-    poly.set_alpha(0.7)
-    ax.add_collection3d(poly, zs=zs, zdir='y')
-
-    ax.set_xlabel('Time [600s]')
-    ax.set_xlim3d(0, length)
-    ax.set_ylabel('Turbine')
-    ax.set_ylim3d(-1, number_turbines)
-    ax.set_zlabel('Power [MW]')
-    ax.set_zlim3d(0,30.)
-
-    plt.title("Time Series Comparison")
-
-    if(show):
-        plt.show()
-
+        return smoothed_ts

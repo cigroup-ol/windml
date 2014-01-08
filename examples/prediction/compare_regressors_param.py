@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
+from windml.visualization.colorset import colorset
 
 from sklearn.grid_search import GridSearchCV
 from sklearn import linear_model
@@ -90,12 +91,13 @@ def compute_mse(regressor, param):
 regressors = ['rf', 'knn']
 params = [1,2,4,8,16,32,64,128]
 
-marker = {'rf': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
+color = {'rf': colorset[0], 'knn': colorset[3], 'naive': colorset[2]}
+marker = {'rf': 'o--', 'knn': 'o--', 'naive': 'o--'}
 labels = {'rf': 'Random Forest', 'knn': 'KNN', 'naive' : 'Naive'}
 
 plt.title("MSE depending on Algorithm Parameter")
 plt.xlabel("Algorithm Parameter (k for KNN, Number of Estimators for RF )")
-plt.ylabel("MSE")
+plt.ylabel("MSE of Power [MW]")
 plt.xlim([1, 128])
 
 mse_naive_hats = []
@@ -106,9 +108,11 @@ for regressor in regressors:
         mse_y_hat, mse_naive_hat = compute_mse(regressor, param)
         mse.append(mse_y_hat)
         mse_naive_hats.append(mse_naive_hat)
-    plt.plot(params, mse, marker[regressor], label=labels[regressor])
+    plt.plot(params, mse, marker[regressor], label=labels[regressor],\
+             color=color[regressor])
 
-plt.plot(params, mse_naive_hats, marker['naive'], label=labels['naive'])
+plt.plot(params, mse_naive_hats, marker['naive'], label=labels['naive'],\
+         color=color['naive'])
 
 plt.legend(loc='upper right')
 plt.show()

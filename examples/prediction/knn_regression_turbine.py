@@ -31,6 +31,7 @@ import matplotlib.pyplot as plt
 from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
+from windml.visualization.colorset import cmap, colorset
 from sklearn.neighbors import KNeighborsRegressor
 
 # get windpark and corresponding target. forecast is for the target turbine
@@ -86,44 +87,52 @@ print "MSE naive_hat (Persistence): ", mse_naive_hat
 figure = plt.figure(figsize=(15, 10))
 
 plot_abs = plt.subplot(2, 2, 1)
-plt.title("Absolute Labels and True Measurements")
+plt.title("Predicted and True Measurements")
 
 # Array of true labels for plotting.
 y = zeros(len(y_hat))
 for i in range(0, len(y_hat)):
     y[i] = (Y[train_to + (i * test_step)])
 
+colors = {'predictor' : colorset[0],
+          'naive' : colorset[1],
+          'true' : colorset[3]}
+
 time = range(0, len(y_hat))
-plt.plot(time, y, "g-", label="Measurement")
-plt.plot(time, y_hat, "r-", label="KNN Label")
-plt.plot(time, naive_hat, "b-", label="Naive Label")
+plt.plot(time, y, color=colors['true'], label="Measurement")
+plt.plot(time, y_hat, color=colors['predictor'], label="KNN-predicted")
+plt.plot(time, naive_hat, color=colors['naive'], label="Naive-predicted")
+plt.xlabel("Time [600s]")
+plt.ylabel("Power [MW]")
 plt.xlim([9600, 9750])
 plt.ylim([-30, 50])
 plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 2)
-plt.title("Naive Label and True Measurement")
+plt.title("Naive-predicted and True Measurement")
 col = abs(y - naive_hat)
-plt.scatter(y, naive_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
-plt.xlabel("Y")
-plt.ylabel("Naive Label")
+plt.scatter(y, naive_hat, c=col, linewidth=0.0, cmap=cmap)
+plt.xlabel("True Measurement [MW]")
+plt.ylabel("Naive-predicted Measurement [MW]")
 plt.xlim([0, 30])
 plt.ylim([0, 30])
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Absolute Difference")
-plt.plot(time, (y_hat - y), "r-", label="KNN Label")
-plt.plot(time, (naive_hat - y), "b-", label="Naive Label")
+plt.plot(time, (y_hat - y), color=colors['predictor'], label="KNN-predicted")
+plt.plot(time, (naive_hat - y), color=colors['true'], label="Naive-predicted")
 plt.xlim([9600, 9750])
 plt.ylim([-20, 30])
+plt.xlabel("Time [600s]")
+plt.ylabel("Deviation of True Power [MW]")
 plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 4)
-plt.title("KNN Label and True Measurement")
+plt.title("KNN-predicted and True Measurement")
 col = abs(y - y_hat)
-plt.scatter(y, y_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
-plt.xlabel("Y")
-plt.ylabel("KNN Label")
+plt.scatter(y, y_hat, c=col, linewidth=0.0, cmap=cmap)
+plt.xlabel("True Measurement [MW]")
+plt.ylabel("KNN-predicted Measurement [MW]")
 plt.xlim([0, 30])
 plt.ylim([0, 30])
 

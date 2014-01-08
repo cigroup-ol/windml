@@ -37,6 +37,7 @@ import datetime
 import time
 import math
 from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+from windml.visualization.colorset import cmap
 
 def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
     """Plots a flip book of a given windpark
@@ -124,7 +125,8 @@ def show_flip_book(windpark, num_plots, start_time, diff_time, show=True):
         m.drawmeridians(meridians,labels=[True,False,False,True])
         m.shadedrelief()
         m.drawcoastlines
-        m.scatter(rel_inputs_lon, rel_inputs_lat, c = zlist, s = 35, vmin = 0.0, vmax = 35)
+        m.scatter(rel_inputs_lon, rel_inputs_lat, c = zlist, s = 35, vmin = 0.0, vmax = 35,\
+                cmap=cmap)
         plt.title(datetime.datetime.fromtimestamp(unix_timestamps[i-1]).strftime('%Y-%m-%d %H:%M:%S'))
         plt.colorbar()
 

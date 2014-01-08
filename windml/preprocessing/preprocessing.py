@@ -42,6 +42,10 @@ from windml.preprocessing.marthres_destroyer import MARThresDestroyer
 from windml.preprocessing.duplicate_remover import DuplicateRemover
 from windml.preprocessing.nrel_repair import NRELRepair
 from windml.preprocessing.mreg_interpolation import MRegInterpolation
+from windml.preprocessing.smoother import Smoother
+
+def smoothen(timeseries, **args):
+    return Smoother().smooth(timeseries, args)
 
 def repair_nrel(timeseries):
     return NRELRepair().repair(timeseries)

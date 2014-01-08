@@ -2,8 +2,10 @@
 Response Curve of a Turbine
 --------------------------------------------------
 
-The response curve is the mapping from wind speed to wind power production. In
-this example the response curve is learned via support vector regression.
+The response curve illustrates the relationship between wind speed
+and generated power. The response curve is fitted via k-nearest neighbor
+regression. Distribution of wind speeds and frequencies of cut-out help
+to interpret the response curve shape.
 """
 
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
@@ -23,19 +25,17 @@ from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from windml.datasets.nrel import NREL
 from windml.visualization.plot_response_curve import plot_response_curve
-
+from windml.visualization.colorset import colorset
 
 ds = NREL()
-turbine = ds.get_turbine(NREL.park_id['palmsprings'], 2004, 2006)
+turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004, 2006)
 timeseries = turbine.get_measurements()
 max_speed = 40
 skip = 1
 
-
 # plot true values as blue points
 speed = [m[2] for m in timeseries[::skip]]
 score = [m[1] for m in timeseries[::skip]]
-
 
 # Second Plot: KNN-Interpolation
 # Built patterns und labels
@@ -45,12 +45,11 @@ X_train_array = array([[element] for element in X_train])
 
 # initialize KNN regressor from sklearn.
 k_neighbors = 30
-knn = KNeighborsRegressor(k_neighbors, 'uniform')
+knn = KNeighborsRegressor(k_neighbors, 'uniform', warn_on_equidistant = False)
 
 # fitting the pattern-label pairs
 T = np.linspace(0, max_speed, 500)[:, np.newaxis]
 Y_hat = knn.fit(X_train_array, Y_train).predict(T)
-
 
 # Last Plot
 start_speed = 15
@@ -71,21 +70,20 @@ for i in range(len(X_train)):
                 num_over_thres[elem] += 1
         elem += 1
 
-
 fraction = np.zeros(max_speed, dtype=np.float32)
 for i in range(start_speed, len(fraction)):
-    if (np.float32(num_below_thres[i-start_speed]+num_over_thres[i-start_speed]) > 0):
-        fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
+    if (np.float32(num_below_thres[i-start_speed]+\
+                    num_over_thres[i-start_speed]) > 0):
+        fraction[i] = np.float32(num_below_thres[i-start_speed])/\
+                        (num_below_thres[i-start_speed]+\
+                        num_over_thres[i-start_speed])
     else:
         fraction[i] = -1
-print fraction
-
-
 
 figure = plt.figure(figsize=(15, 10))
 plot_abs = plt.subplot(2, 2, 1)
 plt.title("Measurements")
-plt.scatter(speed, score, color="b")
+plt.scatter(speed, score, color=colorset[0])
 plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
 plt.ylim([-2, 32])
@@ -93,7 +91,7 @@ plt.ylabel("Correct Score [MW]")
 
 plot_scatter = plt.subplot(2, 2, 2)
 plt.title("KNN Interpolation of the Response Curve")
-plt.plot(T, Y_hat, color='b')
+plt.plot(T, Y_hat, color=colorset[0])
 plt.scatter(speed, score, color="#CCCCCC")
 plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
@@ -102,7 +100,8 @@ plt.ylabel("Correct Score [MW]")
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Distribution of Wind Speeds")
-plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', normed=True, color='b')
+plt.hist(X_train, bins=np.float(max_speed), histtype='stepfilled',\
+         normed=True, color=colorset[0], linewidth=0)
 plt.xlim([-1, max_speed])
 plt.ylim(-0.01, 0.13)
 plt.xlabel("Windspeed [m/s]")
@@ -111,12 +110,10 @@ plt.ylabel("Relative Frequency")
 plot_scatter = plt.subplot(2, 2, 4)
 plt.title("Frequency of Cut-Outs")
 steps = range(40)
-plt.plot(steps, fraction, "o", color='b')
-plt.xlim([-1,max_speed])
+plt.plot(steps, fraction, "o", color=colorset[0], linewidth=0)
+plt.xlim([-1, max_speed])
 plt.xlabel("Windspeed [m/s]")
 plt.ylim([-0.1, 1.1])
 plt.ylabel("Probabilty of Cut-Out Events (Thres = 15)")
 
 plt.show()
-
-

@@ -31,56 +31,42 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.collections import PolyCollection
-from matplotlib.colors import colorConverter
-import matplotlib.pyplot as plt
-import numpy as np
+from sklearn import linear_model
+from windml.mapping.power_mapping import PowerMapping
+from windml.preprocessing.preprocessing import smoothen
+from windml.visualization.colorset import colorset
 
-def plot_multiple_timeseries(windpark, show = True):
-    """Plot multiple power series of some turbines.
+class SmoothedLinreg():
+    """ Standard spatio-temporal model with smoothing preprocessing,
+        PowerMapping and linear regression. """
 
-    Parameters
-    ----------
+    def __init__(self, smooth=3):
+        self.model = linear_model.LinearRegression()
+        self.feature_window = 3
+        self.horizon = 3
+        self.smooth = smooth
 
-    windpark : Windpark
-               A given windpark to plot power series.
-    """
+    def fit(self, wp_train):
+        target = wp_train.get_target()
 
-    X = np.array(windpark.get_powermatrix())
-    number_turbines = len(X[0])
-    number_measurements = len(X)
+        # smoothing of all time series
+        turbines = wp_train.get_turbines()
+        for turbine in turbines:
+            turbine.add_measurements(\
+                smoothen(turbine.get_measurements(), interval_length=self.smooth))
 
-    length = 100
-    X = X[:length]
+        mapping = PowerMapping()
+        X_train = mapping.get_features_park(wp_train, self.feature_window, self.horizon)
+        y_train = mapping.get_labels_turbine(target, self.feature_window, self.horizon)
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+        self.model.fit(X_train, y_train)
 
-    cc = lambda arg: colorConverter.to_rgba(arg, alpha=0.6)
+    def predict(self, wp_test):
+        target = wp_test.get_target()
+        mapping = PowerMapping()
+        X_test = mapping.get_features_park(wp_test, self.feature_window, self.horizon)
+        y_test = mapping.get_labels_turbine(target, self.feature_window, self.horizon)
 
-    xs = range(1,number_measurements)
-    verts = []
-    zs = range(0,number_turbines)
+        return self.model.predict(X_test), y_test
 
-    for z in zs:
-        ys = X[:,z]
-        ys[0], ys[-1] = 0, 0
-        verts.append(list(zip(xs, ys)))
-
-    poly = PolyCollection(verts, facecolors = [cc('r'), cc('g'), cc('b'), cc('y'),cc('r'), cc('g'), cc('b')])
-    poly.set_alpha(0.7)
-    ax.add_collection3d(poly, zs=zs, zdir='y')
-
-    ax.set_xlabel('Time [600s]')
-    ax.set_xlim3d(0, length)
-    ax.set_ylabel('Turbine')
-    ax.set_ylim3d(-1, number_turbines)
-    ax.set_zlabel('Power [MW]')
-    ax.set_zlim3d(0,30.)
-
-    plt.title("Time Series Comparison")
-
-    if(show):
-        plt.show()
 
