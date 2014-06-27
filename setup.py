@@ -59,7 +59,7 @@ classifiers=[
     name='windml',
     packages=find_packages(),
     package_data={},
-    setup_requires=[],
+    setup_requires=find_requirements('requirements.txt'),
     url=windml.__url__,
     use_2to3=(sys.version_info >= (3,)),
     version=windml.__version__,
