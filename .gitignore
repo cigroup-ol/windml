@@ -1,3 +1,6 @@
+dist
+windml.egg-info
+*~
 *.swp
 *.pyc
 doc/_build/
