@@ -5,6 +5,8 @@ except ImportError:
     ez_setup.use_setuptools()
     from setuptools import setup, find_packages
 
+from pip.req import parse_requirements
+
 import os
 import sys
 
@@ -14,7 +16,17 @@ os.environ['COPYFILE_DISABLE'] = 'true'
 
 import windml
 
-DESCRIPTION = 'The windML framework provides an easy-to-use access to wind data sources within the Python world, building upon numpy, scipy, sklearn, and matplotlib. As a machine learning module, it provides versatile tools for various learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks.'
+def extract_package_name(requirement):
+    return str(requirement.req).replace('-', '_').split('==')[0]
+
+def find_requirements(req_file='requirements.txt'):
+    return [extract_package_name(r) for r in parse_requirements(req_file)]
+
+DESCRIPTION = 'The windML framework provides an easy-to-use access to wind data '\
+    'sources within the Python world, building upon numpy, scipy, sklearn, and '\
+    'matplotlib. As a machine learning module, it provides versatile tools for '\
+    'various learning tasks like time-series prediction, classification, clustering, '\
+    'dimensionality reduction, and related tasks.'
 
 setup(
     author=windml.__author__,
@@ -41,7 +53,7 @@ classifiers=[
     data_files=[],
     description=DESCRIPTION,
     ext_modules=[],
-    install_requires=[],
+    install_requires=find_requirements('requirements.txt'),
     license=windml.__license__,
     long_description=DESCRIPTION,
     name='windml',
