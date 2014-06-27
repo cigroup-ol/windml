@@ -1,3 +1,4 @@
+scipy==0.14.0
 numpy==1.8.0
 scikit-learn==0.14.1
 basemap==1.0.7
