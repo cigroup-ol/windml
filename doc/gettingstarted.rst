@@ -1,6 +1,6 @@
 .. _gettingstarted:
 
-First Steps
+Getting Started
 ===============
 
 The first part of this page provides an installation guide, see :ref:`installation`.

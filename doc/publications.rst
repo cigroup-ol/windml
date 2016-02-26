@@ -1,88 +1,51 @@
 Publications
 ============
 
-Support Vector Machines for Wind Energy Prediction in Smart Grids, 2013
------------------------------------------------------------------------
+- O. Kramer, F. Gieseke, and B. Satzger, "Wind energy prediction and monitoring
+  with neural computation", Neurocomputing, vol. 109, pp. 84-93, 2013.
+  [:download:`PDF <papers/neuro2013.pdf>`],
+  [:download:`BIB <papers/neurocomp.bib>`]
 
-Oliver Kramer, Nils André Treiber, Fabian Gieseke
+- O. Kramer, F. Gieseke, J. Heinermann, J. Poloczek, and N. A. Treiber", A
+  Framework for Data Mining in Wind Power Time Series," in Proc. Data Analytics
+  for Renewable Energy Integration - Second ECML PKDD Workshop, DARE 2014,
+  Nancy, France, September 19, 2014, Revised Selected Papers, 2014, pp. 97-107.  
+  [:download:`BIB <papers/dare_windml.bib>`]
 
-In recent years, there has been a significant increase in energy
-produced by sustainable resources like wind- and solar power plants.
-This led to a shift from traditional energy systems to so-called smart
-grids (i.e., distributed systems of energy suppliers and consumers).
-While the sustainable energy resources are very appealing from an
-environmental point of view, their volatileness renders the integration
-into the overall energy system difficult. For this reason, short-term
-wind and solar energy prediction systems are essential for balance
-authorities to schedule spinning reserves and reserve energy. In this
-chapter, we build upon our previous work and provide a detailed
-practical analysis of several wind energy learning scenarios. Our
-approach makes use of support vector regression models, one of the
-state-of-the art techniques in the field of machine learning, to build
-effective predictors for single wind turbines based on data given for
-neighbored turbines.
+- N. A. Treiber, S. Späth, J. Heinermann, L. von Bremen, and O. Kramer,
+  "Comparison of Numerical Models and Statistical Learning for Wind Speed
+  Prediction," in Proc. 23rd European Symposium on Artificial Neural Networks,
+  ESANN 2015, Bruges, Belgium, 2015, pp. 71-76.
+  [:download:`BIB <papers/esann.bib>`]
 
-:download:`PDF <papers/enviroinfo2013.pdf>`
+- N. A. Treiber and O. Kramer, "Evolutionary feature weighting for wind power
+  prediction with nearest neighbor regression," in Proc. IEEE Congress on
+  Evolutionary Computation, CEC 2015, Sendai, Japan, May 25-28, 2015, pp.
+  332-337.
+  [:download:`BIB <papers/cec.bib>`]
 
+- J. Heinermann and O. Kramer, "Machine Learning Ensembles for Wind Power
+  Prediction", Renewable Energy, vol. 2016.
+  [:download:`BIB <papers/science.bib>`]
 
-Wind energy prediction and monitoring with neural computation, 2013
--------------------------------------------------------------------
+- J. Heinermann and O. Kramer, "Precise Wind Power Prediction with SVM Ensemble
+  Regression," in Proc. Artificial Neural Networks and Machine Learning - ICANN
+  2014 - 24th International Conference on Artificial Neural Networks, Hamburg,
+  Germany, September 15-19, 2014. Proceedings, 2014, pp. 797-804.
+  [:download:`BIB <papers/icann.bib>`]
 
-Oliver Kramer, Fabian Gieseke, Benjamin Satzger
+- N. A. Treiber and O. Kramer, "Wind Power Prediction with Cross-Correlation
+  Weighted Nearest Neighbors," in Proc. 28th International Conference on
+  Informatics for Environmental Protection: ICT for Energy Effieciency,
+  EnviroInfo 2014, Oldenburg, Germany, September 10-12, 2014., 2014, pp. 63-68.
+  [:download:`BIB <papers/enviroinfo.bib>`]
 
-Wind energy has an important part to play as renewable energy resource in a
-sustainable world. For a reliable integration of wind energy high-dimensional
-wind time-series have to be analyzed. Fault analysis and prediction are an
-important aspect in this context. The objective of this work is to show how
-methods from neural computation can serve as forecasting and monitoring
-techniques, contributing to a successful integration of wind into sustainable
-and smart energy grids. We will employ support vector regression as prediction
-method for wind energy time-series. Furthermore, we will use dimension
-reduction techniques like self-organizing maps for monitoring of
-high-dimensional wind time-series. The methods are briefly introduced, related
-work is presented, and experimental case studies are exemplarily described. The
-experimental parts are based on real wind energy time-series data from the
-National Renewable Energy Laboratory (NREL) western wind resource data set.
+- J. Poloczek, N. A. Treiber, and O. Kramer, "KNN Regression as Geo-Imputation
+  Method for Spatio-Temporal Wind Data," in Proc. International Joint Conference
+  SOCO'14-CISIS'14-ICEUTE'14 - Bilbao, Spain, June 25th-27th, 2014, Proceedings,
+  2014, pp. 185-193.
+  [:download:`BIB <papers/soco.bib>`]
 
-:download:`PDF <papers/neuro2013.pdf>`
+For further publications, see https://www.uni-oldenburg.de/en/computingscience/ci/publications/
 
-Analysis of Wind Energy Time Series with Kernel Methods and Neural Networks, 2011
----------------------------------------------------------------------------------
-
-Oliver Kramer, Fabian Gieseke
-
-Wind energy has an important part to play as renewable energy resource in a
-sustainable world. For a reliable integration of wind energy the volatile
-nature of wind has to be understood. This article shows how kernel methods and
-neural networks can serve as modeling, forecasting and monitoring techniques,
-and, how they contribute to a successful integration of wind into smart energy
-grids. First, we will employ kernel density estimation for modeling of wind
-data. Kernel density estimation allows a statistically sound modeling of time
-series data. The corresponding experiments are based on real data of wind
-energy time series from the NREL western wind resource dataset. Second, we will
-show how prediction of wind energy can be accomplished with the help of support
-vector regression. Last, we will use self-organizing feature maps to map
-high-dimensional wind time series to colored sequences that can be used for
-error detection.
-
-:download:`PDF <papers/icnc2011.pdf>`
-
-Short-Term Wind Energy Forecasting Using Support Vector Regression, 2010
-------------------------------------------------------------------------
-
-Abstract Wind energy prediction has an important part to play in a smart energy
-grid for load balancing and capacity planning. In this paper we explore, if
-wind measurements based on the existing infrastructure of turbines in
-neighbored wind parks can be learned with a soft computing approach for wind
-energy prediction in the ten-minute to six-hour range. For this sake we employ
-Support Vector Regression (SVR) for time series forecasting, and run
-experimental analyses on real-world wind data from the NREL western wind
-resource dataset. In the experimental part of the paper we concentrate on loss
-function parameterization of SVR. We try to answer how far ahead a reliable
-wind forecast is possible, and how much information from the past is necessary.
-We demonstrate the capabilities of SVR-based wind energy forecast on the
-micro-scale level of one wind grid point, and on the larger scale of a whole
-wind park.
-
-:download:`PDF <papers/soco2010.pdf>`
 

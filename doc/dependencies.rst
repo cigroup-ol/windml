@@ -41,7 +41,7 @@ Python Packages
 
     * NumPy 1.7.1
     * SciPy 0.12.0
-    * SciKit-Learn 0.13.1
+    * SciKit-Learn 0.17.1
     * Distribute 0.7.3
     * Matplotlib 1.3.0 
 
