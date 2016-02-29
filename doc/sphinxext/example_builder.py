@@ -12,10 +12,15 @@ import shutil
 import glob
 import playdoh
 
+
+
 from playdoh import map as pmap
 
 import matplotlib
 matplotlib.use('Agg') #don't display plots
+
+
+sys.path.append("/home/jph/Schreibtisch/WindML/windml")
 
 # set some font properties
 matplotlib.rc('text', usetex=True)
@@ -464,7 +469,7 @@ class ExampleBuilder:
         for subdir in order:
             subdirs, filelist = self.parse_directory(subdir)
             contents += ("%s\n" % headlines[subdir])
-            contents += ("+" * len(subdir) + "\n\n")
+            contents += ("-" * len(headlines[subdir]) + "\n\n")
 
 	    contents += ".. container:: figures\n\n"
             for f in filelist:
