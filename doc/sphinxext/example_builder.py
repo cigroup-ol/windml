@@ -447,12 +447,13 @@ class ExampleBuilder:
     def subdir_contents(self, path, subdirs):
         subdirs = [os.path.join(path, subdir) for subdir in subdirs]
 
-        headlines = {'missingdata' : 'Missing Data',
-                     'prediction' : 'Prediction',
-                     'visualization' : 'Visualization',
-                     'statistics' : 'Statistics'}
+        headlines = {'prediction' : 'Prediction',
+                     'advancedlearning' : 'Advanced Learning',
+                     'missingdata' : 'Missing Data',
+                     'unsupervised' : 'Unsupervised Learning',
+                     'visualization' : 'Visualization'}
 
-	order = ['prediction', 'visualization', 'missingdata', 'statistics']
+	order = ['prediction', 'advancedlearning', 'missingdata','unsupervised','visualization']
 
         toctree =  ("\n\n"
                     ".. toctree::\n"
