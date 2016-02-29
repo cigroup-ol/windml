@@ -229,30 +229,19 @@ for method in methods:
         amean[method, rate] = array(means).mean()
         astd[method, rate] = array(means).std()
 
-park = "carway"
-
-for method in methods:
-    rmses = []
-    yerrs = []
-    for rate in rates:
-        yerrs.append(std[method, rate, park])
-        rmses.append(mean[method, rate, park])
-
-    plt.errorbar(rates, rmses, yerr=yerrs,\
-                 label=labels[method], linestyle="--", marker="o")
-
-def to_percent(y, position):
-    s = str(100 * y)
-    if matplotlib.rcParams['text.usetex'] == True:
-        return s + r'$\%$'
-    else:
-        return s + '%'
-
-formatter = FuncFormatter(to_percent)
-
 with plt.style.context("fivethirtyeight"):
-    #plt.gca().xaxis.set_major_formatter(formatter)
+    park = "carway"
     figure = plt.figure(figsize=(8, 5))
+    for method in methods:
+        rmses = []
+        yerrs = []
+        for rate in rates:
+            yerrs.append(std[method, rate, park])
+            rmses.append(mean[method, rate, park])
+    
+        plt.errorbar(rates, rmses, yerr=yerrs,\
+                     label=labels[method], linestyle="--", marker="o")
+
     plt.xlabel("Rate of Missing Data")
     plt.ylabel("Prediction MSE")
     plt.xlim([0.1, 0.9])
