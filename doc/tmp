@@ -1,0 +1,29 @@
+    <style type="text/css">
+
+/*
+    a.image-reference {
+        border-bottom: None;
+    }
+
+    a.image-reference:hover {
+        border-bottom: None;
+    }
+
+    .figures {
+        float: left;
+    }
+
+    .figure {
+	float: left;
+        margin: 10px;
+        margin-bottom: 1px;
+        width: auto;
+        height: 140px;
+        width: 200px;
+    }
+
+    .figure img {
+        display: inline;
+        }
+*/
+    </style>

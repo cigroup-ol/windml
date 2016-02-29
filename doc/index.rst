@@ -33,11 +33,6 @@ With the growing infrastructure of wind turbines and the availability of time-se
 The `windML framework <https://github.com/cigroup-ol/windml>`_ provides an easy-to-use access to wind data sources within the **Python** world, building upon `numpy <http://numpy.scipy.org/>`_ [1]_, `scipy <http://scipy.org>`_ [1]_, `sklearn <http://scikit-learn.org>`_ [3]_, and `matplotlib <http://matplotlib.org>`_ [2]_. 
 As a machine learning module, it provides versatile tools for various learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks. 
 
-
-
-Getting Started
----------------
-
 For an installation guide, an overview of the architecture, and the functionalities of windML, please visit the :ref:`gettingstarted` page. For a formal description of the applied techniques, see section :ref:`techniques`. The :ref:`examples` gallery illustrates the main functionalities.  
 
 .. container:: figures

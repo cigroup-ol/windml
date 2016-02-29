@@ -20,8 +20,6 @@ import matplotlib
 matplotlib.use('Agg') #don't display plots
 
 
-sys.path.append("/home/jph/Schreibtisch/WindML/windml")
-
 # set some font properties
 matplotlib.rc('text', usetex=True)
 matplotlib.rc('font', family='serif', style='normal', variant='normal',
@@ -453,12 +451,11 @@ class ExampleBuilder:
         subdirs = [os.path.join(path, subdir) for subdir in subdirs]
 
         headlines = {'prediction' : 'Prediction',
-                     'advancedlearning' : 'Advanced Learning',
                      'missingdata' : 'Missing Data',
                      'unsupervised' : 'Unsupervised Learning',
                      'visualization' : 'Visualization'}
 
-	order = ['prediction', 'advancedlearning', 'missingdata','unsupervised','visualization']
+	order = ['prediction', 'missingdata','unsupervised','visualization']
 
         toctree =  ("\n\n"
                     ".. toctree::\n"
