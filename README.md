@@ -1,5 +1,9 @@
 # windml
 
+
+The importance of wind in smart grids with a large number of renewable energy resources is increasing. 
+With the growing infrastructure of wind turbines and the availability of time-series data with high spatial and temporal resolution, the application of data mining techniques comes into play. 
+
 The windML framework provides an easy-to-use access to wind data sources within the Python world, building upon [numpy](http://www.numpy.org/), [scipy](http://www.scipy.org/), [sklearn](http://scikit-learn.org/stable/), and [matplotlib](http://matplotlib.org/). As a machine learning module, it provides versatile tools for various learning tasks like time-series prediction, classification, clustering, dimensionality reduction, and related tasks.
 
 ## Getting Started
