@@ -166,7 +166,7 @@ class NREL(DataSource):
 
         # determine the coordinates of the target
         target=self.fetch_nrel_meta_data(target_idx)
-
+        print("target", target)
         #add target turbine as last element
         newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         for y in range(year_from, year_to+1):
@@ -365,7 +365,7 @@ class NREL(DataSource):
         archive_file = os.path.join(data_home, archive_file_name)
         if not os.path.exists(archive_file):
             u = urlopen(DATA_URL)
-            localFile = open(archive_file, 'w')
+            localFile = open(archive_file, 'wb')
             localFile.write(u.read())
             localFile.close()
             print("downloaded NREL meta data from from %s to %s"

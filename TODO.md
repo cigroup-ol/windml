@@ -13,3 +13,4 @@
 
 * urllib2 ==> urllib.request
 
+* TypeError: write() argument must be str, not bytes
