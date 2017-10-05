@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The data is available at http://windfarmperformance.info/.
 """
-
+from __future__ import print_function
 import os
 import sys
 import urllib2

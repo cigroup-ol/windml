@@ -62,7 +62,8 @@ THE LOSS OF DATA OR PROFITS, WHICH MAY RESULT FROM AN ACTION IN CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE
 ACCESS, USE OR PERFORMANCE OF THESE DATA.
 """
-
+from __future__ import print_function
+from past.builtins import range
 import os
 import numpy as np
 from numpy import *
@@ -77,8 +78,7 @@ from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
 from windml.util.distance import haversine
-from __future__ import print_function
-from past.builtins import range
+
 
 class NREL(DataSource):
     """ The National Renewable Energy Laboratory ("NREL") data source
