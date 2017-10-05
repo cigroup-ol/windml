@@ -16,12 +16,12 @@ os.environ['COPYFILE_DISABLE'] = 'true'
 
 import windml
 
-#rand_uuid = uuid.uuid1()
+rand_uuid = uuid.uuid1()
 def extract_package_name(requirement):
     return str(requirement.req).replace('-', '_').split('==')[0]
 
 def find_requirements(req_file='requirements.txt'):
-    return [extract_package_name(r) for r in parse_requirements(req_file, session=uuid.uuid1())]
+    return [extract_package_name(r) for r in parse_requirements(req_file, session=rand_uuid)]
 
 DESCRIPTION = 'The windML framework provides an easy-to-use access to wind data '\
     'sources within the Python world, building upon numpy, scipy, sklearn, and '\
