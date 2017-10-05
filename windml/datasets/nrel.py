@@ -291,10 +291,10 @@ class NREL(DataSource):
             year_to=year_from
 
         result = Windpark(target_idx, radius)
-
+        print("result=", result)
         # determine the coordinates of the target
         target=self.fetch_nrel_meta_data(target_idx)
-
+        print("target", target)
         Earth_Radius = 6371
         lat_target = math.radians(np.float64(target[1]))
         lon_target = math.radians(np.float64(target[2]))
