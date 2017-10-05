@@ -37,7 +37,10 @@ The data is available at http://windfarmperformance.info/.
 from __future__ import print_function
 import os
 import sys
-import urllib2
+try:
+    from urllib2 import urlopen
+except ImportError:
+    from urllib.request import urlopen 
 import datetime
 import time
 from cStringIO import StringIO
@@ -281,7 +284,7 @@ class AEMO(object):
 
         num_units = 40
 
-        fhandle = urllib2.urlopen(urlstr)
+        fhandle = urlopen(urlstr)
 
         total_size = int(fhandle.info().getheader('Content-Length').strip())
         chunk_size = total_size / num_units

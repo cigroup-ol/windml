@@ -67,7 +67,10 @@ from past.builtins import range
 import os
 import numpy as np
 from numpy import *
-import urllib2
+try:
+    from urllib2 import urlopen
+except ImportError:
+    from urllib.request import urlopen 
 from cStringIO import StringIO
 import sys
 import csv
@@ -358,7 +361,7 @@ class NREL(DataSource):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
         if not os.path.exists(archive_file):
-            u = urllib2.urlopen(DATA_URL)
+            u = urlopen(DATA_URL)
             localFile = open(archive_file, 'w')
             localFile.write(u.read())
             localFile.close()
@@ -454,7 +457,7 @@ class NREL(DataSource):
 
         num_units = 40
 
-        fhandle = urllib2.urlopen(data_url)
+        fhandle = urlopen(data_url)
         total_size = int(fhandle.info().getheader('Content-Length').strip())
         chunk_size = total_size / num_units
 
