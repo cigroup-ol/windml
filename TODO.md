@@ -3,6 +3,8 @@
 
 * iteritem, map, values, xrange, keys, filter ... : replace where necessary	
 
+* next method  
+
 * execfile (rm in py3) : use `exec(open(thefile).read())` for instance
 
 * file(pathname) ==> open(filename)

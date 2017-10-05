@@ -71,7 +71,10 @@ try:
     from urllib2 import urlopen
 except ImportError:
     from urllib.request import urlopen 
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 import sys
 import csv
 import datetime
@@ -484,7 +487,8 @@ class NREL(DataSource):
             sys.stdout.write(s)
             sys.stdout.flush()
 
-        buf.reset()
+        #buf.reset()
+        buf.seek(0)
         if return_buffer:
             return buf
         else:

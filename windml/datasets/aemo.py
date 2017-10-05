@@ -43,7 +43,10 @@ except ImportError:
     from urllib.request import urlopen 
 import datetime
 import time
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 from numpy import int32, float32, array, save, nan, load
 from math import radians, sin, cos, atan2, sqrt
 import csv
@@ -311,7 +314,8 @@ class AEMO(object):
             sys.stdout.write(s)
             sys.stdout.flush()
 
-        buf.reset()
+        #buf.reset()
+        buf.seek(0)
         fileh.write(buf.getvalue())
         fileh.close()
 
