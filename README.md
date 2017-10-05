@@ -37,3 +37,16 @@ y_hat = reg.predict(X[train_to:test_to:test_step])
 
 The windML framework is licensed under the three clause BSD License. 
 
+## Install
+
+Using pip: `pip install git+https://github.com/aschmu/windml.git@setup-py3`
+pkgconfig, freetype and libpng are necessary to build the package from source (matplotlib install depends on it). 
+The requirements.txt file is purely cosmetic as scikit-learn requires scipy (and numpy) to be preinstalled and more importantly there is no guarantee that scipy will be installed prior to scikit-learn.
+
+* MacOS: 
+```
+brew install pkg-config
+brew install freetype
+brew install libpng
+```
+
