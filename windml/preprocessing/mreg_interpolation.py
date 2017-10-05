@@ -42,6 +42,8 @@ from sklearn.svm import SVR
 from sklearn import linear_model
 
 from numpy import zeros, int32, float32, nan, array
+from past.builtins import range
+
 
 class MRegInterpolation(object):
 
@@ -58,15 +60,15 @@ class MRegInterpolation(object):
         order = []
         for i in xrange(len(neighbor_series)):
             misses = mdf.find(neighbor_series[i], timestep)
-            missing = sum(map(lambda m : m[2], misses))
+            missing = sum(map(lambda m : m[2], misses)) #OK py3 compat
             order.append((i, missing - i))
 
         sorted(order, key = lambda o : o[1])
-        merge_order = map(lambda o : o[0], order)
+        merge_order = list(map(lambda o : o[0], order))
 
         data = neighbor_series
 
-        for i in xrange(len(data)):
+        for i in range(len(data)):
            data[i] = OverrideMissing().override(data[i], timestep, -1)
 
         field = 'corrected_score'
@@ -107,7 +109,7 @@ class MRegInterpolation(object):
                     cnt_patterns[c] += 1
 
             # now check which one has most patterns from candidates of useful
-            for missing, candidates in useful.iteritems():
+            for missing, candidates in useful.items():
                 if(len(candidates) > 0): # we have candidates
                     highest_ps = 0
                     highest_candidate = None

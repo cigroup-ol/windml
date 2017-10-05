@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from windml.util.logger import Logger
 from playdoh import map as pmap
 from multiprocessing import cpu_count
+from past.builtins import range
 
 class GridSearch(object):
 
@@ -66,7 +67,7 @@ class GridSearch(object):
         steps = int(diff / stepsize)
 
         values = []
-        for step in xrange(steps):
+        for step in range(steps):
             value = interval[0] + step * stepsize
             values.append(value)
 
@@ -87,12 +88,12 @@ class GridSearch(object):
 
             results = pmap(sequential, task_slices)
         else:
-            results = map(run, values)
+            results = list(map(run, values))
 
         aggregated = sum(results, [])
         self.results = dict(aggregated)
 
-        tus = [(val, error) for val, error in self.results.iteritems()]
+        tus = [(val, error) for val, error in self.results.items()]
         sortedtus = sorted(tus, key = lambda t : t[1])
         best_val, best_error = sortedtus[0]
 

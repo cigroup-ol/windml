@@ -206,7 +206,7 @@ class AEMO(object):
         self.check_availability()
 
         turbines = []
-        for key, idx in self.park_id.iteritems():
+        for key, idx in self.park_id.items():
             turbines.append(self.get_turbine(idx))
         return turbines
 
@@ -286,7 +286,7 @@ class AEMO(object):
         total_size = int(fhandle.info().getheader('Content-Length').strip())
         chunk_size = total_size / num_units
 
-        print "Downloading %s" % urlstr
+        print("Downloading %s" % urlstr)
         nchunks = 0
         buf = StringIO()
         total_size_str = self.bytes_to_string(total_size)
@@ -360,8 +360,8 @@ class AEMO(object):
         for k in self.park_id.keys():
             turbine_arrays[k] = []
 
-        print "The following procedures are only necessary for the first time."
-        print "Converting AEMO data to lists and filtering missing data."
+        print("The following procedures are only necessary for the first time.")
+        print("Converting AEMO data to lists and filtering missing data.")
 
         for year in self.years:
             for month in self.months_in_year[year]:
@@ -386,7 +386,7 @@ class AEMO(object):
 
                 current.close()
 
-        print "Converting to numpy arrays"
+        print("Converting to numpy arrays")
         for k in turbine_arrays.keys():
             data = turbine_arrays[k]
             a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)

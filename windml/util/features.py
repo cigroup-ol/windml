@@ -32,6 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import numpy as np
+from past.builtins import range
+
 
 rampheights = [10,15,20,25] # list of height of ramps
 interval_width = 5
@@ -121,7 +123,7 @@ def compute_highlevel_features(turbine, power_features = True, ramp_features = T
     c_max = 0
     transitions = 0
 
-    for i in xrange(len(X)):
+    for i in range(len(X)):
 
 # minimum plateau computation
         if X[i]<=epsilon:
@@ -140,7 +142,7 @@ def compute_highlevel_features(turbine, power_features = True, ramp_features = T
 
 
 # mid transitions computation
-    for i in xrange(len(X)-1):
+    for i in range(len(X)-1):
         if (X[i]>mid and X[i+1]<mid) or (X[i]<mid and X[i+1]>mid):
             transitions+=1
 
@@ -149,7 +151,7 @@ def compute_highlevel_features(turbine, power_features = True, ramp_features = T
 
     power_freq = np.zeros(30./interval_width)
 
-    for i in xrange(len(X)):
+    for i in range(len(X)):
         if X[i]==30.0:
             power_freq[-1]+=1
         else:

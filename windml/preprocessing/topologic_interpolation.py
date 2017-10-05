@@ -35,6 +35,7 @@ from windml.util.distance import haversine
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from windml.preprocessing.override_missing import OverrideMissing
 from numpy import zeros, int32, float32, nan
+from past.builtins import range
 
 class TopologicInterpolation(object):
     def interpolate(self, timeseries, **args):
@@ -51,7 +52,7 @@ class TopologicInterpolation(object):
         lnseries = len(neighbor_series)
         ov_neighbor_series = []
         ovm = OverrideMissing()
-        for i in xrange(lnseries):
+        for i in range(lnseries):
             ov_series = ovm.override(neighbor_series[i], timestep, -1)
             ov_neighbor_series.append(ov_series)
 
@@ -62,7 +63,7 @@ class TopologicInterpolation(object):
 
         # calucating distances
         distances = []
-        for i in xrange(0, len(neighbor_series)):
+        for i in range(0, len(neighbor_series)):
             d = haversine(location, neighbor_locations[i])
             if(d == 0):
                 raise Exception("distance is 0.")
@@ -99,7 +100,7 @@ class TopologicInterpolation(object):
                     sum_of_distances = 0
 
                     # search for candidates with no missing data
-                    for k in xrange(len(ov_neighbor_series)):
+                    for k in range(len(ov_neighbor_series)):
                         nseries = ov_neighbor_series[k]
                         if(nseries[i + j][cs] != -1):
                             candidates.append(k)

@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from random import randint
 from math import floor
 from numpy import zeros, float32, int32
+from past.builtins import range
 
 class MARDestroyer(object):
     def destroy(self, timeseries, **args):
@@ -61,13 +62,13 @@ class MARDestroyer(object):
         for exception in exceptions:
             indices.remove(exception)
 
-        for i in xrange(amount_remove):
+        for i in range(amount_remove):
             x = randint(0, len(indices) - 1)
             remove_indices.append(indices[x])
             indices.remove(indices[x])
 
         current = 0
-        for i in xrange(lseries):
+        for i in range(lseries):
             if(i not in remove_indices):
                 newmat[current] = timeseries[i]
                 current += 1

@@ -51,7 +51,7 @@ class ForwardCopy(object):
                 ('corrected_score', float32),\
                 ('speed', float32)])
 
-        keys = starts.keys()
+        keys = list(starts.keys())
         current_index = 0
 
         for i in range(len(timeseries)):

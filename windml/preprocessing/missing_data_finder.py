@@ -30,12 +30,13 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
+from past.builtins import range
 
 class MissingDataFinder(object):
 
     def find(self, measurements, timestep):
         missing_between = []
-        for i in xrange(len(measurements) - 1):
+        for i in range(len(measurements) - 1):
             d = measurements[i]['date']
             dn = measurements[i + 1]['date']
             if(dn - d > timestep):

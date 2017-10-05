@@ -77,6 +77,8 @@ from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
 from windml.util.distance import haversine
+from __future__ import print_function
+from past.builtins import range
 
 class NREL(DataSource):
     """ The National Renewable Energy Laboratory ("NREL") data source
@@ -206,9 +208,9 @@ class NREL(DataSource):
         marked = []
         nearest = []
         distances = []
-        for i in xrange(n_nearest):
+        for i in range(n_nearest):
             smallest = None
-            for t in xrange(meta.shape[0]):
+            for t in range(meta.shape[0]):
                 d = haversine((tlat, tlon), (meta[t][1], meta[t][2]))
                 if(smallest == None and t != target_idx - 1 and t not in marked):
                     smallest = t
@@ -360,7 +362,7 @@ class NREL(DataSource):
             localFile = open(archive_file, 'w')
             localFile.write(u.read())
             localFile.close()
-            print ("downloaded NREL meta data from from %s to %s"
+            print("downloaded NREL meta data from from %s to %s"
                    % (DATA_URL, data_home))
         reader=csv.reader(open(archive_file, "U"), delimiter=',')
         data = []
@@ -456,7 +458,7 @@ class NREL(DataSource):
         total_size = int(fhandle.info().getheader('Content-Length').strip())
         chunk_size = total_size / num_units
 
-        print "Downloading %s" % data_url
+        print("Downloading %s" % data_url)
         nchunks = 0
         buf = StringIO()
         total_size_str = self.bytes_to_string(total_size)
@@ -513,7 +515,7 @@ class NREL(DataSource):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
         if not os.path.exists(archive_file):
-            print ("downloading NREL wind measurements from from %s to %s"
+            print("downloading NREL wind measurements from from %s to %s"
                    % (DATA_URL, data_home))
             buf = self.download_with_progress_bar(DATA_URL, return_buffer=True)
             reader=csv.reader(buf, delimiter=',')

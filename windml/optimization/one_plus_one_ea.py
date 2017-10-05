@@ -32,9 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from numpy.random import normal, rand
-
+from past.builtins import range
 class OnePlusOneEA(object):
-#    def __init__():
 
     def minimize(self, parameter, mean, sigma, interval, iterations, args, algorithm):
         """
@@ -66,25 +65,25 @@ class OnePlusOneEA(object):
         while(not feasible):
             parent = normal(mean, sigma)
             if(interval[0] <= parent <= interval[1]):
-                print parent
+                print(parent)
                 feasible = True
 
         args[parameter] = parent
         best_error = algorithm(args)
 
-        for i in xrange(iterations):
+        for i in range(iterations):
             feasible = False
             while(not feasible):
                 offspring = parent + normal(mean, sigma)
                 if(interval[0] <= offspring <= interval[1]):
-                    print offspring
+                    print(offspring)
                     feasible = True
             args[parameter] = offspring
             error = algorithm(args)
             if(error < best_error):
                 parent = offspring
                 best_error = error
-                print parent, error
+                print(parent, error)
 
         return parent, best_error
 
