@@ -29,6 +29,11 @@ DESCRIPTION = 'The windML framework provides an easy-to-use access to wind data 
     'various learning tasks like time-series prediction, classification, clustering, '\
     'dimensionality reduction, and related tasks.'
 
+
+reqs = find_requirements('requirements.txt')
+reqs = [r for r in reqs if r.startswith('scipy')] + \
+       [r for r in reqs if not r.startswith('scipy')]
+
 setup(
     author=windml.__author__,
     author_email=windml.__author_email__,
@@ -54,13 +59,13 @@ classifiers=[
     data_files=[],
     description=DESCRIPTION,
     ext_modules=[],
-    install_requires=find_requirements('requirements.txt'),
+    install_requires=reqs,
     license=windml.__license__,
     long_description=DESCRIPTION,
     name='windml',
     packages=find_packages(),
     package_data={},
-    setup_requires=find_requirements('requirements.txt'),
+    setup_requires=reqs,
     url=windml.__url__,
     use_2to3=(sys.version_info >= (3,)),
     version=windml.__version__,
