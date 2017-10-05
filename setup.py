@@ -6,7 +6,7 @@ except ImportError:
     from setuptools import setup, find_packages
 
 from pip.req import parse_requirements
-
+import uuid
 import os
 import sys
 
@@ -16,11 +16,12 @@ os.environ['COPYFILE_DISABLE'] = 'true'
 
 import windml
 
+#rand_uuid = uuid.uuid1()
 def extract_package_name(requirement):
     return str(requirement.req).replace('-', '_').split('==')[0]
 
 def find_requirements(req_file='requirements.txt'):
-    return [extract_package_name(r) for r in parse_requirements(req_file)]
+    return [extract_package_name(r) for r in parse_requirements(req_file, session=uuid.uuid1())]
 
 DESCRIPTION = 'The windML framework provides an easy-to-use access to wind data '\
     'sources within the Python world, building upon numpy, scipy, sklearn, and '\
