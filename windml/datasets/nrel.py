@@ -358,15 +358,21 @@ class NREL(DataSource):
             Array of meta data for a turbines.
         """
         data_home = str(os.getenv("HOME")) + "/nrel_data/"
+        print(data_home)
         archive_file_name = "meta.csv"
         DATA_URL = self.BASE_URL + "site_meta.csv"
+        print(DATA_URL)
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
         if not os.path.exists(archive_file):
+            print('fetching data')
             u = urlopen(DATA_URL)
-            localFile = open(archive_file, 'wb')
-            localFile.write(u.read())
+            localFile = open(archive_file, 'w')
+            sss = u.read().decode('utf-8')
+            print(len(sss))
+            print(sss)
+            localFile.write(sss)
             localFile.close()
             print("downloaded NREL meta data from from %s to %s"
                    % (DATA_URL, data_home))
@@ -405,7 +411,8 @@ class NREL(DataSource):
             array of meta data for a turbine.
         """
 
-        attributes = ['id','latitude','longitude','power_density','power_capacity','speed','elevation']
+        attributes = ['id','latitude','longitude','power_density',
+        'power_capacity','speed','elevation']
         data=self.fetch_nrel_meta_data_all(attributes, data_home)
         for turbine in data:
             if turbine_id==turbine[0]:
@@ -460,22 +467,22 @@ class NREL(DataSource):
 
         num_units = 40
 
-        fhandle = urlopen(data_url)
-        total_size = int(fhandle.info().getheader('Content-Length').strip())
-        chunk_size = total_size / num_units
+        fhandle = urlopen(data_url)        
+        total_size = int(fhandle.getheader('Content-Length').strip())
+        chunk_size = int(total_size / num_units)
 
         print("Downloading %s" % data_url)
         nchunks = 0
         buf = StringIO()
         total_size_str = self.bytes_to_string(total_size)
-        #total_size_str=total_size.decode('utf-8')
+        #total_size_str=total_size_str.decode('utf-8')
 
         while True:
             next_chunk = fhandle.read(chunk_size)
             nchunks += 1
 
             if next_chunk:
-                buf.write(next_chunk)
+                buf.write(next_chunk.decode('utf-8'))
                 s = ('[' + nchunks * '='
                      + (num_units - 1 - nchunks) * ' '
                      + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
@@ -527,7 +534,8 @@ class NREL(DataSource):
             buf = self.download_with_progress_bar(DATA_URL, return_buffer=True)
             reader=csv.reader(buf, delimiter=',')
             data = []
-            reader.next() # skip first, header of csv
+            next(reader)
+            #reader.next() # skip first, header of csv
             i=0
             for row in reader:
                 point=[]
