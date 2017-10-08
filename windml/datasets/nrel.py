@@ -63,7 +63,7 @@ NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE
 ACCESS, USE OR PERFORMANCE OF THESE DATA.
 """
 from __future__ import print_function
-from past.builtins import range
+from builtins import range
 import os
 import numpy as np
 from numpy import *
