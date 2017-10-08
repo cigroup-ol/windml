@@ -33,6 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from numpy import zeros, int32, float32, nan
+import numpy as np 
+
 
 class BackwardCopy(object):
     def interpolate(self, timeseries, **args):
