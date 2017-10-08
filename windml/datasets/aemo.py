@@ -41,10 +41,10 @@ from six.moves.urllib.request import urlopen
 from socket import timeout
 import datetime
 import time
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
+# try:
+#     from cStringIO import StringIO
+# except ImportError:
+from io import StringIO
 from numpy import int32, float32, array, save, nan, load
 from math import radians, sin, cos, atan2, sqrt
 import csv
@@ -303,7 +303,7 @@ class AEMO(object):
                     next_chunk = None
 
                 if next_chunk:
-                    buf.write(next_chunk)
+                    buf.write(next_chunk.decode('utf-8'))
                     s = ('[' + nchunks * '='
                          + (num_units - 1 - nchunks) * ' '
                          + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),

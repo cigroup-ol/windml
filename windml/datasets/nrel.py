@@ -68,10 +68,10 @@ import os
 import numpy as np
 from numpy import *
 from six.moves.urllib.request import urlopen
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
+# try:
+#     from cStringIO import StringIO
+# except ImportError:
+from io import StringIO
 from socket import timeout
 import sys
 import csv
