@@ -165,7 +165,7 @@ for park in parks.keys():
     for i in range(2):
 
         damaged_series = {}
-        de = lambda (rate) : (rate, (destroy(measurements, method=destroy_method, percentage=rate)[0]))
+        de = lambda rate : (rate, (destroy(measurements, method=destroy_method, percentage=rate)[0]))
 
         dseries = map(de, rates)
         for rate, series in dseries:
