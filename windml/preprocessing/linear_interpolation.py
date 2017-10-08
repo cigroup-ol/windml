@@ -66,6 +66,7 @@ class LinearInterpolation(object):
                 current_index += 1
 
                 end, n = starts[i]
+                n = int(n)
                 # interpolate
                 dy = (timeseries[end][cs] - timeseries[i][cs])
                 dy2 = (timeseries[end][sp] - timeseries[i][sp])

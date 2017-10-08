@@ -92,7 +92,7 @@ class TopologicInterpolation(object):
                 current_index += 1
 
                 end, n = starts[i]
-                n = int(starts[i])    
+                n = int(n)    
                 w_hat_k = {}
                 for j in range(1, n + 1):
                     candidates = []
@@ -107,7 +107,7 @@ class TopologicInterpolation(object):
                             sum_of_distances += distances[k]
 
                     # if no candidates available copy old data
-                    if(len(candidates) == 0):
+                    if (len(candidates) == 0):
                         y = timeseries[i][cs]
                         new_timestep = timeseries[i][d] + j * timestep
                         new_mat[current_index] = (new_timestep, y, nan)

@@ -66,6 +66,7 @@ class ForwardCopy(object):
                 current_index += 1
 
                 end, n = starts[i]
+                n = int(n)
                 for j in range(1, n + 1):
                     new_timestep = timeseries[i][d] + j * timestep
                     csval = timeseries[i][cs]
