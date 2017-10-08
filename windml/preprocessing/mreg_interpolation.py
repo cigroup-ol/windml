@@ -42,7 +42,7 @@ from sklearn.svm import SVR
 from sklearn import linear_model
 
 from numpy import zeros, int32, float32, nan, array
-from past.builtins import range
+from builtins import range
 
 
 class MRegInterpolation(object):

@@ -35,7 +35,7 @@ from windml.util.distance import haversine
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from windml.preprocessing.override_missing import OverrideMissing
 from numpy import zeros, int32, float32, nan
-from past.builtins import range
+from builtins import range
 
 class TopologicInterpolation(object):
     def interpolate(self, timeseries, **args):

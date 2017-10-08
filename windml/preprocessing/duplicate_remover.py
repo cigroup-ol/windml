@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from numpy import zeros, int32, float32
-from past.builtins import range
+from builtins import range
 
 class DuplicateRemover(object):
     def remove(self, timeseries):

@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import numpy as np
-from past.builtins import range
+from builtins import range
 
 
 rampheights = [10,15,20,25] # list of height of ramps

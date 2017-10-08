@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from random import randint
 from math import floor
 from numpy import zeros, float32, int32
-from past.builtins import range
+from builtins import range
 
 class MARDestroyer(object):
     def destroy(self, timeseries, **args):

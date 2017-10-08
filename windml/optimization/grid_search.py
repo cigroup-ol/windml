@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from windml.util.logger import Logger
 #from playdoh import map as pmap
 from multiprocessing import cpu_count, Pool 
-from past.builtins import range
+from builtins import range
 
 class GridSearch(object):
 
