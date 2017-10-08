@@ -287,7 +287,7 @@ class AEMO(object):
             fhandle = urlopen(urlstr)
 
             total_size = int(fhandle.getheader('Content-Length').strip())
-            chunk_size = total_size / num_units
+            chunk_size = total_size // num_units
 
             print("Downloading %s" % urlstr)
             nchunks = 0

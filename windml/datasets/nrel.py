@@ -471,7 +471,7 @@ class NREL(DataSource):
 
         fhandle = urlopen(data_url, timeout=6)        
         total_size = int(fhandle.getheader('Content-Length').strip())
-        chunk_size = int(total_size / num_units)
+        chunk_size = total_size // num_units
 
         print("Downloading %s" % data_url)
         nchunks = 0
