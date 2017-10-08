@@ -19,6 +19,7 @@ import pylab as plt
 from sklearn import manifold, decomposition
 
 from windml.datasets.nrel import NREL
+from builtins import range
 
 # load data and define parameters / training and test sequences
 K = 30
@@ -42,7 +43,7 @@ sequence = []
 for x in X_test:
     win = 0
     smallest = 10E100
-    for b in xrange(len(X_train)):
+    for b in range(len(X_train)):
         if np.dot(x-X_train[b],x-X_train[b])<smallest:
             smallest = np.dot(x-X_train[b],x-X_train[b])
             win = b

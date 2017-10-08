@@ -15,10 +15,12 @@ import numpy as np
 
 from windml.datasets.nrel import NREL
 from windml.visualization.plot_timeseries import plot_timeseries
+from builtins import range
+
 
 ds = NREL()
 turbine = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
-X=np.array([m[1] for m in turbine.get_measurements()])
+X = np.array([m[1] for m in turbine.get_measurements()])
 
 # variables necessare for computation of wind changes and their colors
 x1= []
@@ -33,7 +35,7 @@ for steps in [0,1,2,4]:
     x1= []
     x2 = []
     colors = []
-    for i in xrange(len(X)-steps):
+    for i in range(len(X)-steps):
         x1.append(X[i])
         x2.append(X[i+steps])
         # depending on the distance to the diagonal,

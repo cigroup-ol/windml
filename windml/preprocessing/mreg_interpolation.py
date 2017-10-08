@@ -58,7 +58,7 @@ class MRegInterpolation(object):
         mdf = MissingDataFinder()
 
         order = []
-        for i in xrange(len(neighbor_series)):
+        for i in range(len(neighbor_series)):
             misses = mdf.find(neighbor_series[i], timestep)
             missing = sum(map(lambda m : m[2], misses)) #OK py3 compat
             order.append((i, missing - i))
@@ -85,7 +85,7 @@ class MRegInterpolation(object):
             available_in_c = {}
             cnt_patterns = {}
 
-            for i in xrange(len(mseries)):
+            for i in range(len(mseries)):
                 if(mseries[i][field] == -1):
                     if(i not in useful.keys()):
                         useful[i] = []
@@ -97,7 +97,7 @@ class MRegInterpolation(object):
                 cnt_patterns[c] = 0
                 available_in_c[c] = []
 
-                for i in xrange(len(mseries)):
+                for i in range(len(mseries)):
                     if(mseries[i][field] == -1 and cseries[i][field] != -1):
                         if(i not in useful.keys()):
                             useful[i] = []
@@ -172,7 +172,7 @@ class MRegInterpolation(object):
         ovtimeseries = OverrideMissing().override(timeseries, timestep, -1)
 
         labels, patterns = [], []
-        for i in xrange(len(timeseries)):
+        for i in range(len(timeseries)):
             if(timeseries[i][field] != -1):
                 labels.append(ovtimeseries[i][field])
             pattern = []
@@ -186,7 +186,7 @@ class MRegInterpolation(object):
             regressor = KNeighborsRegressor(neighbors, variant)
         regressor.fit(patterns, labels)
 
-        for i in xrange(len(ovtimeseries)):
+        for i in range(len(ovtimeseries)):
             if(ovtimeseries[i][field] == -1):
                 pattern = []
                 for series in data:
@@ -218,7 +218,7 @@ class MRegInterpolation(object):
         for field in fields:
             X, Y = [], []
 
-            for t in xrange(len(neighbor_series[0])):
+            for t in range(len(neighbor_series[0])):
                 if(ovtimeseries[t][field] != -1):
                     Y.append(ovtimeseries[t][field])
                     pattern = []
@@ -286,7 +286,7 @@ class MRegInterpolation(object):
 
             regressor.fit(Xa,Ya)
 
-            for t in xrange(len(ovtimeseries)):
+            for t in range(len(ovtimeseries)):
                 if(ovtimeseries[t][field] == -1):
                     pattern = []
                     for nseries in neighbor_series:

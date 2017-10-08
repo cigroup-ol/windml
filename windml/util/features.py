@@ -96,7 +96,7 @@ def compute_highlevel_features(turbine, power_features = True, ramp_features = T
         for thresh in rampheights:
             ramps_up.append(0)
             ramps_down.append(0)
-            for i in xrange(len(X)-step):
+            for i in range(len(X)-step):
                 diff = X[i]-X[i+step]
                 if diff > thresh:
                     ramps_up[-1]+=1

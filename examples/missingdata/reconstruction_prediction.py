@@ -38,6 +38,7 @@ from matplotlib.ticker import FuncFormatter
 
 from numpy import array
 from itertools import product, chain
+from builtins import range 
 
 parks = {
     'carway': 30498,
@@ -161,7 +162,7 @@ for park in parks.keys():
     target = windpark.get_target()
     measurements = repair_nrel(target.get_measurements()[:10000])
 
-    for i in xrange(2):
+    for i in range(2):
 
         damaged_series = {}
         de = lambda (rate) : (rate, (destroy(measurements, method=destroy_method, percentage=rate)[0]))

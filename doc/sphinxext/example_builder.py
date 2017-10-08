@@ -12,9 +12,7 @@ import shutil
 import glob
 import playdoh
 
-
-
-from playdoh import map as pmap
+# from playdoh import map as pmap
 
 import matplotlib
 matplotlib.use('Agg') #don't display plots
@@ -514,12 +512,12 @@ class ExampleBuilder:
         # Get sub-directories and scripts
         subdirs, scripts = self.parse_directory(path)
 
-        # Parallel-fix
-        res = pmap(lambda s : self.generate_example_rst(os.path.join(path, s)), scripts)
+        # # Parallel-fix
+        # res = pmap(lambda s : self.generate_example_rst(os.path.join(path, s)), scripts)
 
-#        # Run the scripts
-#        for script in scripts:
-#            self.generate_example_rst(os.path.join(path, script))
+       # Run the scripts
+       for script in scripts:
+           self.generate_example_rst(os.path.join(path, script))
 
         outfile = open(index_file, 'w')
         outfile.write(self.template_index %

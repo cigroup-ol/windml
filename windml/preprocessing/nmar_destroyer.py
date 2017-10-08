@@ -56,7 +56,7 @@ class NMARDestroyer(object):
         exceptions = [0, lseries - 1]
 
         # exclude indices
-        if('exclude' in args.keys()):
+        if 'exclude' in args.keys():
             exceptions = exceptions + args['exclude']
 
         removed_indices = []
@@ -64,7 +64,7 @@ class NMARDestroyer(object):
         while index_old < lseries:
             for interval in marked_intervals:
                 (start, end) = interval
-                if((start <= index_old <= end) and index_old not in exceptions):
+                if ((start <= index_old <= end) and index_old not in exceptions):
                     removed_indices.append(index_old)
                     break
             index_old += 1
@@ -78,7 +78,7 @@ class NMARDestroyer(object):
         index_old = 0
         index_new = 0
         while index_old < lseries:
-            if(index_old in removed_indices):
+            if index_old in removed_indices:
                 index_old += 1
             else:
                 new_mat[index_new] = timeseries[index_old]

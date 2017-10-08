@@ -348,7 +348,7 @@ class AEMO(object):
 
         buf = csvf.readlines()
         reader = csv.reader(buf, delimiter=',')
-        reader.next()
+        next(reader)
 
         data = []
         for row in reader:
@@ -376,7 +376,7 @@ class AEMO(object):
                 current = open(location, "r")
                 buf = current.readlines()
                 reader = csv.reader(buf, delimiter=',')
-                keys = reader.next()
+                keys = next(reader)
 
                 for row in reader:
                     for i in range(1, len(row)):

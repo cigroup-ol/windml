@@ -55,7 +55,7 @@ class MARDestroyer(object):
         exceptions = [0, lseries - 1]
 
         # exclude indices
-        if('exclude' in args.keys()):
+        if 'exclude' in args.keys():
             exceptions = exceptions + args['exclude']
 
         indices = range(0, timeseries.shape[0])
@@ -69,7 +69,7 @@ class MARDestroyer(object):
 
         current = 0
         for i in range(lseries):
-            if(i not in remove_indices):
+            if i not in remove_indices:
                 newmat[current] = timeseries[i]
                 current += 1
 

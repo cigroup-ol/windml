@@ -290,11 +290,9 @@ class NREL(DataSource):
         if year_to==0:
             year_to=year_from
 
-        result = Windpark(target_idx, radius)
-        print("result=", result)
+        result = Windpark(target_idx, radius)        
         # determine the coordinates of the target
-        target=self.fetch_nrel_meta_data(target_idx)
-        print("target", target)
+        target=self.fetch_nrel_meta_data(target_idx)    
         Earth_Radius = 6371
         lat_target = math.radians(np.float64(target[1]))
         lon_target = math.radians(np.float64(target[2]))
@@ -357,11 +355,9 @@ class NREL(DataSource):
         numpy.array
             Array of meta data for a turbines.
         """
-        data_home = str(os.getenv("HOME")) + "/nrel_data/"
-        print(data_home)
+        data_home = str(os.getenv("HOME")) + "/nrel_data/"        
         archive_file_name = "meta.csv"
-        DATA_URL = self.BASE_URL + "site_meta.csv"
-        print(DATA_URL)
+        DATA_URL = self.BASE_URL + "site_meta.csv"        
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
@@ -370,8 +366,6 @@ class NREL(DataSource):
             u = urlopen(DATA_URL)
             localFile = open(archive_file, 'w')
             sss = u.read().decode('utf-8')
-            print(len(sss))
-            print(sss)
             localFile.write(sss)
             localFile.close()
             print("downloaded NREL meta data from from %s to %s"
