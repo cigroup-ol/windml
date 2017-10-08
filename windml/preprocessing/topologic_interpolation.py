@@ -65,15 +65,15 @@ class TopologicInterpolation(object):
         distances = []
         for i in range(0, len(neighbor_series)):
             d = haversine(location, neighbor_locations[i])
-            if(d == 0):
+            if d == 0:
                 raise Exception("distance is 0.")
             distances.append(d)
 
         # index start indices
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
 
         # allocate new numpy array
         new_mat = zeros((new_amount,),\
@@ -85,14 +85,14 @@ class TopologicInterpolation(object):
         current_index = 0
 
         for i in range(len(timeseries)):
-            if(i in keys):
+            if i in keys:
             # missing data starting
                 # add start measurement
                 new_mat[current_index] = timeseries[i]
                 current_index += 1
 
                 end, n = starts[i]
-
+                n = int(starts[i])    
                 w_hat_k = {}
                 for j in range(1, n + 1):
                     candidates = []

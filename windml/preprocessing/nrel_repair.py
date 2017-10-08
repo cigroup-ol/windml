@@ -42,12 +42,12 @@ class NRELRepair(object):
         jumpsto_index = {}
         jumpers = []
         for i, d in enumerate(self.get_distances(measurements)):
-            if(d != timesteps):
+            if (d != timesteps):
                 jumper = i
                 jumper_date = measurements[i]['date']
                 found = False
                 for k in range(i+1, measurements.shape[0]):
-                    if(measurements[k]['date'] == jumper_date):
+                    if (measurements[k]['date'] == jumper_date):
                         found = True                           
                         jumpsto = k
                 if not found:

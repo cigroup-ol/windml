@@ -44,7 +44,7 @@ class NMARDestroyer(object):
         lseries = timeseries.shape[0]
         marked = 0
         marked_intervals = []
-        while(marked < int(floor((lseries * percentage)))):
+        while (marked < int(floor((lseries * percentage)))):
             start = randint(0, lseries - 1)
             end = randint(start + min_length, start + max_length)
             while(end > lseries - 1):

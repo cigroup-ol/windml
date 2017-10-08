@@ -141,7 +141,7 @@ class MRegInterpolation(object):
                     pattern.append(data[highest_candidate][missing][field])
                     for am in merged:
                         pattern.append(data[am][missing][field])
-                    data[m][missing][field] = reg.predict(pattern)
+                    data[m][missing][field] = reg.predict(pattern.reshape(1, -1))
                 else:   # we have no candidates, and we use merged here
                     ### FITTING
                     labels, patterns = [],[]
