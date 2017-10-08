@@ -7,7 +7,7 @@ __author_email__ = 'nils.andre.treiber@uni-oldenburg.de'
 __license__ = 'BSD'
 # __maintainer__ = "first last"
 # __maintainer_email__ = "first.last@example.com"
-__url__ = 'http://windml.org/'
+__url__ = 'https://github.com/aschmu/windml'
 __version__ = '0.5.0'
 
 

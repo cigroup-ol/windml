@@ -283,45 +283,44 @@ class AEMO(object):
         return self.BASE_URL + self.filename(year, month)
 
     def download(self, location, urlstr):
-        fileh = file(location, "w")
+        with open(location, "w") as fileh:
+            num_units = 40
 
-        num_units = 40
+            fhandle = urlopen(urlstr)
 
-        fhandle = urlopen(urlstr)
+            total_size = int(fhandle.getheader('Content-Length').strip())
+            chunk_size = total_size / num_units
 
-        total_size = int(fhandle.info().getheader('Content-Length').strip())
-        chunk_size = total_size / num_units
+            print("Downloading %s" % urlstr)
+            nchunks = 0
+            buf = StringIO()
+            total_size_str = self.bytes_to_string(total_size)
 
-        print("Downloading %s" % urlstr)
-        nchunks = 0
-        buf = StringIO()
-        total_size_str = self.bytes_to_string(total_size)
+            while True:
+                try:
+                    next_chunk = fhandle.read(chunk_size)
+                    nchunks += 1
+                except timeout:
+                    print('request timeout for %s' % DATA_URL)
+                    next_chunk = None
 
-        while True:
-            try:
-                next_chunk = fhandle.read(chunk_size)
-                nchunks += 1
-            except timeout:
-                print('request timeout for %s' % DATA_URL)
-                next_chunk = None
+                if next_chunk:
+                    buf.write(next_chunk)
+                    s = ('[' + nchunks * '='
+                         + (num_units - 1 - nchunks) * ' '
+                         + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
+                                                total_size_str))
+                else:
+                    sys.stdout.write('\n')
+                    break
 
-            if next_chunk:
-                buf.write(next_chunk)
-                s = ('[' + nchunks * '='
-                     + (num_units - 1 - nchunks) * ' '
-                     + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
-                                            total_size_str))
-            else:
-                sys.stdout.write('\n')
-                break
+                sys.stdout.write(s)
+                sys.stdout.flush()
 
-            sys.stdout.write(s)
-            sys.stdout.flush()
-
-        #buf.reset()
-        buf.seek(0)
-        fileh.write(buf.getvalue())
-        fileh.close()
+            #buf.reset()
+            buf.seek(0)
+            fileh.write(buf.getvalue())
+            
 
     def fetch_aemo_data(self):
         if not os.path.exists(self.data_home_raw):

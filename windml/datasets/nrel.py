@@ -377,8 +377,9 @@ class NREL(DataSource):
             print("downloaded NREL meta data from from %s to %s"
                    % (DATA_URL, data_home))
         data = []    
-        if success:                   
-            reader=csv.reader(open(archive_file, "U"), delimiter=',')        
+        if success:
+            with open(archive_file, "U") as csv_arch:                   
+                reader=csv.reader(csv_arch, delimiter=',')        
             for row in reader:
                 point=[]
                 point.append(int(row[0]))
@@ -416,7 +417,7 @@ class NREL(DataSource):
 
         attributes = ['id','latitude','longitude','power_density',
         'power_capacity','speed','elevation']
-        data=self.fetch_nrel_meta_data_all(attributes, data_home)
+        data = self.fetch_nrel_meta_data_all(attributes, data_home)
         for turbine in data:
             if turbine_id==turbine[0]:
                 ret=[]
@@ -487,7 +488,7 @@ class NREL(DataSource):
             except timeout:
                 print('request timeout for %s' % DATA_URL)
                 next_chunk = None
-                
+
             if next_chunk:
                 buf.write(next_chunk.decode('utf-8'))
                 s = ('[' + nchunks * '='
