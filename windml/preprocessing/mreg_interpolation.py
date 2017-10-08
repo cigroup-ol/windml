@@ -226,8 +226,7 @@ class MRegInterpolation(object):
                         pattern.append(nseries[t][field])
                     X.append(pattern)
 
-            Xa, Ya = array(X), array(Y)
-
+            Xa, Ya = array(X), array(Y)            
             if(reg == 'knn'):
                 regargs = args['regargs']
                 variant = regargs['variant']
@@ -287,11 +286,12 @@ class MRegInterpolation(object):
             regressor.fit(Xa,Ya)
 
             for t in range(len(ovtimeseries)):
-                if(ovtimeseries[t][field] == -1):
+                if(ovtimeseries[t][field] == -1):                    
                     pattern = []
                     for nseries in neighbor_series:
                         pattern.append(nseries[t][field])
-                    y_hat = regressor.predict(array(pattern))
+                    
+                    y_hat = regressor.predict(array(pattern).reshape(1, -1))
                     if(len(y_hat.shape) > 0):
                         ovtimeseries[t][field] = y_hat[0]
                     else:

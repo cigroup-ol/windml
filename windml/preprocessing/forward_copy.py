@@ -43,8 +43,8 @@ class ForwardCopy(object):
 
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
 
         # allocate new numpy array
         filled = zeros((new_amount,), dtype=[('date', int32),\
