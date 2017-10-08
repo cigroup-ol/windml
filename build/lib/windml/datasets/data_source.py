@@ -31,24 +31,48 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import numpy as np
+class DataSource(object):
+    """Abstract class of data sources"""
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+    def get_windpark(self, target_idx, radius, year_from=0, year_to=0):
+        """This method returns a Windpark object of a given data source.
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
+        Parameters
+        ----------
 
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
-    """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+        target_idx : int
+                     Depends on the data source.
+        year_from  : int
+                     2004 - 2006
+        year_to    : int
+                     2004 - 2006
+
+        Returns
+        -------
+
+        Windpark
+            An according windpark for target id, radius and time span.
+        """
+        pass
+
+    def get_turbine(self, target_idx, year_from=0, year_to=0):
+        """This method returns a Turbine object of a given data source.
+
+        Parameters
+        ----------
+
+        target_idx : int
+                     Depends on the data source.
+        year_from  : int
+                     2004 - 2006
+        year_to    : int
+                     2004 - 2006
+
+        Returns
+        -------
+
+        Turbine
+            An according turbine for target id and time span.
+        """
+        pass
 

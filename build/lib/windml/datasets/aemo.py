@@ -34,17 +34,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The data is available at http://windfarmperformance.info/.
 """
-from __future__ import print_function
+
 import os
 import sys
 try:
-    from urllib2 import urlopen
+    from urllib.request import urlopen
 except ImportError:
     from urllib.request import urlopen 
 import datetime
 import time
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
     from io import StringIO
 from numpy import int32, float32, array, save, nan, load
@@ -142,10 +142,10 @@ class AEMO(object):
     data_home_npy = data_home + "npy/"
 
     years = [2009, 2010, 2011, 2012]
-    months_in_year = {2009 : range(8, 13),\
-                      2010 : range(1, 13),\
-                      2011 : range(1, 13),\
-                      2012 : range(1, 4)}
+    months_in_year = {2009 : list(range(8, 13)),\
+                      2010 : list(range(1, 13)),\
+                      2011 : list(range(1, 13)),\
+                      2012 : list(range(1, 4))}
 
     def check_availability(self):
         if not os.path.exists(self.data_home_raw):
@@ -212,7 +212,7 @@ class AEMO(object):
         self.check_availability()
 
         turbines = []
-        for key, idx in self.park_id.items():
+        for key, idx in list(self.park_id.items()):
             turbines.append(self.get_turbine(idx))
         return turbines
 
@@ -368,7 +368,7 @@ class AEMO(object):
 
         # convert data to windml format
         turbine_arrays, turbine_npy_arrays = {}, {}
-        for k in self.park_id.keys():
+        for k in list(self.park_id.keys()):
             turbine_arrays[k] = []
 
         print("The following procedures are only necessary for the first time.")
@@ -398,7 +398,7 @@ class AEMO(object):
                 current.close()
 
         print("Converting to numpy arrays")
-        for k in turbine_arrays.keys():
+        for k in list(turbine_arrays.keys()):
             data = turbine_arrays[k]
             a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)
             turbine_npy_arrays[k] = a

@@ -31,24 +31,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import numpy as np
+from numpy import zeros, int32, float32
+from builtins import range
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+class DuplicateRemover(object):
+    def remove(self, timeseries):
+        last_time = 0
+        new_amount = 0
+        for i in range(timeseries.shape[0]):
+            date = timeseries[i]['date']
+            if(date > last_time):
+                new_amount += 1
+                last_time = date
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
+        new_mat = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
-    """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+        last_time = 0
+        for i in range(new_amount):
+            date = timeseries[i]['date']
+            if(date > last_time):
+                new_mat[i] = timeseries[i]
 
+        return new_mat

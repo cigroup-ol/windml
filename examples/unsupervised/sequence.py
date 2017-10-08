@@ -13,11 +13,12 @@ be monitored.
 # Author: Oliver Kramer <oliver.kramer@uni-oldenburg.de>
 # License: BSD 3 clause
 
+from __future__ import print_function
 import sklearn
 import numpy as np
 import pylab as plt
 from sklearn import manifold, decomposition
-
+from builtins import range
 from windml.datasets.nrel import NREL
 
 # load data and define parameters / training and test sequences
@@ -30,7 +31,7 @@ X_train = X[:2000]
 X_test = X[2000:2000+200*4]
 
 # computation of ISOMAP projection
-print "computation of ISOMAP projection"
+print("computation of ISOMAP projection")
 
 if(sklearn.__version__ == "0.9"):
     X_latent = manifold.Isomap(K, out_dim=2).fit_transform(X_train)
@@ -42,7 +43,7 @@ sequence = []
 for x in X_test:
     win = 0
     smallest = 10E100
-    for b in xrange(len(X_train)):
+    for b in range(len(X_train)):
         if np.dot(x-X_train[b],x-X_train[b])<smallest:
             smallest = np.dot(x-X_train[b],x-X_train[b])
             win = b
@@ -52,7 +53,7 @@ for x in X_test:
 sequence = np.array(sequence)
 sequence[:,0] = (sequence[:,0]-sequence[:,0].min())/abs(sequence[:,0].max()-sequence[:,0].min())
 sequence[:,1] = (sequence[:,1]-sequence[:,1].min())/abs(sequence[:,1].max()-sequence[:,1].min())
-col = [[i,j,0.5] for [i,j] in sequence]
+col = [(i,j,0.5) for (i,j) in sequence]
 
 # plotting ...
 fig = plt.figure(figsize=(20,4))

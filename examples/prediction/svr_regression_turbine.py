@@ -21,6 +21,7 @@ wind power measurements.
 # Stefan Oehmcke <stefan.oehmcke@uni-oldenburg.de>
 # License: BSD 3 clause
 
+from __future__ import print_function
 import math
 import matplotlib.pyplot as plt
 from numpy import zeros, float32
@@ -95,8 +96,8 @@ for i in range(0, len(y_hat)):
 # computing the mean squared errors of KNN and naive prediction.
 mse_y_hat=mean_squared_error(y_test, y_hat)
 mse_naive_hat=mean_squared_error(y_test, naive_hat)
-print "MSE y_hat (KNN-Regressor): ", mse_y_hat
-print "MSE naive_hat (Persistence): ", mse_naive_hat
+print("MSE y_hat (KNN-Regressor): ", mse_y_hat)
+print("MSE naive_hat (Persistence): ", mse_naive_hat)
 
 with plt.style.context("fivethirtyeight"):
     figure = plt.figure(figsize=(8, 5))

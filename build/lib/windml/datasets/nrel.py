@@ -62,17 +62,17 @@ THE LOSS OF DATA OR PROFITS, WHICH MAY RESULT FROM AN ACTION IN CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE
 ACCESS, USE OR PERFORMANCE OF THESE DATA.
 """
-from __future__ import print_function
+
 from builtins import range
 import os
 import numpy as np
 from numpy import *
 try:
-    from urllib2 import urlopen
+    from urllib.request import urlopen
 except ImportError:
     from urllib.request import urlopen 
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
     from io import StringIO
 import sys

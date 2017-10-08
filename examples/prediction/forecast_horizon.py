@@ -16,6 +16,7 @@ this example only every fifth element is used for training and testing.
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
 # License: BSD 3 clause
 
+from __future__ import print_function
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -25,6 +26,7 @@ from sklearn.grid_search import GridSearchCV
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
+
 
 def compute_mse(regressor, horizon):
     # get wind park and corresponding target. 
@@ -63,8 +65,8 @@ for regressor in regressors:
     errors[regressor]=[]
     for horizon in horizons:
         errors[regressor].append(compute_mse(regressor, horizon))
-print "SVR MSE:", errors['svr']
-print "KNN MSE:", errors['knn']
+print("SVR MSE:", errors['svr'])
+print("KNN MSE:", errors['knn'])
 
 with plt.style.context("fivethirtyeight"):
     fig = plt.figure(figsize=(8, 5))

@@ -31,24 +31,46 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import numpy as np
+from random import randint
+from math import floor
+from numpy import zeros, float32, int32
+from builtins import range
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+class MARDestroyer(object):
+    def destroy(self, timeseries, **args):
+        percentage = args['percentage']
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
+        lseries = timeseries.shape[0]
+        remove_indices = []
+        amount_remove = int(floor(lseries * percentage))
+        new_amount = lseries - amount_remove
 
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
-    """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+        # allocate new numpy array
+        newmat = zeros((new_amount,), dtype=[('date', int32),\
+                ('corrected_score', float32),\
+                ('speed', float32)])
 
+        # first and last element must not be deleted, because
+        # the interpolated has to have the same length.
+        exceptions = [0, lseries - 1]
+
+        # exclude indices
+        if 'exclude' in list(args.keys()):
+            exceptions = exceptions + args['exclude']
+
+        indices = list(range(0, timeseries.shape[0]))
+        for exception in exceptions:
+            indices.remove(exception)
+
+        for i in range(amount_remove):
+            x = randint(0, len(indices) - 1)
+            remove_indices.append(indices[x])
+            indices.remove(indices[x])
+
+        current = 0
+        for i in range(lseries):
+            if i not in remove_indices:
+                newmat[current] = timeseries[i]
+                current += 1
+
+        return newmat, remove_indices

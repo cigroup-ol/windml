@@ -32,23 +32,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
+import datetime as dr
+import time
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+from pylab import *
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
-
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
+def plot_response_curve(turbine, show = True):
     """
-    power features
+    Produced power plot dependend on the wind speed.
+
+    Parameters
+    ----------
+
+    turbine: Turbine
+              The given turbine.
     """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+
+    plt.clf()
+
+    timeseries=turbine.get_measurements()
+    score=np.array([m[1] for m in timeseries]) #score
+    speed=np.array([m[2] for m in timeseries]) #speed
+
+    plt.xlim(-2, 36)
+    plt.ylim(-2, 32)
+    plt.xlabel("Wind Speed(m/s)")
+    plt.ylabel("Corrected Power (MW)")
+    plt.plot(speed, score, 'bo')
+    plt.title("Response Curve of the Selected Turbine")
+
+    if(show):
+        plt.show()
 

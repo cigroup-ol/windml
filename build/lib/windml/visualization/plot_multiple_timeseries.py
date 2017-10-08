@@ -31,24 +31,56 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.collections import PolyCollection
+from matplotlib.colors import colorConverter
+import matplotlib.pyplot as plt
 import numpy as np
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+def plot_multiple_timeseries(windpark, show = True):
+    """Plot multiple power series of some turbines.
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
+    Parameters
+    ----------
 
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
+    windpark : Windpark
+               A given windpark to plot power series.
     """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+
+    X = np.array(windpark.get_powermatrix())
+    number_turbines = len(X[0])
+    number_measurements = len(X)
+
+    length = 100
+    X = X[:length]
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    cc = lambda arg: colorConverter.to_rgba(arg, alpha=0.6)
+
+    xs = list(range(1,number_measurements))
+    verts = []
+    zs = list(range(0,number_turbines))
+
+    for z in zs:
+        ys = X[:,z]
+        ys[0], ys[-1] = 0, 0
+        verts.append(list(zip(xs, ys)))
+
+    poly = PolyCollection(verts, facecolors = [cc('r'), cc('g'), cc('b'), cc('y'),cc('r'), cc('g'), cc('b')])
+    poly.set_alpha(0.7)
+    ax.add_collection3d(poly, zs=zs, zdir='y')
+
+    ax.set_xlabel('Time')
+    ax.set_xlim3d(0, length)
+    ax.set_ylabel('Turbine')
+    ax.set_ylim3d(-1, number_turbines)
+    ax.set_zlabel('Power')
+    ax.set_zlim3d(0,30.)
+
+    plt.title("Time Series Comparison")
+
+    if(show):
+        plt.show()
 

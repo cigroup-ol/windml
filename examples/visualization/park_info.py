@@ -23,14 +23,14 @@ feat, month_power, ramps_up, ramps_down, power_freq =\
     windml.util.features.compute_highlevel_features(windpark.turbines[0])
 
 
-
-help = [i*windml.util.features.interval_width for i in range(1,30/windml.util.features.interval_width+1)]
-labels = [str(i-windml.util.features.interval_width)+"-"+str(i) for i in help]
+help = [i * windml.util.features.interval_width for i in range(
+    1, 30 //int(windml.util.features.interval_width) + 1)]
+labels = [str(i - windml.util.features.interval_width) + "-" + str(i)
+          for i in help]
 
 with plt.style.context("fivethirtyeight"):
     figure = plt.figure(figsize=(8, 5))
-    plt.pie(power_freq, labels = labels, shadow=True)
-
+    plt.pie(power_freq, labels=labels, shadow=True)
 
     plt.title("Power Level")
     plt.show()

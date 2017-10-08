@@ -12,6 +12,7 @@ single turbine into 2-dimensional latent spaces.
 # Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
 # License: BSD 3 clause
 
+from __future__ import print_function	
 import sklearn
 import numpy as np
 import pylab as plt
@@ -34,7 +35,7 @@ y=y[:1000]
 # scale and plot method of embeddings - from SKLEARN
 
 # computation of ISOMAP projection
-print "Computation of ISOMAP Projection"
+print("Computation of ISOMAP Projection")
 X_iso = manifold.Isomap(K, n_components=2).fit_transform(X)
 x_min, x_max = np.min(X, 0), np.max(X, 0)
 X = (X - x_min) / (x_max - x_min)

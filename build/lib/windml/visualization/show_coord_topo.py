@@ -41,7 +41,6 @@ except ImportError:
     try:
         import importlib
         mpl_toolkits = importlib.import_module('mpl_toolkits')
-        from mpl_toolkits.basemap import Basemap, shiftgrid, cm
     except ImportError:
         raise Exception('Could not load mpl_toolkits')
 

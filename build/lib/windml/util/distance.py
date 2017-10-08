@@ -31,24 +31,24 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import numpy as np
+import math
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+def haversine(origin, destination):
+    lat1, lon1 = origin
+    lat2, lon2 = destination
+    radius = 6371 # km
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
+    dlat = math.radians(lat2-lat1)
+    dlon = math.radians(lon2-lon1)
+    a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
+        * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = radius * c
 
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
-    """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+    return d
+
+def distance(turbine_a, turbine_b):
+    origin = turbine_a.latitude, turbine_a.longitude
+    destination = turbine_b.latitude, turbine_b.longitude
+    return haversine(origin, destination)
 

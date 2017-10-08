@@ -41,12 +41,11 @@ except ImportError:
     try:
         import importlib
         mpl_toolkits = importlib.import_module('mpl_toolkits')
-        from mpl_toolkits.basemap import Basemap, shiftgrid, cm
     except ImportError:
         raise Exception('Could not load mpl_toolkits')
 
-def show_coord_topo(windpark, title, show = True):
-    """Plot the topology of a given windpark
+def show_coord_topo_turbine(turbine, show = True):
+    """Plot the topology of a turbine
 
     Topographic Map with farms
     see: http://matplotlib.org/basemap/users/examples.html
@@ -54,48 +53,36 @@ def show_coord_topo(windpark, title, show = True):
 
     Parameters
     ----------
-
-    windpark : Windpark
-               A given windpark to show the topology.
+    turbine : Turbine
+               The given turbine to show the topology.
     """
 
-    turbines = windpark.get_turbines()
-    target = windpark.get_target()
-    radius = windpark.get_radius()
+    radius = 20
+    coord = [0.0, 0.0]
+    coord[0] = np.float64(turbine.latitude)
+    coord[1] = np.float64(turbine.longitude)
 
-    #pack latitude and longitude in lists
-    rel_input_lat = []
-    rel_input_lon = []
-    for row in turbines:
-        rel_input_lat.append(np.float64(row.latitude))
-        rel_input_lon.append(np.float64(row.longitude))
+    graddiff = (radius/111.0) + 0.5  # degree in km
 
-    targetcoord = [0.0, 0.0]
-    targetcoord[0] = np.float64(target.latitude)
-    targetcoord[1] = np.float64(target.longitude)
-
-    graddiff = (radius/111.0) + 0.3 # degree in km
-
-    m = Basemap(fix_aspect=False, projection='stere', lon_0=targetcoord[1], lat_0=targetcoord[0],\
-        llcrnrlon = targetcoord[1]-graddiff, llcrnrlat = targetcoord[0]-graddiff ,\
-        urcrnrlon = targetcoord[1]+graddiff, urcrnrlat = targetcoord[0]+graddiff ,\
+    m = Basemap(projection='stere', lon_0=coord[1], lat_0=coord[0],\
+        llcrnrlon = coord[1]-graddiff, llcrnrlat = coord[0]-graddiff ,\
+        urcrnrlon = coord[1]+graddiff, urcrnrlat = coord[0]+graddiff ,\
         rsphere=6371200., resolution = 'l', area_thresh=1000)
+
     # Target
-    x_target,y_target = m(targetcoord[1],targetcoord[0])
-    # Input Farms
-    rel_inputs_lon, rel_inputs_lat = m(rel_input_lon, rel_input_lat)
+    x_turbine,y_turbine = m(coord[1],coord[0])
 
     # labels = [left,right,top,bottom]
-    parallels = np.arange(int(targetcoord[0]-3), int(targetcoord[0]+3), 1.)
-    #m.drawparallels(parallels,labels=[False,True,True,False])
-    meridians = np.arange(int(targetcoord[1]-3), int(targetcoord[1]+3), 1.)
-    #m.drawmeridians(meridians,labels=[True,False,False,True])
+    parallels = np.arange(int(coord[0]-3), int(coord[0]+3), 1.)
+    m.drawparallels(parallels,labels=[False,True,True,False])
+    meridians = np.arange(int(coord[1]-3), int(coord[1]+3), 1.)
+    m.drawmeridians(meridians,labels=[True,False,False,True])
 
     # plot farms in the radius
-    m.scatter(rel_inputs_lon, rel_inputs_lat,20, marker='o', color="#000000")
-    m.scatter(x_target, y_target, 20, marker='o', color="r")
+    m.plot(x_turbine, y_turbine, 'bo')
     m.shadedrelief()
-    plt.title(title)
+
+    plt.title("Topography around a Turbine")
 
     if(show):
         plt.show()

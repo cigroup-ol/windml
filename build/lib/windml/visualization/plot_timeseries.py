@@ -32,23 +32,47 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
+import datetime as dr
+import time
+from pylab import *
 
-rampheights = [10, 15, 20, 25] # list of height of ramps
-interval_width = 5
+def plot_timeseries(turbine, start, end, show = True):
+    """Plot windspeed and power production of a turbine
 
-def compute_highlevel_features(turbine, power_features = True, ramp_features = True, stability_features = True):
-
-    X = np.array([m[1] for m in turbine.get_measurements()])
-    feat = []
-    month_power = []
+    Parameters
+    ----------
+    turbine : Turbine
+               The given turbine to the timeseries.
     """
-    power features
-    """
-    # sum of power each month (list of length 12)
-    l = len(X)//12
-    indices= [(i*l,(i+1)*l) for i in range(12)]
-    x = [sum(X[i:j]) for i,j in indices]
-    feat=feat+x
-    month_power = x    
-    return month_power
+
+    plt.clf()
+
+    timeseries=turbine.get_measurements()
+    d=np.array([m[0] for m in timeseries])
+    y1=np.array([m[1] for m in timeseries]) #score
+    y2=np.array([m[2] for m in timeseries]) #speed
+
+    d_time = []
+    for i in range (len(d)):
+        d_act = datetime.datetime.fromtimestamp(d[i])
+        d_time.append(d_act)
+    plt.subplots_adjust(bottom=0.25)
+    plt.xticks(rotation = 75)
+
+    ax=plt.gca()
+    xfmt = md.DateFormatter('%Y/%m/%d %H-h')
+    ax.xaxis.set_major_formatter(xfmt)
+
+    ax.grid(True)
+    plt.ylim(-2, 32)
+    plt.ylabel("Corrected Power (MW), Wind Speed (m/s)")
+    plt.plot(d_time[start:end], y1[start:end], label = 'Power Production')
+    plt.plot(d_time[start:end], y2[start:end], label = 'Wind Speed')
+    plt.legend(loc='lower right')
+    plt.title("Timeseries of the Selected Turbine")
+
+    if(show):
+        plt.show()
 
