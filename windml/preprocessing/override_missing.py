@@ -47,7 +47,7 @@ class OverrideMissing(object):
             starts[start] = [end, amount]
         print(type(new_amount))
         # allocate new numpy array
-        filled = zeros((new_amount,), dtype=[('date', int32),\
+        filled = zeros((int(new_amount),), dtype=[('date', int32),\
                 ('corrected_score', float32),\
                 ('speed', float32)])
 
