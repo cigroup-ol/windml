@@ -10,3 +10,4 @@ doc/book_figures/
 doc/examples/
 doc/paper_figures/
 **/.ipynb_checkpoints/
+build/
