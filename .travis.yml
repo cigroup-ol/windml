@@ -33,3 +33,7 @@ setuptools=36.4.0 sip=4.18 six=1.10.0 sqlite=3.13.0 tk=8.5.18 wheel=0.29.0 xz=5.
 
 script:
   - python -m unittest tests
+
+branches:
+  only:
+    - setup-py3
