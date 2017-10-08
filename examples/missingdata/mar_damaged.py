@@ -62,9 +62,9 @@ with plt.style.context("fivethirtyeight"):
     plt.plot(d_time, y2, label = 'Wind Speed', color="g", alpha=0.5)
     
     plt.plot(d_time_hat, y1_hat, label = 'Power Production (damaged)',
-        color="b", linestyle=".", marker="o")
+        color="b", linestyle="-.", marker="o")
     plt.plot(d_time_hat, y2_hat, label = 'Wind Speed (damaged)', color="g",
-        marker="o", linestyle=".")
+        marker="o", linestyle="-.")
     
     plt.legend(loc='lower right')
     plt.title("Timeseries of the Selected Turbine")
