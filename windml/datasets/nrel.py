@@ -67,14 +67,12 @@ from builtins import range
 import os
 import numpy as np
 from numpy import *
-try:
-    from urllib2 import urlopen
-except ImportError:
-    from urllib.request import urlopen 
+from six.moves.urllib.request import urlopen
 try:
     from cStringIO import StringIO
 except ImportError:
     from io import StringIO
+from socket import timeout
 import sys
 import csv
 import datetime
@@ -380,16 +378,16 @@ class NREL(DataSource):
         if success:
             with open(archive_file, "U") as csv_arch:                   
                 reader=csv.reader(csv_arch, delimiter=',')        
-            for row in reader:
-                point=[]
-                point.append(int(row[0]))
-                point.append(float(row[1]))
-                point.append(float(row[2]))
-                point.append(float(row[3]))
-                point.append(float(row[4]))
-                point.append(float(row[5]))
-                point.append(float(row[7]))
-                data.append(point)
+                for row in reader:
+                    point=[]
+                    point.append(int(row[0]))
+                    point.append(float(row[1]))
+                    point.append(float(row[2]))
+                    point.append(float(row[3]))
+                    point.append(float(row[4]))
+                    point.append(float(row[5]))
+                    point.append(float(row[7]))
+                    data.append(point)
         # abcde stuff for "TypeError: expected a readable buffer object"
         # todo maybe better solution possible...
         data_arr=np.array([(a,b,c,d,e,f,g) for (a,b,c,d,e,f,g) in data], 

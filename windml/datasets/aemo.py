@@ -37,10 +37,8 @@ The data is available at http://windfarmperformance.info/.
 from __future__ import print_function
 import os
 import sys
-try:
-    from urllib2 import urlopen
-except ImportError:
-    from urllib.request import urlopen 
+from six.moves.urllib.request import urlopen
+from socket import timeout
 import datetime
 import time
 try:
@@ -297,7 +295,7 @@ class AEMO(object):
             total_size_str = self.bytes_to_string(total_size)
 
             while True:
-                try:
+                try:                        
                     next_chunk = fhandle.read(chunk_size)
                     nchunks += 1
                 except timeout:
