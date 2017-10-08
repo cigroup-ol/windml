@@ -27,9 +27,9 @@ install:
   - python setup.py install
 
 script:
-  - python -m unittest ./tests/preprocessing_test.py
-  - python -m unittest ./tests/mapping_test.py
-  - python -m unittest ./tests/nrel_test.py
+  - python ./tests/preprocessing_test.py
+  - python ./tests/mapping_test.py
+  - python ./tests/nrel_test.py
 branches:
   only:
     - setup-py3
