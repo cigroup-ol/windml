@@ -52,6 +52,8 @@ import csv
 from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
+import sys
+
 
 class AEMO(object):
     """ Australian Energy Market Operator ("AEMO") data source contains measurements of 28
@@ -286,7 +288,10 @@ class AEMO(object):
 
             fhandle = urlopen(urlstr)
 
-            total_size = int(fhandle.getheader('Content-Length').strip())
+            if sys.version_info[0] >= 3:
+                total_size = int(fhandle.getheader('Content-Length').strip())
+            else:
+                total_size = int(fhandle.headers.getheader('Content-Length').strip())
             chunk_size = total_size // num_units
 
             print("Downloading %s" % urlstr)
@@ -335,6 +340,7 @@ class AEMO(object):
                 location = self.data_home_raw + self.filename(year, month)
                 if not os.path.exists(location):
                     self.download(location, self.url(year, month))
+
 
     def convert(self):
         def time_to_unix(datestr):

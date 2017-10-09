@@ -41,6 +41,7 @@ from sklearn.cross_validation import KFold, cross_val_score
 from sklearn.svm import SVR
 from sklearn import linear_model
 
+import numpy as np
 from numpy import zeros, int32, float32, nan, array
 from builtins import range
 
