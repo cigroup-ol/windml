@@ -1,5 +1,6 @@
 # windml
 
+Build status : ![build passing](https://travis-ci.org/aschmu/windml.svg?branch=setup-py3)
 
 The importance of wind in smart grids with a large number of renewable energy resources is increasing. 
 With the growing infrastructure of wind turbines and the availability of time-series data with high spatial and temporal resolution, the application of data mining techniques comes into play. 
