@@ -51,7 +51,7 @@ from sklearn.neighbors import KNeighborsRegressor
 class TestPreprocessing(unittest.TestCase):
     def test_nrel_repair(self):
         ds = NREL()
-        target = ds.get_turbine(NREL.park_id['tehachapi'], 2005)
+        target = ds.get_turbine(NREL.park_id['tehachapi'], 2004)
         measurements = target.get_measurements()[:43504]
         measurements = NRELRepair().repair(measurements)
         assert(NRELRepair().validate(measurements))
@@ -67,7 +67,7 @@ class TestPreprocessing(unittest.TestCase):
         neighbors = windpark.get_turbines()[:-1]
         count_neighbors = len(neighbors)
         reg = 'knn' # KNeighborsRegressor(10, 'uniform')
-        regargs = {'n' : 10, 'variant' : 'uniform'}
+        regargs = {'n' : 8, 'variant' : 'uniform'}
 
         processed = 0
         missed = {k : count_neighbors for k in indices}
@@ -103,7 +103,7 @@ class TestPreprocessing(unittest.TestCase):
         neighbors = windpark.get_turbines()[:-1]
 
         reg = 'knn' # KNeighborsRegressor(10, 'uniform')
-        regargs = {'n' : 10, 'variant' : 'uniform'}
+        regargs = {'n' : 8, 'variant' : 'uniform'}
 
         nseries = [t.get_measurements()[300:500] for t in neighbors]
         t_hat = MRegInterpolation().interpolate(damaged, timestep=timestep,\
