@@ -142,7 +142,7 @@ class MRegInterpolation(object):
                     pattern.append(data[highest_candidate][missing][field])
                     for am in merged:
                         pattern.append(data[am][missing][field])
-                    data[m][missing][field] = reg.predict(np.array(pattern).reshape(1, -1))
+                    data[m][missing][field] = reg.predict(np.array(pattern).reshape(-1, 1))
                 else:   # we have no candidates, and we use merged here
                     ### FITTING
                     labels, patterns = [],[]
@@ -164,7 +164,7 @@ class MRegInterpolation(object):
                     pattern = []
                     for am in merged:
                         pattern.append(data[am][missing][field])
-                    data[m][missing][field] = reg.predict(np.array(pattern).reshape(1, -1))
+                    data[m][missing][field] = reg.predict(np.array(pattern).reshape(-1, 1))
 
             merged.append(m)
 
@@ -185,6 +185,7 @@ class MRegInterpolation(object):
             neighbors = regargs['n']
             variant = regargs['variant']
             regressor = KNeighborsRegressor(neighbors, variant)
+        patterns = np.array(patterns)
         regressor.fit(patterns, labels)
 
         for i in range(len(ovtimeseries)):
@@ -192,7 +193,7 @@ class MRegInterpolation(object):
                 pattern = []
                 for series in data:
                     pattern.append(series[i][field])
-                ovtimeseries[i][field] = regressor.predict(np.array(pattern).reshape(1, -1))
+                ovtimeseries[i][field] = regressor.predict(np.array(pattern).reshape(-1, 1))
 
         return ovtimeseries
 

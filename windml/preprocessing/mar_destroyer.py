@@ -58,7 +58,7 @@ class MARDestroyer(object):
         if 'exclude' in args.keys():
             exceptions = exceptions + args['exclude']
 
-        indices = range(0, timeseries.shape[0])
+        indices = list(range(0, timeseries.shape[0]))
         for exception in exceptions:
             indices.remove(exception)
 
