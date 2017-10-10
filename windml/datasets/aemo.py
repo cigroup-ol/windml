@@ -144,10 +144,10 @@ class AEMO(object):
                       2011: range(1, 13),\
                       2012: range(1, 4)}
 
-    def check_availability(self):
+    def check_availability(self, target_idx):
         if not os.path.exists(self.data_home_raw):
             self.fetch_aemo_data()
-        if not os.path.exists(self.data_home_npy):
+        if not os.path.exists(self.data_home_npy + "%i.npy" % target_idx): # self.data_home_npy + "%i.npy" % target_idx
             self.convert()
         return
 
@@ -171,7 +171,7 @@ class AEMO(object):
             An according windpark for target id, radius.
         """
 
-        self.check_availability()
+        self.check_availability(target_idx=target_idx)
 
         result = Windpark(target_idx, radius)
         target_turbine = self.get_turbine(target_idx)
@@ -206,10 +206,11 @@ class AEMO(object):
         return result
 
     def get_all_turbines(self):
-        self.check_availability()
+        #self.check_availability()
 
         turbines = []
         for key, idx in self.park_id.items():
+            self.check_availability(idx)
             turbines.append(self.get_turbine(idx))
         return turbines
 
@@ -229,7 +230,7 @@ class AEMO(object):
             An according turbine for target id.
         """
 
-        self.check_availability()
+        self.check_availability(target_idx=target_idx)
 
         meta = load(self.data_home_npy + "meta.npy")
         mdata = meta[target_idx]
