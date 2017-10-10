@@ -36,6 +36,7 @@ from math import floor
 from numpy import zeros, float32, int32
 from builtins import range
 
+
 class MARDestroyer(object):
     def destroy(self, timeseries, **args):
         percentage = args['percentage']
@@ -46,9 +47,9 @@ class MARDestroyer(object):
         new_amount = lseries - amount_remove
 
         # allocate new numpy array
-        newmat = zeros((new_amount,), dtype=[('date', int32),\
-                ('corrected_score', float32),\
-                ('speed', float32)])
+        newmat = zeros((new_amount,), dtype=[('date', int32),
+                                             ('corrected_score', float32),
+                                             ('speed', float32)])
 
         # first and last element must not be deleted, because
         # the interpolated has to have the same length.

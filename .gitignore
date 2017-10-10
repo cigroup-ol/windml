@@ -1,4 +1,4 @@
-dist
+dist/
 windml.egg-info
 *~
 *.swp

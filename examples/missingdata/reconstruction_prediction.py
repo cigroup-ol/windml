@@ -23,8 +23,8 @@ from windml.preprocessing.preprocessing import repair_nrel
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import linear_model
 from sklearn.svm import SVR
-from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold, cross_val_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold, cross_val_score
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import linear_model
 
