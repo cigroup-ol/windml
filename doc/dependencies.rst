@@ -3,15 +3,12 @@
 Dependencies
 ============
 
-The windML framework is based on Python 2.7.x, since some depencencies are not
-yet fit for Python 3.x.  In the following section the dependenices for Ubuntu
-LTS 12.04 are listed. For other operating systems, the dependencies will be
-specified in the future. Feel free to contribute other dependency notes. 
+The windML framework has been updated to support both Python 2.7.x and Python >=3.5.  In the following section the dependenices for Ubuntu are listed. For other operating systems,the dependencies will be specified in the future. Feel free to contribute other dependency notes. 
 
-Ubuntu LTS 12.04
-----------------
+Ubuntu/Debian 
+-------------
 
-For Ubuntu LTS 12.04, the following system packages and Python packages are required.
+For Ubuntu/Debian, the following system packages and Python packages are required.
 
 .. highlight:: none
 
@@ -19,37 +16,54 @@ System Packages
 +++++++++++++++
 
     * Git
-    * Python 2.7.3
-    * Python-PIP 1.0-1
-    * Python-Setuptools 0.6.24
-    * G++ Toolchain 4.6
+    * Python 2.7.x
+    * pip 9.0-1
+    * setuptools >=
+    * G++ Toolchain >= 4.6
     * GCC 4.6 Toolchain
-    * Python-Dev (Libpython 2.7)
-    * Libblas-Dev 1.2.20
-    * Liblapack-Dev 3.3.1-1
-    * GFortran-4.6
-    * Libfreetype6-dev-2.4.8-1
-    * Libpng12-dev 1.2.46
+    * python-dev (libpython2.7)
+    * libblas-dev 1.2.20
+    * liblapack-dev 3.3.1-1
+    * gfortran-4.6
+    * libfreetype6-dev
+    * libpng16-dev 
 
 In order to install these packages run the following command as root user on your system: ::
 
   # apt-get install git python2.7 python-dev python-pip g++-4.6 gcc-4.6 \
-    gfortran-4.6 libblas-dev liblapack-dev  libfreetype6-dev libping12-dev
+    gfortran-4.6 libblas-dev liblapack-dev  libfreetype6-dev libpng16-dev
+
+where python2.7 can (should ?) be swapped with python3 as needed.
+
+MacOS 
+-----
+
+brew install pkg-config
+brew install freetype
+brew install libpng
 
 Python Packages
 +++++++++++++++
 
-    * NumPy 1.7.1
-    * SciPy 0.12.0
-    * SciKit-Learn 0.17.1
-    * Distribute 0.7.3
-    * Matplotlib 1.3.0 
+    * numpy >= 1.13.0
+    * scipy >= 0.19.0
+    * scikit-learn 0.19.0    
+    * matplotlib >= 2.0.2 
+    * basemap == 1.0.7
+    * Pillow >= 4.2.1
+    * six >=1.10.0
+    * future
 
 In order to install these packages run the following command as root user on your system: ::
 
-  # pip install numpy scipy scikit-learn distribute matplotlib
+  # pip install numpy scipy scikit-learn matplotlib six Pillow future.
 
-Note: For the "distribute" python package the "--upgrade" option may be necessary.
+  # pip install https://github.com/matplotlib/basemap/archive/v1.0.7rel.tar.gz
+
+You may also use conda (recommended) in a separate environment if necessary.
+
+  # conda install basemap=1.0.7 numpy scipy scikit-learn matplotlib six Pillow future
+
 
 .. highlight:: python
 
