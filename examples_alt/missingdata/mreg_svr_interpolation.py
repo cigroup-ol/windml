@@ -18,7 +18,7 @@ from windml.preprocessing.preprocessing import interpolate
 from windml.visualization.plot_timeseries import plot_timeseries
 from sklearn.svm import SVR
 from sklearn.model_selection import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as md

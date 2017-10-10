@@ -28,7 +28,7 @@ from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
 from sklearn.model_selection import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
 

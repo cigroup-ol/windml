@@ -16,7 +16,7 @@ import numpy as np
 
 from numpy import array, matrix
 from sklearn.model_selection import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from sklearn import __version__ as sklearn_version
 from sklearn.svm import SVR
 
