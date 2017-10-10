@@ -164,7 +164,7 @@ class NREL(DataSource):
 
         # determine the coordinates of the target
         target=self.fetch_nrel_meta_data(target_idx)
-        print("target", target)
+        
         #add target turbine as last element
         newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
         for y in range(year_from, year_to+1):
@@ -488,7 +488,7 @@ class NREL(DataSource):
                 next_chunk = fhandle.read(chunk_size)
                 nchunks += 1
             except timeout:
-                print('request timeout for %s' % DATA_URL)
+                print('request timeout for %s' % data_url)
                 next_chunk = None
 
             if next_chunk:

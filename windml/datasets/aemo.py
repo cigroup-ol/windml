@@ -407,5 +407,6 @@ class AEMO(object):
             turbine_npy_arrays[k] = a
             save(self.data_home_npy + "%i.npy" % self.park_id[k], a)
 
-ds = AEMO()
-ds.get_windpark(0, 5)
+if __name__ == '__main__':
+    ds = AEMO()
+    ds.get_windpark(0, 5)

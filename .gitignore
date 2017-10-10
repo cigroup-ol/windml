@@ -11,3 +11,4 @@ doc/examples/
 doc/paper_figures/
 **/.ipynb_checkpoints/
 build/
+.eggs/
