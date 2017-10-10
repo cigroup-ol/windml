@@ -1,4 +1,4 @@
-basemap==1.0.7
+basemap
 certifi==2016.2.28
 cycler==0.10.0
 matplotlib==2.1.0

@@ -29,7 +29,7 @@ The absolute prediction error is the deviation to the main diagonal.
 import math
 import matplotlib.pyplot as plt
 
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.cross_validation import KFold
 from sklearn import __version__ as sklearn_version
 from sklearn.svm import SVR

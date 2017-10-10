@@ -22,7 +22,7 @@ import math
 import matplotlib.pyplot as plt
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
