@@ -35,8 +35,8 @@ from __future__ import print_function
 from builtins import range
 from numpy.random import normal, rand
 
-class OnePlusOneEA(object):
 
+class OnePlusOneEA(object):
     def minimize(self, parameter, mean, sigma, interval, iterations, args, algorithm):
         """
         A (1+1)-EA for real parameter optimization of an algorithm. Does
@@ -64,9 +64,9 @@ class OnePlusOneEA(object):
         """
 
         feasible = False
-        while(not feasible):
+        while not feasible:
             parent = normal(mean, sigma)
-            if(interval[0] <= parent <= interval[1]):
+            if (interval[0] <= parent <= interval[1]):
                 print(parent)
                 feasible = True
 
@@ -75,17 +75,14 @@ class OnePlusOneEA(object):
 
         for i in range(iterations):
             feasible = False
-            while(not feasible):
+            while not feasible:
                 offspring = parent + normal(mean, sigma)
-                if(interval[0] <= offspring <= interval[1]):
-                    print(offspring)
+                if (interval[0] <= offspring <= interval[1]):                    
                     feasible = True
             args[parameter] = offspring
             error = algorithm(args)
-            if(error < best_error):
+            if (error < best_error):
                 parent = offspring
-                best_error = error
-                print(parent, error)
+                best_error = error                
 
         return parent, best_error
-

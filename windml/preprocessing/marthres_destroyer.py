@@ -60,7 +60,7 @@ class MARThresDestroyer(object):
         # the interpolated has to have the same length.
         exceptions = [0, lseries - 1]
 
-        if('exclude' in args.keys()):
+        if ('exclude' in args.keys()):
             exceptions = exception + args['exclude']
 
         amount_remove = int(floor(len(marked_indices) * percentage))
@@ -82,7 +82,7 @@ class MARThresDestroyer(object):
         index_old = 0
         index_new = 0
         while index_old < lseries:
-            if(index_old in remove_indices):
+            if (index_old in remove_indices):
                 index_old += 1
             else:
                 new_mat[index_new] = timeseries[index_old]

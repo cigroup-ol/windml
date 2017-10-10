@@ -139,9 +139,9 @@ class AEMO(object):
     data_home_npy = data_home + "npy/"
 
     years = [2009, 2010, 2011, 2012]
-    months_in_year = {2009: range(8, 13),\
-                      2010: range(1, 13),\
-                      2011: range(1, 13),\
+    months_in_year = {2009: range(8, 13),
+                      2010: range(1, 13),
+                      2011: range(1, 13),
                       2012: range(1, 4)}
 
     def check_availability(self, target_idx):
@@ -152,7 +152,8 @@ class AEMO(object):
         return
 
     def get_windpark(self, target_idx, radius):
-        """This method fetches and returns a windpark from AEMO, which consists of
+        """
+        This method fetches and returns a windpark from AEMO, which consists of
         the target turbine with the given target_idx and the surrounding turbine
         within a given radius around the target turbine. When called, the wind
         measurements for a given range of years are downloaded for every turbine
@@ -206,7 +207,7 @@ class AEMO(object):
         return result
 
     def get_all_turbines(self):
-        #self.check_availability()
+        # self.check_availability()
 
         turbines = []
         for key, idx in self.park_id.items():
@@ -321,7 +322,6 @@ class AEMO(object):
             #buf.reset()
             buf.seek(0)
             fileh.write(buf.getvalue())
-            
 
     def fetch_aemo_data(self):
         if not os.path.exists(self.data_home_raw):
@@ -387,9 +387,9 @@ class AEMO(object):
                 for row in reader:
                     for i in range(1, len(row)):
                         # filter corrupt data
-                        if(row[0] == ""):
+                        if row[0] == "":
                             break
-                        if(row[i] == ""):
+                        if row[i] == "":
                             continue
 
                         timestamp = time_to_unix(row[0])
@@ -401,7 +401,8 @@ class AEMO(object):
         print("Converting to numpy arrays")
         for k in turbine_arrays.keys():
             data = turbine_arrays[k]
-            a = np.array([(a, b, nan) for (a, b) in data], dtype=self.AEMO_DATA_DTYPE)
+            a = np.array([(a, b, nan) for (a, b) in data],
+                         dtype=self.AEMO_DATA_DTYPE)
             turbine_npy_arrays[k] = a
             save(self.data_home_npy + "%i.npy" % self.park_id[k], a)
 

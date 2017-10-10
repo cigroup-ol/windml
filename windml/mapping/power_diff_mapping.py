@@ -36,10 +36,11 @@ from windml.mapping.mapping import Mapping
 
 cs = 'corrected_score'
 
+
 class PowerDiffMapping(Mapping):
     """Maps time series to feature-label pairs, use power and differences"""
 
-    def get_features_turbine(self, turbine, feature_window, horizon, padding = 0):
+    def get_features_turbine(self, turbine, feature_window, horizon, padding=0):
         """Get features from a given turbine, consisting of the values of the
         corrected score and their corresponding changes for one turbine dependend
         on feature_window size and time horizon and optionally a certain
@@ -60,20 +61,22 @@ class PowerDiffMapping(Mapping):
             Pattern matrix for regression.
         """
 
-        timesteps = len(turbine.measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbine.measurements) - \
+            (feature_window + horizon + padding - 1)
         num_features = 2 * feature_window - 1
 
         measurements = turbine.measurements[cs]
-        features = zeros((timesteps, num_features), dtype = float32)
+        features = zeros((timesteps, num_features), dtype=float32)
         for t in range(padding, timesteps):
             for i in range(feature_window):
-                features[t][i]=measurements[t+i]
-                if i!=0:
-                    features[t][feature_window+i-1] = measurements[t+i]-measurements[t+i-1]
+                features[t][i] = measurements[t + i]
+                if i != 0:
+                    features[t][feature_window + i -
+                                1] = measurements[t + i] - measurements[t + i - 1]
 
         return features
 
-    def get_labels_turbine(self, turbine, feature_window, horizon, padding = 0):
+    def get_labels_turbine(self, turbine, feature_window, horizon, padding=0):
         """Get labels for a given turbine, consisting of the values of the
         corrected score for one turbine dependend on feature window, horizon and
         optionally a certain padding.
@@ -93,16 +96,17 @@ class PowerDiffMapping(Mapping):
             Label array for regression.
         """
 
-        timesteps = len(turbine.measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbine.measurements) - \
+            (feature_window + horizon + padding - 1)
 
-        labels = zeros(timesteps, dtype = float32)
+        labels = zeros(timesteps, dtype=float32)
         for t in range(padding, timesteps):
             offset = t + feature_window + horizon - 1
             labels[t] = turbine.measurements[cs][offset]
 
         return labels
 
-    def get_features_park(self, windpark, feature_window, horizon, padding = 0):
+    def get_features_park(self, windpark, feature_window, horizon, padding=0):
         """Get features for a given windpark, consisting of the values of the
         corrected score and their corresponding changes for all turbines in the
         park dependend on feature_window size and time horizon and optionally a
@@ -125,24 +129,25 @@ class PowerDiffMapping(Mapping):
 
         turbines = windpark.get_turbines()
         amount = len(turbines)
-        timesteps = len(turbines[0].measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbines[0].measurements) - \
+            (feature_window + horizon + padding - 1)
 
         num_features = 2 * feature_window - 1
-        features = zeros((timesteps, amount * num_features), dtype = float32)
+        features = zeros((timesteps, amount * num_features), dtype=float32)
 
         for idx, turbine in enumerate(turbines):
             measurements = turbine.measurements[cs]
             for t in range(padding, timesteps):
                 for i in range(feature_window):
-                    features[t][idx * feature_window + i] = measurements[t+i]
-                    if i!=0:
+                    features[t][idx * feature_window + i] = measurements[t + i]
+                    if i != 0:
                         start_diffs = amount * feature_window
                         diff_offset = (feature_window - 1) * idx + i - 1
-                        features[t][start_diffs + diff_offset] = measurements[t+i]-measurements[t+i-1]
+                        features[t][start_diffs + diff_offset] = measurements[t + i] - measurements[t + i - 1]
 
         return features
 
-    def get_labels_park(self, windpark, feature_window, horizon, padding = 0):
+    def get_labels_park(self, windpark, feature_window, horizon, padding=0):
         """Get labels for a given windpark, consisting of the values of the
         corrected score for all turbines in the park dependend on feature window,
         horizon and optionally a certain padding. The labels are the sums of
@@ -164,12 +169,12 @@ class PowerDiffMapping(Mapping):
         """
 
         turbines = windpark.get_turbines()
-        timesteps = len(turbines[0].measurements) - (feature_window + horizon + padding - 1)
+        timesteps = len(turbines[0].measurements) - \
+            (feature_window + horizon + padding - 1)
 
-        sum_turbines = zeros(timesteps, dtype = float32)
+        sum_turbines = zeros(timesteps, dtype=float32)
         for turbine in turbines:
             for t in range(padding, timesteps):
                 sum_turbines[t] += turbine.measurements[cs][t + feature_window + horizon - 1]
 
         return sum_turbines
-

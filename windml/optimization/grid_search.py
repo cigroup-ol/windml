@@ -33,8 +33,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from windml.util.logger import Logger
 #from playdoh import map as pmap
-from multiprocessing import cpu_count, Pool 
+from multiprocessing import cpu_count, Pool
 from builtins import range
+
 
 class GridSearch(object):
 
@@ -73,18 +74,18 @@ class GridSearch(object):
 
         self.results = {}
 
-        run = lambda val : self._run_value(val, parameter, args, algorithm)
+        def run(val): return self._run_value(val, parameter, args, algorithm)
         if parallel:
             task = values
             cpus = cpu_count()
             tl = int(float(len(values)) / float(cpus))
             carryover = len(values) % cpus
 
-            task_slices = [task[i * tl : (i+1) * tl] for i in range(0, cpus)]
+            task_slices = [task[i * tl: (i + 1) * tl] for i in range(0, cpus)]
             if carryover > 0:
                 task_slices.append(task[cpus * tl:])
 
-            sequential = lambda lis : list(map(run, lis))
+            def sequential(lis): return list(map(run, lis))
             with Pool() as p:
                 results = p.map(sequential, task_slices)
         else:
@@ -94,7 +95,7 @@ class GridSearch(object):
         self.results = dict(aggregated)
 
         tus = [(val, error) for val, error in self.results.items()]
-        sortedtus = sorted(tus, key = lambda t : t[1])
+        sortedtus = sorted(tus, key=lambda t: t[1])
         best_val, best_error = sortedtus[0]
 
         return best_val, best_error

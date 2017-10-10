@@ -252,7 +252,7 @@ class NREL(DataSource):
             for y in range(year_from, year_to+1):
                measurement = self.fetch_nrel_data(target[0], y,\
                                ['date','corrected_score','speed'])
-               if y==year_from:
+               if y == year_from:
                    measurements = measurement
                else:
                    measurements = np.concatenate((measurements, measurement))
@@ -318,8 +318,9 @@ class NREL(DataSource):
                     newturbine = Turbine(row[0], row[1] , row[2] , row[3] , row[4] , row[5], row[6])
                     if year_from != 0:
                         for y in range(year_from, year_to+1):
-                           measurement = self.fetch_nrel_data(row[0], y, ['date','corrected_score','speed'])
-                           if y==year_from:
+                           measurement = self.fetch_nrel_data(row[0], y, 
+                                                              ['date','corrected_score','speed'])
+                           if y == year_from:
                                measurements = measurement
                            else:
                                measurements = np.concatenate((measurements, measurement))
@@ -331,7 +332,8 @@ class NREL(DataSource):
                              target[3], target[4], target[5], target[6])
         if year_from != 0:
             for y in range(year_from, year_to+1):
-               measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score','speed'])
+               measurement = self.fetch_nrel_data(target[0], y, 
+                                                  ['date','corrected_score','speed'])
                if y == year_from:
                    measurements = measurement
                else:
@@ -572,7 +574,8 @@ class NREL(DataSource):
                 
             # abcde stuff for "TypeError: expected a readable buffer object"
             # todo maybe better solution possible...
-            data_arr=np.array([(a,b,c,d,e) for (a,b,c,d,e) in data], dtype=self.NREL_DATA_DTYPE)
+            data_arr = np.array([(a, b, c, d, e) for (a, b, c, d, e) in data], 
+                                dtype=self.NREL_DATA_DTYPE)
             data_arr.setflags(align=True)
             np.save(archive_file, data_arr)
         else:

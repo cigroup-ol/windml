@@ -33,7 +33,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import math
 import numpy as np
-import datetime, time
+import datetime
+import time
+
 
 class Windpark(object):
     """The class Windpark represents a park, which consists of
@@ -73,7 +75,7 @@ class Windpark(object):
             Target turbine.
         """
 
-        return self.turbines[len(self.turbines)-1]
+        return self.turbines[len(self.turbines) - 1]
 
     def add_turbine(self, turbine):
         """Adds a turbine to the windpark.
@@ -129,4 +131,3 @@ class Windpark(object):
 
         p_matrix = np.array(p_matrix)
         return p_matrix
-
