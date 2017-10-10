@@ -375,8 +375,12 @@ class NREL(DataSource):
             print("downloaded NREL meta data from from %s to %s"
                    % (DATA_URL, data_home))
         data = []    
+        if sys.version_info < (3, ):
+            mode = 'rU'
+        else:
+            mode = 'r'
         if success:
-            with open(archive_file, "U") as csv_arch:                   
+            with open(archive_file, mode) as csv_arch:                   
                 reader=csv.reader(csv_arch, delimiter=',')        
                 for row in reader:
                     point=[]
@@ -531,7 +535,7 @@ class NREL(DataSource):
             Includes all values of given attributes (columns) for a given year.
         """
 
-        #todo assert that year is in [2004,2005,2006] and turbine_id is valid, too
+        #todo assert that year is in [2004, 2005, 2006] and turbine_id is valid, too
         data_home = os.getenv("HOME") + "/nrel_data/"+str(year)+"/"
         archive_file_name = str(turbine_id) +".npy"
         DATA_URL = self.BASE_URL + str(year)+"/"+str(turbine_id)+".csv"
@@ -546,7 +550,7 @@ class NREL(DataSource):
             data = []
             next(reader)
             #reader.next() # skip first, header of csv
-            i=0
+            
             for row in reader:
                 point=[]
                 #convert datetime to unix timestamp
@@ -558,7 +562,7 @@ class NREL(DataSource):
                 point.append(float(row[3]))
                 point.append(float(row[4]))
                 data.append(point)
-                i=i+1
+                
             # abcde stuff for "TypeError: expected a readable buffer object"
             # todo maybe better solution possible...
             data_arr=np.array([(a,b,c,d,e) for (a,b,c,d,e) in data], dtype=self.NREL_DATA_DTYPE)
