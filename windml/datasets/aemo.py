@@ -41,18 +41,14 @@ from six.moves.urllib.request import urlopen
 from socket import timeout
 import datetime
 import time
-# try:
-#     from cStringIO import StringIO
-# except ImportError:
+
 from io import StringIO
-from numpy import int32, float32, array, save, nan, load
+import numpy as np
+from numpy import int32, float32, save, nan, load
 from math import radians, sin, cos, atan2, sqrt
 import csv
-
-from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
-import sys
 
 
 class AEMO(object):
@@ -108,44 +104,45 @@ class AEMO(object):
                        ('speed', float32)]
 
     park_id = {
-        'captl_wf' : 0,
-        'cullrgwf' : 1,
-        'gunning1' : 2,
-        'woodlwn1' : 3,
-        'cnundawf' : 4,
-        'cathrock' : 5,
-        'clemgpwf' : 6,
-        'hallwf1' : 7,
-        'hallwf2' : 8,
-        'lkbonny1' : 9,
-        'lkbonny2' : 10,
-        'lkbonny3' : 11,
-        'mtmillar' : 12,
-        'nbhwf1' : 13,
-        'snowtwn1' : 14,
-        'starhlwf' : 15,
-        'bluff1' : 16,
-        'waterlwf' : 17,
-        'wpwf' : 18,
-        'musselr1' : 19,
-        'woolnth1' : 20,
-        'challhwf' : 21,
-        'macarth1' : 22,
-        'mlwf1' : 23,
-        'oakland1' : 24,
-        'portwf' : 25,
-        'waubrawf' : 26,
-        'yambukwf' : 27 }
+        'captl_wf': 0,
+        'cullrgwf': 1,
+        'gunning1': 2,
+        'woodlwn1': 3,
+        'cnundawf': 4,
+        'cathrock': 5,
+        'clemgpwf': 6,
+        'hallwf1': 7,
+        'hallwf2': 8,
+        'lkbonny1': 9,
+        'lkbonny2': 10,
+        'lkbonny3': 11,
+        'mtmillar': 12,
+        'nbhwf1': 13,
+        'snowtwn1': 14,
+        'starhlwf': 15,
+        'bluff1': 16,
+        'waterlwf': 17,
+        'wpwf': 18,
+        'musselr1': 19,
+        'woolnth1': 20,
+        'challhwf': 21,
+        'macarth1': 22,
+        'mlwf1': 23,
+        'oakland1': 24,
+        'portwf': 25,
+        'waubrawf': 26,
+        'yambukwf': 27
+    }
 
     data_home = str(os.getenv("HOME")) + "/aemo_data/"
     data_home_raw = data_home + "raw/"
     data_home_npy = data_home + "npy/"
 
     years = [2009, 2010, 2011, 2012]
-    months_in_year = {2009 : range(8, 13),\
-                      2010 : range(1, 13),\
-                      2011 : range(1, 13),\
-                      2012 : range(1, 4)}
+    months_in_year = {2009: range(8, 13),\
+                      2010: range(1, 13),\
+                      2011: range(1, 13),\
+                      2012: range(1, 4)}
 
     def check_availability(self):
         if not os.path.exists(self.data_home_raw):
@@ -366,7 +363,8 @@ class AEMO(object):
             point.append(row[5])
             data.append(point)
 
-        data_arr = array([(a,b,c,d) for (a,b,c,d) in data], dtype = self.AEMO_META_DTYPE)
+        data_arr = np.array([(a, b, c, d) for (a, b, c, d) in data], 
+                   dtype = self.AEMO_META_DTYPE)
         save(self.data_home_npy + "meta.npy", data_arr)
 
         # convert data to windml format
@@ -387,7 +385,6 @@ class AEMO(object):
 
                 for row in reader:
                     for i in range(1, len(row)):
-
                         # filter corrupt data
                         if(row[0] == ""):
                             break
@@ -403,9 +400,10 @@ class AEMO(object):
         print("Converting to numpy arrays")
         for k in turbine_arrays.keys():
             data = turbine_arrays[k]
-            a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)
+            a = np.array([(a, b, nan) for (a, b) in data], dtype=self.AEMO_DATA_DTYPE)
             turbine_npy_arrays[k] = a
             save(self.data_home_npy + "%i.npy" % self.park_id[k], a)
+
 
 if __name__ == '__main__':
     ds = AEMO()
