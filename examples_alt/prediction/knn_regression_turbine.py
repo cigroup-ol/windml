@@ -25,6 +25,7 @@ The absolute prediction error is the deviation to the main diagonal.
 # Justin P. Heinermann <justin.philipp.heinermann@uni-oldenburg.de>
 # License: BSD 3 clause
 
+from __future__ import print_function
 import math
 import matplotlib.pyplot as plt
 
@@ -80,13 +81,13 @@ for i in range(0, len(y_hat)):
 mse_y_hat /= float(len(y_hat))
 mse_naive_hat /= float(len(y_hat))
 
-print "MSE y_hat (KNN-Regressor): ", mse_y_hat
-print "MSE naive_hat (Persistence): ", mse_naive_hat
+print('MSE y_hat (KNN-Regressor): ', mse_y_hat)
+print('MSE naive_hat (Persistence): ', mse_naive_hat)
 
 figure = plt.figure(figsize=(15, 10))
 
 plot_abs = plt.subplot(2, 2, 1)
-plt.title("Absolute Labels and True Measurements")
+plt.title('Absolute Labels and True Measurements')
 
 # Array of true labels for plotting.
 y = zeros(len(y_hat))
@@ -94,36 +95,36 @@ for i in range(0, len(y_hat)):
     y[i] = (Y[train_to + (i * test_step)])
 
 time = range(0, len(y_hat))
-plt.plot(time, y, "g-", label="Measurement")
-plt.plot(time, y_hat, "r-", label="KNN Label")
-plt.plot(time, naive_hat, "b-", label="Naive Label")
+plt.plot(time, y, 'g-', label='Measurement')
+plt.plot(time, y_hat, 'r-', label='KNN Label')
+plt.plot(time, naive_hat, 'b-', label='Naive Label')
 plt.xlim([9600, 9750])
 plt.ylim([-30, 50])
 plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 2)
-plt.title("Naive Label and True Measurement")
+plt.title('Naive Label and True Measurement')
 col = abs(y - naive_hat)
 plt.scatter(y, naive_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
-plt.xlabel("Y")
-plt.ylabel("Naive Label")
+plt.xlabel('Y')
+plt.ylabel('Naive Label')
 plt.xlim([0, 30])
 plt.ylim([0, 30])
 
 plot_abs = plt.subplot(2, 2, 3)
-plt.title("Absolute Difference")
-plt.plot(time, (y_hat - y), "r-", label="KNN Label")
-plt.plot(time, (naive_hat - y), "b-", label="Naive Label")
+plt.title('Absolute Difference')
+plt.plot(time, (y_hat - y), 'r-', label='KNN Label')
+plt.plot(time, (naive_hat - y), 'b-', label='Naive Label')
 plt.xlim([9600, 9750])
 plt.ylim([-20, 30])
 plt.legend()
 
 plot_scatter = plt.subplot(2, 2, 4)
-plt.title("KNN Label and True Measurement")
+plt.title('KNN Label and True Measurement')
 col = abs(y - y_hat)
 plt.scatter(y, y_hat, c=col, linewidth=0.0, cmap=plt.cm.jet)
-plt.xlabel("Y")
-plt.ylabel("KNN Label")
+plt.xlabel('Y')
+plt.ylabel('KNN Label')
 plt.xlim([0, 30])
 plt.ylim([0, 30])
 

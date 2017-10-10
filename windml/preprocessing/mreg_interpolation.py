@@ -81,8 +81,8 @@ class MRegInterpolation(object):
             cnt_patterns = {}
 
             for i in range(len(mseries)):
-                if(mseries[i][field] == -1):
-                    if(i not in useful.keys()):
+                if mseries[i][field] == -1:
+                    if i not in useful.keys():
                         useful[i] = []
 
             for c in merge_order:
@@ -220,7 +220,7 @@ class MRegInterpolation(object):
             X, Y = [], []
 
             for t in range(len(neighbor_series[0])):
-                if(ovtimeseries[t][field] != -1):
+                if ovtimeseries[t][field] != -1:
                     Y.append(ovtimeseries[t][field])
                     pattern = []
                     for nseries in neighbor_series:
@@ -246,7 +246,7 @@ class MRegInterpolation(object):
                         regressor = KNeighborsRegressor(n, variant)
                         regressors[n] = regressor
                         score = cross_val_score(regressor, Xa, Ya, cv=kfold).mean()
-                        if(score > best_score):
+                        if score > best_score:
                             best_n = n
                             best_score = score
                     regressor = regressors[best_n]
@@ -259,10 +259,10 @@ class MRegInterpolation(object):
             elif reg == 'svr':
                 regargs = args['regargs']
 
-                if(regargs['cv_method'] == 'kfold'):
+                if regargs['cv_method'] == 'kfold':
                     fold = regargs['cv_args']['k_folds']
                     pattern_count = Xa.shape[0]
-                    cv_method = KFold(pattern_count, fold)
+                    cv_method = KFold(n_splits=fold) 
                 else:
                     raise Exception("not implemented")
 

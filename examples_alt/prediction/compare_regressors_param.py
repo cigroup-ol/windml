@@ -88,7 +88,7 @@ def compute_mse(regressor, param):
     return mse_y_hat, mse_naive_hat
 
 regressors = ['rf', 'knn']
-params = [1,2,4,8,16,32,64,128]
+params = [1, 2, 4, 8, 16, 32, 64, 128]
 
 marker = {'rf': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
 labels = {'rf': 'Random Forest', 'knn': 'KNN', 'naive' : 'Naive'}

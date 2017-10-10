@@ -51,12 +51,12 @@ def compute_mse(regressor, horizon):
     # train and test only every fifth pattern, for performance.
     train_step, test_step = 5, 5
 
-    if(regressor == 'linear'):
+    if regressor == 'linear':
         # fitting the pattern-label pairs
         reg = linear_model.LinearRegression()
         reg = reg.fit(X[0:train_to:train_step], Y[0:train_to:train_step])
         y_hat = reg.predict(X[train_to:test_to:test_step])
-    elif(regressor == 'knn'):
+    elif regressor == 'knn':
         k_neighbors = 10
         reg = KNeighborsRegressor(k_neighbors, 'uniform')
         # fitting the pattern-label pairs

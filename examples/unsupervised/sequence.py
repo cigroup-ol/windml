@@ -33,10 +33,7 @@ X_test = X[2000:2000+200*4]
 # computation of ISOMAP projection
 print("computation of ISOMAP projection")
 
-if(sklearn.__version__ == "0.9"):
-    X_latent = manifold.Isomap(K, out_dim=2).fit_transform(X_train)
-else:
-    X_latent = manifold.Isomap(K, n_components=2).fit_transform(X_train)
+X_latent = manifold.Isomap(K, n_components=2).fit_transform(X_train)
 
 # computation of sequence of closest embedded patterns
 sequence = []
@@ -53,7 +50,7 @@ for x in X_test:
 sequence = np.array(sequence)
 sequence[:,0] = (sequence[:,0]-sequence[:,0].min())/abs(sequence[:,0].max()-sequence[:,0].min())
 sequence[:,1] = (sequence[:,1]-sequence[:,1].min())/abs(sequence[:,1].max()-sequence[:,1].min())
-col = [(i,j,0.5) for (i,j) in sequence]
+col = [(i, j, 0.5) for (i,j) in sequence]
 
 # plotting ...
 fig = plt.figure(figsize=(20,4))
