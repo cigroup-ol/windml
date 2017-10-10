@@ -40,7 +40,7 @@ The windML framework is licensed under the three clause BSD License.
 
 ## Install
 
-Using pip: `pip install git+https://github.com/aschmu/windml.git@setup-py3`.
+Using pip: `pip install git+https://github.com/cigroup-ol/windml.git`.
 
 The `basemap` is tricky to install unless you are using conda (`conda install basemap`). Otherwise you should install from source e.g. : `pip install https://github.com/matplotlib/basemap/archive/v1.0.7rel.tar.gz`.
 
