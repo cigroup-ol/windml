@@ -4,7 +4,6 @@ from setuptools import setup, find_packages
 from pip.req import parse_requirements
 import uuid
 import os
-import sys
 import windml
 
 # disables creation of .DS_Store files inside tarballs on Mac OS X
@@ -71,7 +70,6 @@ setup(
     packages=find_packages(),
     package_data={},
     setup_requires=['numpy'],
-    url=windml.__url__,
-    use_2to3=(sys.version_info >= (3,)),
+    url=windml.__url__,    
     version=windml.__version__,
 )
