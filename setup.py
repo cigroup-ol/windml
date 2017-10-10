@@ -14,10 +14,14 @@ import windml
 
 rand_uuid = uuid.uuid1()
 def extract_package_name(requirement):
-    return str(requirement.req).replace('-', '_').split('==')[0]
+    return str(requirement.req)
+    #return str(requirement.req).replace('-', '_').split('==')[0]
 
 def find_requirements(req_file='requirements.txt'):
-    return [extract_package_name(r) for r in parse_requirements(req_file, session=rand_uuid)]
+    reqs = [extract_package_name(r) for r in parse_requirements(req_file, session=rand_uuid)]
+    np = [pkg for pkg in reqs if pkg.startswith('numpy')]    
+    reqs.remove(np[0])
+    return reqs
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
@@ -57,11 +61,11 @@ classifiers=[
     install_requires=find_requirements('requirements.txt'),
     dependency_links=['https://github.com/matplotlib/basemap/archive/v1.0.7rel.tar.gz'],
     license=windml.__license__,
-    long_description=read(README),
+    long_description=read('README.md'),
     name='windml',
     packages=find_packages(),
     package_data={},
-    setup_requires=find_requirements('requirements.txt'),
+    setup_requires=['numpy'],
     url=windml.__url__,
     use_2to3=(sys.version_info >= (3,)),    
     version=windml.__version__,
