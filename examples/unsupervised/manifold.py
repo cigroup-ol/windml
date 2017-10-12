@@ -12,6 +12,7 @@ single turbine into 2-dimensional latent spaces.
 # Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
 # License: BSD 3 clause
 
+from __future__ import print_function
 import sklearn
 import numpy as np
 import pylab as plt
@@ -26,15 +27,15 @@ ds = NREL()
 windpark = ds.get_windpark(NREL.park_id['tehachapi'], 20, 2004)
 
 X = np.array(windpark.get_powermatrix())
-y = np.array(X[:,-1])
+y = np.array(X[:, -1])
 
-X=X[:1000]
-y=y[:1000]
+X = X[:1000]
+y = y[:1000]
 
 # scale and plot method of embeddings - from SKLEARN
 
 # computation of ISOMAP projection
-print "Computation of ISOMAP Projection"
+print("Computation of ISOMAP Projection")
 X_iso = manifold.Isomap(K, n_components=2).fit_transform(X)
 x_min, x_max = np.min(X, 0), np.max(X, 0)
 X = (X - x_min) / (x_max - x_min)
@@ -45,6 +46,6 @@ with plt.style.context("fivethirtyeight"):
     ax = plt.subplot(1, 1, 1)
     for i in range(X.shape[0]):
         plt.text(X[i, 0], X[i, 1], str(int(y[i])),
-                color = plt.cm.jet(y[i] / 30.),
-                fontdict={'weight': 'bold', 'size': 9})               
+                 color=plt.cm.jet(y[i] / 30.),
+                 fontdict={'weight': 'bold', 'size': 9})
 plt.show()

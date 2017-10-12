@@ -35,6 +35,7 @@ from windml.util.distance import haversine
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from windml.preprocessing.override_missing import OverrideMissing
 from numpy import zeros, int32, float32, nan
+from builtins import range
 
 class TopologicInterpolation(object):
     def interpolate(self, timeseries, **args):
@@ -51,7 +52,7 @@ class TopologicInterpolation(object):
         lnseries = len(neighbor_series)
         ov_neighbor_series = []
         ovm = OverrideMissing()
-        for i in xrange(lnseries):
+        for i in range(lnseries):
             ov_series = ovm.override(neighbor_series[i], timestep, -1)
             ov_neighbor_series.append(ov_series)
 
@@ -62,17 +63,17 @@ class TopologicInterpolation(object):
 
         # calucating distances
         distances = []
-        for i in xrange(0, len(neighbor_series)):
+        for i in range(0, len(neighbor_series)):
             d = haversine(location, neighbor_locations[i])
-            if(d == 0):
+            if d == 0:
                 raise Exception("distance is 0.")
             distances.append(d)
 
         # index start indices
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
 
         # allocate new numpy array
         new_mat = zeros((new_amount,),\
@@ -84,14 +85,14 @@ class TopologicInterpolation(object):
         current_index = 0
 
         for i in range(len(timeseries)):
-            if(i in keys):
+            if i in keys:
             # missing data starting
                 # add start measurement
                 new_mat[current_index] = timeseries[i]
                 current_index += 1
 
                 end, n = starts[i]
-
+                n = int(n)    
                 w_hat_k = {}
                 for j in range(1, n + 1):
                     candidates = []
@@ -99,14 +100,14 @@ class TopologicInterpolation(object):
                     sum_of_distances = 0
 
                     # search for candidates with no missing data
-                    for k in xrange(len(ov_neighbor_series)):
+                    for k in range(len(ov_neighbor_series)):
                         nseries = ov_neighbor_series[k]
                         if(nseries[i + j][cs] != -1):
                             candidates.append(k)
                             sum_of_distances += distances[k]
 
                     # if no candidates available copy old data
-                    if(len(candidates) == 0):
+                    if (len(candidates) == 0):
                         y = timeseries[i][cs]
                         new_timestep = timeseries[i][d] + j * timestep
                         new_mat[current_index] = (new_timestep, y, nan)

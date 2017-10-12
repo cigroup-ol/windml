@@ -32,8 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from windml.util.logger import Logger
-from playdoh import map as pmap
-from multiprocessing import cpu_count
+#from playdoh import map as pmap
+from multiprocessing import cpu_count, Pool
+from builtins import range
+
 
 class GridSearch(object):
 
@@ -61,39 +63,39 @@ class GridSearch(object):
         """
 
         diff = interval[1] - interval[0]
-        if(diff % stepsize > 0):
+        if (diff % stepsize > 0):
             raise Exception("Steps dont fit into interval")
         steps = int(diff / stepsize)
 
         values = []
-        for step in xrange(steps):
+        for step in range(steps):
             value = interval[0] + step * stepsize
             values.append(value)
 
         self.results = {}
 
-        run = lambda val : self._run_value(val, parameter, args, algorithm)
-        if(parallel):
+        def run(val): return self._run_value(val, parameter, args, algorithm)
+        if parallel:
             task = values
             cpus = cpu_count()
             tl = int(float(len(values)) / float(cpus))
             carryover = len(values) % cpus
 
-            task_slices = [task[i * tl : (i+1) * tl] for i in range(0, cpus)]
-            if(carryover > 0):
+            task_slices = [task[i * tl: (i + 1) * tl] for i in range(0, cpus)]
+            if carryover > 0:
                 task_slices.append(task[cpus * tl:])
 
-            sequential = lambda lis : map(run, lis)
-
-            results = pmap(sequential, task_slices)
+            def sequential(lis): return list(map(run, lis))
+            with Pool() as p:
+                results = p.map(sequential, task_slices)
         else:
-            results = map(run, values)
+            results = list(map(run, values))
 
         aggregated = sum(results, [])
         self.results = dict(aggregated)
 
-        tus = [(val, error) for val, error in self.results.iteritems()]
-        sortedtus = sorted(tus, key = lambda t : t[1])
+        tus = [(val, error) for val, error in self.results.items()]
+        sortedtus = sorted(tus, key=lambda t: t[1])
         best_val, best_error = sortedtus[0]
 
         return best_val, best_error

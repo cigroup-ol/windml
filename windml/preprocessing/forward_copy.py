@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from windml.preprocessing.missing_data_finder import MissingDataFinder
 from numpy import zeros, int32, float32, nan
 
+
 class ForwardCopy(object):
     def interpolate(self, timeseries, **args):
         timestep = args['timestep']
@@ -43,15 +44,15 @@ class ForwardCopy(object):
 
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
 
         # allocate new numpy array
         filled = zeros((new_amount,), dtype=[('date', int32),\
                 ('corrected_score', float32),\
                 ('speed', float32)])
 
-        keys = starts.keys()
+        keys = list(starts.keys())
         current_index = 0
 
         for i in range(len(timeseries)):
@@ -66,6 +67,7 @@ class ForwardCopy(object):
                 current_index += 1
 
                 end, n = starts[i]
+                n = int(n)
                 for j in range(1, n + 1):
                     new_timestep = timeseries[i][d] + j * timestep
                     csval = timeseries[i][cs]

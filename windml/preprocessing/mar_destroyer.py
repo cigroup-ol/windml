@@ -34,6 +34,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from random import randint
 from math import floor
 from numpy import zeros, float32, int32
+from builtins import range
+
 
 class MARDestroyer(object):
     def destroy(self, timeseries, **args):
@@ -45,30 +47,30 @@ class MARDestroyer(object):
         new_amount = lseries - amount_remove
 
         # allocate new numpy array
-        newmat = zeros((new_amount,), dtype=[('date', int32),\
-                ('corrected_score', float32),\
-                ('speed', float32)])
+        newmat = zeros((new_amount,), dtype=[('date', int32),
+                                             ('corrected_score', float32),
+                                             ('speed', float32)])
 
         # first and last element must not be deleted, because
         # the interpolated has to have the same length.
         exceptions = [0, lseries - 1]
 
         # exclude indices
-        if('exclude' in args.keys()):
+        if 'exclude' in args.keys():
             exceptions = exceptions + args['exclude']
 
-        indices = range(0, timeseries.shape[0])
+        indices = list(range(0, timeseries.shape[0]))
         for exception in exceptions:
             indices.remove(exception)
 
-        for i in xrange(amount_remove):
+        for i in range(amount_remove):
             x = randint(0, len(indices) - 1)
             remove_indices.append(indices[x])
             indices.remove(indices[x])
 
         current = 0
-        for i in xrange(lseries):
-            if(i not in remove_indices):
+        for i in range(lseries):
+            if i not in remove_indices:
                 newmat[current] = timeseries[i]
                 current += 1
 

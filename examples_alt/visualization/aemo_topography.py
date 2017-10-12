@@ -10,14 +10,15 @@ marks the target turbine.
 # Author: Jendrik Poloczek <jendrik.poloczek@madewithtea.com>
 # License: BSD 3 clause
 
+from __future__ import print_function
 from windml.datasets.aemo import AEMO
 from windml.visualization.show_coord_topo import show_coord_topo
 
 # see http://windfarmperformance.info/ for more information of the park
 windpark = AEMO().get_windpark(AEMO.park_id['cathrock'], 3200)
 
-print "Working on windpark around target turbine", str(windpark.get_target_idx())
-print "Plotting windpark ..."
+print('Working on windpark around target turbine', str(windpark.get_target_idx()))
+print('Plotting windpark ...')
 
-title = "Turbines of AEMO Data Set"
+title = 'Turbines of AEMO Data Set'
 show_coord_topo(windpark, title)

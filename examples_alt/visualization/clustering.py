@@ -23,11 +23,10 @@ ds = NREL()
 windpark = ds.get_windpark(NREL.park_id['tehachapi'], 15, 2004)
 X = np.array(windpark.get_powermatrix())
 
-clf = KMeans(k=3)
+clf = KMeans(n_clusters=3)
 info = []
 
 for turbine in windpark.turbines:
-
     month_power = windml.util.power_features.compute_highlevel_features(turbine)
     info.append(month_power)
 

@@ -24,7 +24,7 @@ from numpy import zeros, float32
 from windml.datasets.nrel import NREL
 from windml.mapping.power_mapping import PowerMapping
 
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn import linear_model
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -88,7 +88,7 @@ def compute_mse(regressor, param):
     return mse_y_hat, mse_naive_hat
 
 regressors = ['rf', 'knn']
-params = [1,2,4,8,16,32,64,128]
+params = [1, 2, 4, 8, 16, 32, 64, 128]
 
 marker = {'rf': 'go--', 'knn': 'ro--', 'naive': 'bo--'}
 labels = {'rf': 'Random Forest', 'knn': 'KNN', 'naive' : 'Naive'}

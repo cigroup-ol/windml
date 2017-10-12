@@ -43,11 +43,10 @@ class OverrideMissing(object):
 
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
-
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
         # allocate new numpy array
-        filled = zeros((new_amount,), dtype=[('date', int32),\
+        filled = zeros((int(new_amount),), dtype=[('date', int32),\
                 ('corrected_score', float32),\
                 ('speed', float32)])
 
@@ -55,7 +54,7 @@ class OverrideMissing(object):
         current_index = 0
 
         for i in range(len(timeseries)):
-            if(i in keys):
+            if i in keys:
             # missing data starting
                 cs = 'corrected_score'
                 d = 'date'
@@ -65,6 +64,7 @@ class OverrideMissing(object):
                 current_index += 1
 
                 end, n = starts[i]
+                n = int(n)
                 for j in range(1, n + 1):
                     new_timestep = timeseries[i][d] + j * timestep
                     filled[current_index] = (new_timestep, val, val)

@@ -1,10 +1,14 @@
-dist
+dist/
 windml.egg-info
 *~
 *.swp
 *.pyc
+*.ipynb
 doc/_build/
 .ropeproject/
 doc/book_figures/
 doc/examples/
 doc/paper_figures/
+**/.ipynb_checkpoints/
+build/
+.eggs/

@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from numpy import zeros, float32, int32
+from builtins import range
 
 class NRELRepair(object):
     def repair(self, measurements):
@@ -41,12 +42,12 @@ class NRELRepair(object):
         jumpsto_index = {}
         jumpers = []
         for i, d in enumerate(self.get_distances(measurements)):
-            if(d != timesteps):
+            if (d != timesteps):
                 jumper = i
                 jumper_date = measurements[i]['date']
                 found = False
-                for k in xrange(i+1, measurements.shape[0]):
-                    if(measurements[k]['date'] == jumper_date):
+                for k in range(i+1, measurements.shape[0]):
+                    if (measurements[k]['date'] == jumper_date):
                         found = True                           
                         jumpsto = k
                 if not found:
@@ -80,7 +81,7 @@ class NRELRepair(object):
 
     def get_distances(self, measurements):
         distances = []
-        for i in xrange(len(measurements) - 1):
+        for i in range(len(measurements) - 1):
             d = measurements[i]['date']
             dn = measurements[i + 1]['date']
             distances.append(dn - d)
@@ -91,7 +92,7 @@ class NRELRepair(object):
         valid = True
         for i, d in enumerate(self.get_distances(measurements)):
             if(d != timesteps):
-                print "Wrong distance %i at index %i" % (d, i) 
+                print("Wrong distance %i at index %i" % (d, i))
                 valid = False
                 import pdb
                 pdb.set_trace()

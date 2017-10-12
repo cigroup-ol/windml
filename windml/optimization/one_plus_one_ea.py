@@ -31,11 +31,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+from __future__ import print_function
+from builtins import range
 from numpy.random import normal, rand
 
-class OnePlusOneEA(object):
-#    def __init__():
 
+class OnePlusOneEA(object):
     def minimize(self, parameter, mean, sigma, interval, iterations, args, algorithm):
         """
         A (1+1)-EA for real parameter optimization of an algorithm. Does
@@ -63,28 +64,25 @@ class OnePlusOneEA(object):
         """
 
         feasible = False
-        while(not feasible):
+        while not feasible:
             parent = normal(mean, sigma)
-            if(interval[0] <= parent <= interval[1]):
-                print parent
+            if (interval[0] <= parent <= interval[1]):
+                print(parent)
                 feasible = True
 
         args[parameter] = parent
         best_error = algorithm(args)
 
-        for i in xrange(iterations):
+        for i in range(iterations):
             feasible = False
-            while(not feasible):
+            while not feasible:
                 offspring = parent + normal(mean, sigma)
-                if(interval[0] <= offspring <= interval[1]):
-                    print offspring
+                if (interval[0] <= offspring <= interval[1]):                    
                     feasible = True
             args[parameter] = offspring
             error = algorithm(args)
-            if(error < best_error):
+            if (error < best_error):
                 parent = offspring
-                best_error = error
-                print parent, error
+                best_error = error                
 
         return parent, best_error
-

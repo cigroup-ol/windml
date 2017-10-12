@@ -20,8 +20,8 @@ from windml.preprocessing.preprocessing import repair_nrel
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import linear_model
 from sklearn.svm import SVR
-from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold, cross_val_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold, cross_val_score
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
@@ -29,6 +29,7 @@ from pylab import *
 
 from numpy import array
 from itertools import product, chain
+from builtins import range
 
 parks = {
     'reno' : 11637,
@@ -149,10 +150,9 @@ windpark = NREL().get_windpark_nearest(parks[park], 5, 2004)
 target = windpark.get_target()
 measurements = repair_nrel(target.get_measurements()[:10000])
 
-for i in xrange(2):
+for i in range(2):
     damaged_series = {}
-    de = lambda (rate) : (rate, (destroy(measurements, method=destroy_method,\
-                    percentage=rate)[0]))
+    de = lambda rate : (rate, (destroy(measurements, method=destroy_method, percentage=rate)[0]))
 
     dseries = map(de, rates)
     for rate, series in dseries:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Root package of MetaOpt.
+windml package
 """
 __author__ = 'Nils André Treiber, Jendrik Poloczek, Oliver Kramer, Justin Philipp Heinermann, Fabian Gieseke'
 __author_email__ = 'nils.andre.treiber@uni-oldenburg.de'

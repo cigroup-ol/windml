@@ -1,5 +1,6 @@
 # windml
 
+Build status : ![build passing](https://travis-ci.org/aschmu/windml.svg?branch=setup-py3)
 
 The importance of wind in smart grids with a large number of renewable energy resources is increasing. 
 With the growing infrastructure of wind turbines and the availability of time-series data with high spatial and temporal resolution, the application of data mining techniques comes into play. 
@@ -36,4 +37,20 @@ y_hat = reg.predict(X[train_to:test_to:test_step])
 ## License
 
 The windML framework is licensed under the three clause BSD License. 
+
+## Install
+
+Using pip: `pip install git+https://github.com/cigroup-ol/windml.git`.
+
+The `basemap` is tricky to install unless you are using conda (`conda install basemap`). Otherwise you should install from source e.g. : `pip install https://github.com/matplotlib/basemap/archive/v1.0.7rel.tar.gz`.
+
+pkgconfig, freetype and libpng are necessary to build the package from source (matplotlib install depends on it). 
+The requirements.txt file is purely cosmetic as scikit-learn requires scipy (and numpy) to be preinstalled and more importantly there is no guarantee that scipy will be installed prior to scikit-learn.
+
+* MacOS: 
+```
+brew install pkg-config
+brew install freetype
+brew install libpng
+```
 

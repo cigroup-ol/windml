@@ -12,9 +12,7 @@ import shutil
 import glob
 import playdoh
 
-
-
-from playdoh import map as pmap
+# from playdoh import map as pmap
 
 import matplotlib
 matplotlib.use('Agg') #don't display plots
@@ -170,7 +168,7 @@ class ExecFile(object):
 
         for fig in self.figlist:
             figfile = fmt % fig.number
-            print "saving", figfile
+            print("saving", figfile)
 
             # if black background, save with black background as well.
             if colors.colorConverter.to_rgb(fig.get_facecolor()) == (0, 0, 0):
@@ -206,7 +204,7 @@ class ExecFile(object):
         """ Extract a module-level docstring
         """
         lines = open(self.filename).readlines()
-        print "Processing file ", self.filename
+        print("Processing file ", self.filename)
         start_row = 0
         if lines[0].startswith('#!'):
             lines.pop(0)
@@ -239,7 +237,7 @@ class ExecFile(object):
         and matplotlib figures
         """
         dirname, fname = os.path.split(self.filename)
-        print 'plotting %s' % fname
+        print('plotting %s' % fname)
 
         # close any currently open figures
         plt.close('all')
@@ -266,10 +264,10 @@ class ExecFile(object):
                                   key = lambda fig: fig.number)
 
         except:
-            print 80*'_'
-            print '%s is not compiling:' % fname
+            print(80*'_')
+            print('%s is not compiling:' % fname)
             traceback.print_exc()
-            print 80*'_'
+            print(80*'_')
         finally:
             # change back to original directory, and reset sys.stdout
             sys.stdout = self.stdout
@@ -514,12 +512,12 @@ class ExampleBuilder:
         # Get sub-directories and scripts
         subdirs, scripts = self.parse_directory(path)
 
-        # Parallel-fix
-        res = pmap(lambda s : self.generate_example_rst(os.path.join(path, s)), scripts)
+        # # Parallel-fix
+        # res = pmap(lambda s : self.generate_example_rst(os.path.join(path, s)), scripts)
 
-#        # Run the scripts
-#        for script in scripts:
-#            self.generate_example_rst(os.path.join(path, script))
+       # Run the scripts
+       for script in scripts:
+           self.generate_example_rst(os.path.join(path, script))
 
         outfile = open(index_file, 'w')
         outfile.write(self.template_index %

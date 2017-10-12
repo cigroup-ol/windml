@@ -62,12 +62,15 @@ THE LOSS OF DATA OR PROFITS, WHICH MAY RESULT FROM AN ACTION IN CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS CLAIM THAT ARISES OUT OF OR IN CONNECTION WITH THE
 ACCESS, USE OR PERFORMANCE OF THESE DATA.
 """
-
+from __future__ import print_function
+from builtins import range
 import os
 import numpy as np
 from numpy import *
-import urllib2
-from cStringIO import StringIO
+from six.moves.urllib.request import urlopen
+
+from io import StringIO
+from socket import timeout
 import sys
 import csv
 import datetime
@@ -77,6 +80,7 @@ from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
 from windml.util.distance import haversine
+
 
 class NREL(DataSource):
     """ The National Renewable Energy Laboratory ("NREL") data source
@@ -152,18 +156,21 @@ class NREL(DataSource):
             An according turbine for target id and time span.
         """
 
-        #if only one year is desired
-        if year_to==0:
+        # if only one year is desired
+        if year_to == 0:
             year_to=year_from
 
         # determine the coordinates of the target
-        target=self.fetch_nrel_meta_data(target_idx)
+        target = self.fetch_nrel_meta_data(target_idx)
 
-        #add target turbine as last element
-        newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
-        for y in range(year_from, year_to+1):
-           measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score', 'speed'])
-           if y==year_from:
+        # add target turbine as last element
+        newturbine = Turbine(target[0], target[1], target[2], target[3],
+                             target[4], target[5], target[6])
+
+        for y in range(year_from, year_to + 1):
+           measurement = self.fetch_nrel_data(target[0], y, 
+                                              ['date', 'corrected_score', 'speed'])
+           if y == year_from:
                measurements = measurement
            else:
                measurements = np.concatenate((measurements, measurement))
@@ -196,7 +203,7 @@ class NREL(DataSource):
         """
 
         #if only one year is desired
-        if year_to==0:
+        if year_to == 0:
             year_to=year_from
 
         meta = self.fetch_nrel_meta_data_all()
@@ -206,9 +213,9 @@ class NREL(DataSource):
         marked = []
         nearest = []
         distances = []
-        for i in xrange(n_nearest):
+        for i in range(n_nearest):
             smallest = None
-            for t in xrange(meta.shape[0]):
+            for t in range(meta.shape[0]):
                 d = haversine((tlat, tlon), (meta[t][1], meta[t][2]))
                 if(smallest == None and t != target_idx - 1 and t not in marked):
                     smallest = t
@@ -245,7 +252,7 @@ class NREL(DataSource):
             for y in range(year_from, year_to+1):
                measurement = self.fetch_nrel_data(target[0], y,\
                                ['date','corrected_score','speed'])
-               if y==year_from:
+               if y == year_from:
                    measurements = measurement
                else:
                    measurements = np.concatenate((measurements, measurement))
@@ -279,14 +286,12 @@ class NREL(DataSource):
         """
 
         #if only one year is desired
-        if year_to==0:
-            year_to=year_from
+        if year_to == 0:
+            year_to = year_from
 
         result = Windpark(target_idx, radius)
-
         # determine the coordinates of the target
-        target=self.fetch_nrel_meta_data(target_idx)
-
+        target=self.fetch_nrel_meta_data(target_idx)    
         Earth_Radius = 6371
         lat_target = math.radians(np.float64(target[1]))
         lon_target = math.radians(np.float64(target[2]))
@@ -305,15 +310,17 @@ class NREL(DataSource):
                 dLon = (lon_act-lon_target)
 
                 # Haversine formula:
-                a = math.sin(dLat/2) * math.sin(dLat/2) + math.cos(lat_target) * math.cos(lat_act) * math.sin(dLon/2) * math.sin(dLon/2)
+                a = (math.sin(dLat/2) * math.sin(dLat/2) + 
+                    math.cos(lat_target) * math.cos(lat_act) * math.sin(dLon/2) * math.sin(dLon/2))
                 c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
                 distance_act = Earth_Radius * c;
                 if (distance_act < radius):
                     newturbine = Turbine(row[0], row[1] , row[2] , row[3] , row[4] , row[5], row[6])
                     if year_from != 0:
                         for y in range(year_from, year_to+1):
-                           measurement = self.fetch_nrel_data(row[0], y, ['date','corrected_score','speed'])
-                           if y==year_from:
+                           measurement = self.fetch_nrel_data(row[0], y, 
+                                                              ['date','corrected_score','speed'])
+                           if y == year_from:
                                measurements = measurement
                            else:
                                measurements = np.concatenate((measurements, measurement))
@@ -321,11 +328,13 @@ class NREL(DataSource):
                     result.add_turbine(newturbine)
 
         #add target turbine as last element
-        newturbine = Turbine(target[0], target[1] , target[2] , target[3] , target[4] , target[5], target[6])
+        newturbine = Turbine(target[0], target[1], target[2], 
+                             target[3], target[4], target[5], target[6])
         if year_from != 0:
             for y in range(year_from, year_to+1):
-               measurement = self.fetch_nrel_data(target[0], y, ['date','corrected_score','speed'])
-               if y==year_from:
+               measurement = self.fetch_nrel_data(target[0], y, 
+                                                  ['date','corrected_score','speed'])
+               if y == year_from:
                    measurements = measurement
                else:
                    measurements = np.concatenate((measurements, measurement))
@@ -333,13 +342,16 @@ class NREL(DataSource):
         result.add_turbine(newturbine)
         return result
 
-    def fetch_nrel_meta_data_all(self, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
-                             data_home = None):
+    def fetch_nrel_meta_data_all(self,
+                                 columns=['id', 'latitude', 'longitude', 'power_density',
+                                          'power_capacity', 'speed', 'elevation'],
+                                 data_home=None):
         """ Loader for NREL meta data (all entries).
 
         Parameters
         ----------
-        columns : optional, default=['id','latitude','longitude','power_density','power_capacity','speed','elevation']
+        columns : optional, default=['id', 'latitude', 'longitude', 'power_density',
+                                     'power_capacity', 'speed', 'elevation']
                   Specify the columns to be selected, see code above.
         data_home : optional, default=None
                     Specify another download and cache folder for the datasets.
@@ -355,38 +367,56 @@ class NREL(DataSource):
         if not os.path.exists(data_home):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
+        success = True
         if not os.path.exists(archive_file):
-            u = urllib2.urlopen(DATA_URL)
-            localFile = open(archive_file, 'w')
-            localFile.write(u.read())
-            localFile.close()
-            print ("downloaded NREL meta data from from %s to %s"
-                   % (DATA_URL, data_home))
-        reader=csv.reader(open(archive_file, "U"), delimiter=',')
+            print('fetching data')
+            try:
+                u = urlopen(DATA_URL, timeout=6)
+                with open(archive_file, 'w') as localFile:
+                    sss = u.read().decode('utf-8')
+                    localFile.write(sss)
+                    success = True
+            except timeout:
+                print('request timeout for %s' % DATA_URL)
+                success = False
+
+            print("downloaded NREL meta data from from %s to %s" %
+                  (DATA_URL, data_home))
         data = []
-        for row in reader:
-            point=[]
-            point.append(int(row[0]))
-            point.append(float(row[1]))
-            point.append(float(row[2]))
-            point.append(float(row[3]))
-            point.append(float(row[4]))
-            point.append(float(row[5]))
-            point.append(float(row[7]))
-            data.append(point)
+        if sys.version_info < (3, ):
+            mode = 'rU'
+        else:
+            mode = 'r'
+        if success:
+            with open(archive_file, mode) as csv_arch:
+                reader = csv.reader(csv_arch, delimiter=',')
+                for row in reader:
+                    point = []
+                    point.append(int(row[0]))
+                    point.append(float(row[1]))
+                    point.append(float(row[2]))
+                    point.append(float(row[3]))
+                    point.append(float(row[4]))
+                    point.append(float(row[5]))
+                    point.append(float(row[7]))
+                    data.append(point)
         # abcde stuff for "TypeError: expected a readable buffer object"
         # todo maybe better solution possible...
-        data_arr=np.array([(a,b,c,d,e,f,g) for (a,b,c,d,e,f,g) in data], dtype=self.NREL_META_DTYPE)
+        data_arr = np.array([(a, b, c, d, e, f, g) for (a, b, c, d, e, f, g) in data],
+                            dtype=self.NREL_META_DTYPE)
         return data_arr[columns]
 
-    def fetch_nrel_meta_data(self, turbine_id, columns=['id','latitude','longitude','power_density','power_capacity','speed','elevation'], \
-                                data_home = None):
+    def fetch_nrel_meta_data(self, turbine_id,
+                             columns=['id', 'latitude', 'longitude', 'power_density',
+                                      'power_capacity', 'speed', 'elevation'],
+                             data_home=None):
         """ Loader for NREL meta data, gets one entry by id.
 
         Parameters
         ----------
         turbine_id : specifies the id of the WEA to be used.
-        columns : optional, default=['id','latitude','longitude','power_density','power_capacity','speed','elevation']
+        columns : optional, default=['id', 'latitude', 'longitude', 'power_density',
+                                     'power_capacity', 'speed', 'elevation']
                   Specify the columns to be selected, see code above.
         data_home : optional, default=None
                     Specify another download and cache folder for the datasets.
@@ -397,8 +427,9 @@ class NREL(DataSource):
             array of meta data for a turbine.
         """
 
-        attributes = ['id','latitude','longitude','power_density','power_capacity','speed','elevation']
-        data=self.fetch_nrel_meta_data_all(attributes, data_home)
+        attributes = ['id', 'latitude', 'longitude', 'power_density',
+                     'power_capacity', 'speed', 'elevation']
+        data = self.fetch_nrel_meta_data_all(attributes, data_home)
         for turbine in data:
             if turbine_id==turbine[0]:
                 ret=[]
@@ -452,22 +483,29 @@ class NREL(DataSource):
 
         num_units = 40
 
-        fhandle = urllib2.urlopen(data_url)
-        total_size = int(fhandle.info().getheader('Content-Length').strip())
-        chunk_size = total_size / num_units
+        fhandle = urlopen(data_url, timeout=6)
+        if sys.version_info[0] >= 3:
+            total_size = int(fhandle.getheader('Content-Length').strip())
+        else:
+            total_size = int(fhandle.headers.getheader('Content-Length').strip())
+        chunk_size = total_size // num_units
 
-        print "Downloading %s" % data_url
+        print("Downloading %s" % data_url)
         nchunks = 0
         buf = StringIO()
         total_size_str = self.bytes_to_string(total_size)
-        #total_size_str=total_size.decode('utf-8')
+        # total_size_str=total_size_str.decode('utf-8')
 
         while True:
-            next_chunk = fhandle.read(chunk_size)
-            nchunks += 1
+            try:
+                next_chunk = fhandle.read(chunk_size)
+                nchunks += 1
+            except timeout:
+                print('request timeout for %s' % data_url)
+                next_chunk = None
 
             if next_chunk:
-                buf.write(next_chunk)
+                buf.write(next_chunk.decode('utf-8'))
                 s = ('[' + nchunks * '='
                      + (num_units - 1 - nchunks) * ' '
                      + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
@@ -479,7 +517,8 @@ class NREL(DataSource):
             sys.stdout.write(s)
             sys.stdout.flush()
 
-        buf.reset()
+        #buf.reset()
+        buf.seek(0)
         if return_buffer:
             return buf
         else:
@@ -505,7 +544,7 @@ class NREL(DataSource):
             Includes all values of given attributes (columns) for a given year.
         """
 
-        #todo assert that year is in [2004,2005,2006] and turbine_id is valid, too
+        #todo assert that year is in [2004, 2005, 2006] and turbine_id is valid, too
         data_home = os.getenv("HOME") + "/nrel_data/"+str(year)+"/"
         archive_file_name = str(turbine_id) +".npy"
         DATA_URL = self.BASE_URL + str(year)+"/"+str(turbine_id)+".csv"
@@ -513,13 +552,14 @@ class NREL(DataSource):
             os.makedirs(data_home)
         archive_file = os.path.join(data_home, archive_file_name)
         if not os.path.exists(archive_file):
-            print ("downloading NREL wind measurements from from %s to %s"
+            print("downloading NREL wind measurements from from %s to %s"
                    % (DATA_URL, data_home))
             buf = self.download_with_progress_bar(DATA_URL, return_buffer=True)
             reader=csv.reader(buf, delimiter=',')
             data = []
-            reader.next() # skip first, header of csv
-            i=0
+            next(reader)
+            #reader.next() # skip first, header of csv
+            
             for row in reader:
                 point=[]
                 #convert datetime to unix timestamp
@@ -531,10 +571,11 @@ class NREL(DataSource):
                 point.append(float(row[3]))
                 point.append(float(row[4]))
                 data.append(point)
-                i=i+1
+                
             # abcde stuff for "TypeError: expected a readable buffer object"
             # todo maybe better solution possible...
-            data_arr=np.array([(a,b,c,d,e) for (a,b,c,d,e) in data], dtype=self.NREL_DATA_DTYPE)
+            data_arr = np.array([(a, b, c, d, e) for (a, b, c, d, e) in data], 
+                                dtype=self.NREL_DATA_DTYPE)
             data_arr.setflags(align=True)
             np.save(archive_file, data_arr)
         else:

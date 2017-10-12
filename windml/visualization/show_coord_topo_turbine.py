@@ -35,7 +35,15 @@ import sys
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+try:
+    from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+except ImportError:
+    try:
+        import importlib
+        mpl_toolkits = importlib.import_module('mpl_toolkits')
+        from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+    except ImportError:
+        raise Exception('Could not load mpl_toolkits')
 
 def show_coord_topo_turbine(turbine, show = True):
     """Plot the topology of a turbine

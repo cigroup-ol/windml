@@ -21,10 +21,10 @@ class TestVisualization(unittest.TestCase):
         show_flip_book(self.windpark, 4, 0, 4, show = False)
 
     def test_coord_topo(self):
-        show_coord_topo(self.windpark, show = False)
+        show_coord_topo(self.windpark, 'wind park topology', show = False)
 
     def test_coord_topo_turbine(self):
-        show_coord_topo_turbine(self.turbine, show = False)
+        show_coord_topo_turbine(self.turbine,  show = False)
 
     def test_coord_topo_zoom(self):
         show_coord_topo_zoom(self.windpark, show = False)

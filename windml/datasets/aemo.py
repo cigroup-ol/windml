@@ -34,20 +34,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The data is available at http://windfarmperformance.info/.
 """
-
+from __future__ import print_function
 import os
 import sys
-import urllib2
+from six.moves.urllib.request import urlopen
+from socket import timeout
 import datetime
 import time
-from cStringIO import StringIO
-from numpy import int32, float32, array, save, nan, load
+
+from io import StringIO
+import numpy as np
+from numpy import int32, float32, save, nan, load
 from math import radians, sin, cos, atan2, sqrt
 import csv
-
-from windml.datasets.data_source import DataSource
 from windml.model.windpark import Windpark
 from windml.model.turbine import Turbine
+
 
 class AEMO(object):
     """ Australian Energy Market Operator ("AEMO") data source contains measurements of 28
@@ -102,54 +104,56 @@ class AEMO(object):
                        ('speed', float32)]
 
     park_id = {
-        'captl_wf' : 0,
-        'cullrgwf' : 1,
-        'gunning1' : 2,
-        'woodlwn1' : 3,
-        'cnundawf' : 4,
-        'cathrock' : 5,
-        'clemgpwf' : 6,
-        'hallwf1' : 7,
-        'hallwf2' : 8,
-        'lkbonny1' : 9,
-        'lkbonny2' : 10,
-        'lkbonny3' : 11,
-        'mtmillar' : 12,
-        'nbhwf1' : 13,
-        'snowtwn1' : 14,
-        'starhlwf' : 15,
-        'bluff1' : 16,
-        'waterlwf' : 17,
-        'wpwf' : 18,
-        'musselr1' : 19,
-        'woolnth1' : 20,
-        'challhwf' : 21,
-        'macarth1' : 22,
-        'mlwf1' : 23,
-        'oakland1' : 24,
-        'portwf' : 25,
-        'waubrawf' : 26,
-        'yambukwf' : 27 }
+        'captl_wf': 0,
+        'cullrgwf': 1,
+        'gunning1': 2,
+        'woodlwn1': 3,
+        'cnundawf': 4,
+        'cathrock': 5,
+        'clemgpwf': 6,
+        'hallwf1': 7,
+        'hallwf2': 8,
+        'lkbonny1': 9,
+        'lkbonny2': 10,
+        'lkbonny3': 11,
+        'mtmillar': 12,
+        'nbhwf1': 13,
+        'snowtwn1': 14,
+        'starhlwf': 15,
+        'bluff1': 16,
+        'waterlwf': 17,
+        'wpwf': 18,
+        'musselr1': 19,
+        'woolnth1': 20,
+        'challhwf': 21,
+        'macarth1': 22,
+        'mlwf1': 23,
+        'oakland1': 24,
+        'portwf': 25,
+        'waubrawf': 26,
+        'yambukwf': 27
+    }
 
     data_home = str(os.getenv("HOME")) + "/aemo_data/"
     data_home_raw = data_home + "raw/"
     data_home_npy = data_home + "npy/"
 
     years = [2009, 2010, 2011, 2012]
-    months_in_year = {2009 : range(8, 13),\
-                      2010 : range(1, 13),\
-                      2011 : range(1, 13),\
-                      2012 : range(1, 4)}
+    months_in_year = {2009: range(8, 13),
+                      2010: range(1, 13),
+                      2011: range(1, 13),
+                      2012: range(1, 4)}
 
-    def check_availability(self):
+    def check_availability(self, target_idx):
         if not os.path.exists(self.data_home_raw):
             self.fetch_aemo_data()
-        if not os.path.exists(self.data_home_npy):
+        if not os.path.exists(self.data_home_npy + "%i.npy" % target_idx): # self.data_home_npy + "%i.npy" % target_idx
             self.convert()
         return
 
     def get_windpark(self, target_idx, radius):
-        """This method fetches and returns a windpark from AEMO, which consists of
+        """
+        This method fetches and returns a windpark from AEMO, which consists of
         the target turbine with the given target_idx and the surrounding turbine
         within a given radius around the target turbine. When called, the wind
         measurements for a given range of years are downloaded for every turbine
@@ -168,7 +172,7 @@ class AEMO(object):
             An according windpark for target id, radius.
         """
 
-        self.check_availability()
+        self.check_availability(target_idx=target_idx)
 
         result = Windpark(target_idx, radius)
         target_turbine = self.get_turbine(target_idx)
@@ -203,10 +207,11 @@ class AEMO(object):
         return result
 
     def get_all_turbines(self):
-        self.check_availability()
+        # self.check_availability()
 
         turbines = []
-        for key, idx in self.park_id.iteritems():
+        for key, idx in self.park_id.items():
+            self.check_availability(idx)
             turbines.append(self.get_turbine(idx))
         return turbines
 
@@ -226,7 +231,7 @@ class AEMO(object):
             An according turbine for target id.
         """
 
-        self.check_availability()
+        self.check_availability(target_idx=target_idx)
 
         meta = load(self.data_home_npy + "meta.npy")
         mdata = meta[target_idx]
@@ -277,40 +282,46 @@ class AEMO(object):
         return self.BASE_URL + self.filename(year, month)
 
     def download(self, location, urlstr):
-        fileh = file(location, "w")
+        with open(location, "w") as fileh:
+            num_units = 40
 
-        num_units = 40
+            fhandle = urlopen(urlstr)
 
-        fhandle = urllib2.urlopen(urlstr)
-
-        total_size = int(fhandle.info().getheader('Content-Length').strip())
-        chunk_size = total_size / num_units
-
-        print "Downloading %s" % urlstr
-        nchunks = 0
-        buf = StringIO()
-        total_size_str = self.bytes_to_string(total_size)
-
-        while True:
-            next_chunk = fhandle.read(chunk_size)
-            nchunks += 1
-
-            if next_chunk:
-                buf.write(next_chunk)
-                s = ('[' + nchunks * '='
-                     + (num_units - 1 - nchunks) * ' '
-                     + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
-                                            total_size_str))
+            if sys.version_info[0] >= 3:
+                total_size = int(fhandle.getheader('Content-Length').strip())
             else:
-                sys.stdout.write('\n')
-                break
+                total_size = int(fhandle.headers.getheader('Content-Length').strip())
+            chunk_size = total_size // num_units
 
-            sys.stdout.write(s)
-            sys.stdout.flush()
+            print("Downloading %s" % urlstr)
+            nchunks = 0
+            buf = StringIO()
+            total_size_str = self.bytes_to_string(total_size)
 
-        buf.reset()
-        fileh.write(buf.getvalue())
-        fileh.close()
+            while True:
+                try:                        
+                    next_chunk = fhandle.read(chunk_size)
+                    nchunks += 1
+                except timeout:
+                    print('request timeout for %s' % DATA_URL)
+                    next_chunk = None
+
+                if next_chunk:
+                    buf.write(next_chunk.decode('utf-8'))
+                    s = ('[' + nchunks * '='
+                         + (num_units - 1 - nchunks) * ' '
+                         + ']  %s / %s   \r' % (self.bytes_to_string(buf.tell()),
+                                                total_size_str))
+                else:
+                    sys.stdout.write('\n')
+                    break
+
+                sys.stdout.write(s)
+                sys.stdout.flush()
+
+            #buf.reset()
+            buf.seek(0)
+            fileh.write(buf.getvalue())
 
     def fetch_aemo_data(self):
         if not os.path.exists(self.data_home_raw):
@@ -328,6 +339,7 @@ class AEMO(object):
                 if not os.path.exists(location):
                     self.download(location, self.url(year, month))
 
+
     def convert(self):
         def time_to_unix(datestr):
             t = datetime.datetime.strptime(datestr, "%Y-%m-%d %H:%M:%S")
@@ -341,7 +353,7 @@ class AEMO(object):
 
         buf = csvf.readlines()
         reader = csv.reader(buf, delimiter=',')
-        reader.next()
+        next(reader)
 
         data = []
         for row in reader:
@@ -352,7 +364,8 @@ class AEMO(object):
             point.append(row[5])
             data.append(point)
 
-        data_arr = array([(a,b,c,d) for (a,b,c,d) in data], dtype = self.AEMO_META_DTYPE)
+        data_arr = np.array([(a, b, c, d) for (a, b, c, d) in data], 
+                   dtype = self.AEMO_META_DTYPE)
         save(self.data_home_npy + "meta.npy", data_arr)
 
         # convert data to windml format
@@ -360,8 +373,8 @@ class AEMO(object):
         for k in self.park_id.keys():
             turbine_arrays[k] = []
 
-        print "The following procedures are only necessary for the first time."
-        print "Converting AEMO data to lists and filtering missing data."
+        print("The following procedures are only necessary for the first time.")
+        print("Converting AEMO data to lists and filtering missing data.")
 
         for year in self.years:
             for month in self.months_in_year[year]:
@@ -369,15 +382,14 @@ class AEMO(object):
                 current = open(location, "r")
                 buf = current.readlines()
                 reader = csv.reader(buf, delimiter=',')
-                keys = reader.next()
+                keys = next(reader)
 
                 for row in reader:
                     for i in range(1, len(row)):
-
                         # filter corrupt data
-                        if(row[0] == ""):
+                        if row[0] == "":
                             break
-                        if(row[i] == ""):
+                        if row[i] == "":
                             continue
 
                         timestamp = time_to_unix(row[0])
@@ -386,12 +398,15 @@ class AEMO(object):
 
                 current.close()
 
-        print "Converting to numpy arrays"
+        print("Converting to numpy arrays")
         for k in turbine_arrays.keys():
             data = turbine_arrays[k]
-            a = array([(a,b,nan) for (a,b) in data], dtype = self.AEMO_DATA_DTYPE)
+            a = np.array([(a, b, nan) for (a, b) in data],
+                         dtype=self.AEMO_DATA_DTYPE)
             turbine_npy_arrays[k] = a
             save(self.data_home_npy + "%i.npy" % self.park_id[k], a)
 
-ds = AEMO()
-ds.get_windpark(0, 5)
+
+if __name__ == '__main__':
+    ds = AEMO()
+    ds.get_windpark(0, 5)

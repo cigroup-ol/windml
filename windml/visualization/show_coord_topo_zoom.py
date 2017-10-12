@@ -36,11 +36,20 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-from mpl_toolkits.basemap import Basemap, shiftgrid, cm
-#from mpl_toolkits.axes_grid.inset_locator import zoomed_inset_axes
-from mpl_toolkits.axes_grid.inset_locator import mark_inset
-from mpl_toolkits.axes_grid.inset_locator import inset_axes
-#from mpl_toolkits.axes_grid.anchored_artists import AnchoredSizeBar
+try:
+    from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+    from mpl_toolkits.axes_grid.inset_locator import mark_inset
+    from mpl_toolkits.axes_grid.inset_locator import inset_axes
+except ImportError:
+    try:
+        import importlib
+        mpl_toolkits = importlib.import_module('mpl_toolkits')
+        from mpl_toolkits.basemap import Basemap, shiftgrid, cm
+        from mpl_toolkits.axes_grid.inset_locator import mark_inset
+        from mpl_toolkits.axes_grid.inset_locator import inset_axes
+    except ImportError:
+        raise Exception('Could not load mpl_toolkits')
+
 
 def show_coord_topo_zoom(windpark, show = True):
     """Plot the topology of a given windpark

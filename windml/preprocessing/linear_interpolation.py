@@ -38,13 +38,13 @@ class LinearInterpolation(object):
     def interpolate(self, timeseries, **args):
         timestep = args['timestep']
 
-        new_amount = timeseries.shape[0]
+        new_amount = int(timeseries.shape[0])
         misses = MissingDataFinder().find(timeseries, timestep)
 
         starts = {}
         for start, end, amount in misses:
-            new_amount += amount
-            starts[start] = [end, amount]
+            new_amount += int(amount)
+            starts[start] = [int(end), int(amount)]
 
         # allocate new numpy array
         filled = zeros((new_amount,), dtype=[('date', int32),\
@@ -55,7 +55,7 @@ class LinearInterpolation(object):
         current_index = 0
 
         for i in range(len(timeseries)):
-            if(i in keys):
+            if i in keys:
             # missing data starting
                 cs = 'corrected_score'
                 d = 'date'
@@ -66,6 +66,7 @@ class LinearInterpolation(object):
                 current_index += 1
 
                 end, n = starts[i]
+                n = int(n)
                 # interpolate
                 dy = (timeseries[end][cs] - timeseries[i][cs])
                 dy2 = (timeseries[end][sp] - timeseries[i][sp])

@@ -9,14 +9,15 @@ this example the response curve is learned via support vector regression.
 # Author: Nils A. Treiber <nils.andre.treiber@uni-oldenburg.de>
 # License: BSD 3 clause
 
+from __future__ import print_function
 from matplotlib import dates
 import matplotlib.pylab as plt
 import datetime, time
 import numpy as np
 
 from numpy import array, matrix
-from sklearn.grid_search import GridSearchCV
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold
 from sklearn import __version__ as sklearn_version
 from sklearn.svm import SVR
 
@@ -78,7 +79,7 @@ for i in range(start_speed, len(fraction)):
         fraction[i] = np.float32(num_below_thres[i-start_speed])/(num_below_thres[i-start_speed]+num_over_thres[i-start_speed])
     else:
         fraction[i] = -1
-print fraction
+print(fraction)
 
 
 
@@ -102,7 +103,7 @@ plt.ylabel("Correct Score [MW]")
 
 plot_abs = plt.subplot(2, 2, 3)
 plt.title("Distribution of Wind Speeds")
-plt.hist( X_train, bins=np.float(max_speed), histtype='stepfilled', normed=True, color='b')
+plt.hist( X_train, bins=int(max_speed), histtype='stepfilled', normed=True, color='b')
 plt.xlim([-1, max_speed])
 plt.ylim(-0.01, 0.13)
 plt.xlabel("Windspeed [m/s]")

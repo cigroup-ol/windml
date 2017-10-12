@@ -32,12 +32,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from numpy import zeros, int32, float32
+from builtins import range
 
 class DuplicateRemover(object):
     def remove(self, timeseries):
         last_time = 0
         new_amount = 0
-        for i in xrange(timeseries.shape[0]):
+        for i in range(timeseries.shape[0]):
             date = timeseries[i]['date']
             if(date > last_time):
                 new_amount += 1
@@ -48,7 +49,7 @@ class DuplicateRemover(object):
                 ('speed', float32)])
 
         last_time = 0
-        for i in xrange(new_amount):
+        for i in range(new_amount):
             date = timeseries[i]['date']
             if(date > last_time):
                 new_mat[i] = timeseries[i]

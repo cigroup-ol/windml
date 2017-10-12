@@ -34,14 +34,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import numpy as np
 from numpy import searchsorted
 
+
 class Turbine(object):
     """The class Turbine represents a single turbine. It contains
     the properties of the turbine, including the index of the turbine,
     its coordinates, the average power density and capacity, the mean wind speed
     and the elevation of the hub."""
 
-    def __init__(self, idx, latitude, longitude, power_density, power_capacity,\
-        speed, elevation):
+    def __init__(self, idx, latitude, longitude, power_density, power_capacity,
+                 speed, elevation):
         """Initializes turbine with a given target id, lat, long, power
         density and power capacity.
 
@@ -66,10 +67,10 @@ class Turbine(object):
         self.idx = idx
         self.latitude = latitude
         self.longitude = longitude
-        self.power_density=power_density
-        self.power_capacity=power_capacity
-        self.speed=speed
-        self.elevation=elevation
+        self.power_density = power_density
+        self.power_capacity = power_capacity
+        self.speed = speed
+        self.elevation = elevation
         self.measurements = None
 
     def add_measurements(self, measurements):
@@ -97,7 +98,7 @@ class Turbine(object):
         """
         start_index = searchsorted(self.measurements['date'], start)
         end_index = searchsorted(self.measurements['date'], end)
-        return self.measurements[start_index : end_index]
+        return self.measurements[start_index: end_index]
 
     def get_measurements(self):
         """Get measurements of the turbine.
